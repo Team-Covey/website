@@ -1,343 +1,329 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Loading…</title>
-
-  <!-- Favicon -->
+  <title>Covey WorldFlight Team</title>
   <link rel="icon" type="image/png" href="/images/CoveyBlackLogo.png" />
   <link rel="apple-touch-icon" href="/images/CoveyBlackLogo.png" />
-
   <style>
-    *, *::before, *::after {
+    :root {
+      --bg: #f3f6fa;
+      --surface: #ffffff;
+      --text: #182434;
+      --muted: #5f6f82;
+      --primary: #0f5e8a;
+      --primary-dark: #0a4768;
+      --border: #d9e1ea;
+      --max-width: 1160px;
+    }
+
+    * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
 
-    /* ── Theme variables ── */
-    :root[data-theme="dark"] {
-      --bg-overlay: rgba(10, 10, 15, 0.72);
-      --accent: #6c63ff;
-      --accent-2: #ff6584;
-      --text: #e8e8f0;
-      --text-dim: #9999b0;
-      --card-bg: rgba(255, 255, 255, 0.04);
-      --card-border: rgba(255, 255, 255, 0.08);
-      --toggle-bg: rgba(255, 255, 255, 0.10);
-      --toggle-icon: "☀️";
-      --toggle-color: #e8e8f0;
-    }
-
-    :root[data-theme="light"] {
-      --bg-overlay: rgba(240, 242, 255, 0.72);
-      --accent: #4f46e5;
-      --accent-2: #e11d48;
-      --text: #1a1a2e;
-      --text-dim: #555570;
-      --card-bg: rgba(255, 255, 255, 0.55);
-      --card-border: rgba(0, 0, 0, 0.10);
-      --toggle-bg: rgba(0, 0, 0, 0.08);
-      --toggle-icon: "🌙";
-      --toggle-color: #1a1a2e;
-    }
-
-    html, body {
-      height: 100%;
-    }
-
     body {
+      font-family: "Inter", "Segoe UI", Arial, sans-serif;
       color: var(--text);
-      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      line-height: 1.5;
+    }
+
+    .container {
+      width: min(var(--max-width), 92vw);
+      margin: 0 auto;
+    }
+
+    .site-header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .header-inner {
+      min-height: 82px;
       display: flex;
       align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      transition: color 0.3s ease;
+      justify-content: space-between;
+      gap: 1.5rem;
     }
 
-    /* ── Full-page background image ── */
-    .bg-photo {
-      position: fixed;
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .brand img {
+      width: 44px;
+      height: 44px;
+      object-fit: contain;
+    }
+
+    .brand-copy strong {
+      display: block;
+      font-size: 1.1rem;
+      letter-spacing: 0.01em;
+    }
+
+    .brand-copy span {
+      color: var(--muted);
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .nav {
+      display: flex;
+      gap: 1.35rem;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .nav a {
+      text-decoration: none;
+      color: var(--text);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      font-size: 0.78rem;
+      font-weight: 600;
+    }
+
+    .nav a:hover {
+      color: var(--primary);
+    }
+
+    .hero {
+      position: relative;
+      min-height: 72vh;
+      border-radius: 0 0 12px 12px;
+      overflow: hidden;
+      background: #091522;
+    }
+
+    .hero-bg {
+      position: absolute;
       inset: 0;
-      background-image: url('/images/background.JPG');
+      background: linear-gradient(rgba(6, 18, 31, 0.28), rgba(6, 18, 31, 0.52)), url('/images/background.JPG');
       background-size: cover;
       background-position: center;
-      background-repeat: no-repeat;
-      z-index: 0;
+      transform: scale(1.03);
     }
 
-    /* ── Overlay to ensure readability over background ── */
-    .bg-overlay {
-      position: fixed;
-      inset: 0;
-      background: var(--bg-overlay);
-      backdrop-filter: blur(2px);
-      -webkit-backdrop-filter: blur(2px);
+    .hero-content {
+      position: relative;
       z-index: 1;
-      transition: background 0.3s ease;
-    }
-
-    /* ── Subtle grid overlay ── */
-    .bg-grid {
-      position: fixed;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(108, 99, 255, 0.05) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(108, 99, 255, 0.05) 1px, transparent 1px);
-      background-size: 48px 48px;
-      animation: grid-drift 20s linear infinite;
-      z-index: 2;
-    }
-
-    :root[data-theme="light"] .bg-grid {
-      background-image:
-        linear-gradient(rgba(79, 70, 229, 0.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(79, 70, 229, 0.04) 1px, transparent 1px);
-    }
-
-    @keyframes grid-drift {
-      0%   { transform: translate(0, 0); }
-      100% { transform: translate(48px, 48px); }
-    }
-
-    /* ── Dark/Light mode toggle ── */
-    .theme-toggle {
-      position: fixed;
-      top: 1.25rem;
-      right: 1.25rem;
-      z-index: 100;
-      background: var(--toggle-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 99px;
-      padding: 0.45rem 0.85rem;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      font-size: 0.8rem;
-      font-weight: 500;
-      color: var(--toggle-color);
-      letter-spacing: 0.04em;
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      transition: background 0.25s, border-color 0.25s, transform 0.15s;
-      user-select: none;
-    }
-
-    .theme-toggle:hover {
-      transform: scale(1.05);
-      background: var(--accent);
-      color: #fff;
-      border-color: transparent;
-    }
-
-    .theme-toggle .toggle-icon {
-      font-size: 1rem;
-      line-height: 1;
-    }
-
-    /* ── Centre card ── */
-    .card {
-      position: relative;
-      z-index: 10;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 2rem;
+      min-height: 72vh;
+      display: grid;
+      place-items: center;
       text-align: center;
-      padding: 3rem 2.5rem;
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 1.5rem;
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      animation: card-in 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
-      transition: background 0.3s ease, border-color 0.3s ease;
-      min-width: 320px;
+      color: #fff;
+      padding: 2rem 1rem;
     }
 
-    @keyframes card-in {
-      from { opacity: 0; transform: translateY(24px); }
-      to   { opacity: 1; transform: translateY(0); }
+    .hero-content h1 {
+      font-size: clamp(2rem, 5.4vw, 4rem);
+      font-weight: 650;
+      margin-bottom: 0.6rem;
+      text-shadow: 0 8px 34px rgba(0, 0, 0, 0.45);
     }
 
-    /* ── Logo ── */
-    .logo-wrap {
-      position: relative;
-      width: 96px;
-      height: 96px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    .hero-content p {
+      font-size: clamp(1rem, 2vw, 1.35rem);
+      margin-bottom: 1.5rem;
+      color: rgba(255, 255, 255, 0.9);
     }
 
-    .logo-img {
-      width: 72px;
-      height: 72px;
-      object-fit: contain;
-      border-radius: 16px;
-      /* transparent background is preserved from the source image */
-      animation: logo-pulse 3s ease-in-out infinite;
-      position: relative;
-      z-index: 2;
-    }
-
-    /* Only show light logo in dark mode, dark logo in light mode */
-    .logo-light { display: block; }
-    .logo-dark  { display: none;  }
-
-    :root[data-theme="light"] .logo-light { display: none;  }
-    :root[data-theme="light"] .logo-dark  { display: block; }
-
-    @keyframes logo-pulse {
-      0%, 100% { transform: scale(1);    }
-      50%       { transform: scale(1.05); }
-    }
-
-    /* ── Spinner ring (around logo) ── */
-    .spinner-ring {
-      position: absolute;
-      inset: 0;
-      border-radius: 50%;
-      border: 2.5px solid transparent;
-      border-top-color: var(--accent);
-      animation: spin 1.6s linear infinite;
-    }
-
-    .spinner-ring-2 {
-      position: absolute;
-      inset: -8px;
-      border-radius: 50%;
-      border: 2px solid transparent;
-      border-top-color: var(--accent-2);
-      animation: spin 2.4s linear infinite reverse;
-    }
-
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-
-    /* ── Text ── */
-    .headline {
-      font-size: clamp(1.5rem, 5vw, 2.2rem);
-      font-weight: 600;
-      letter-spacing: 0.01em;
-      color: var(--text);
-      transition: color 0.3s;
-    }
-
-    .dots span {
+    .btn {
       display: inline-block;
-      animation: dot-bounce 1.4s ease-in-out infinite;
-      color: var(--accent);
-    }
-    .dots span:nth-child(2) { animation-delay: 0.2s; }
-    .dots span:nth-child(3) { animation-delay: 0.4s; }
-
-    @keyframes dot-bounce {
-      0%, 80%, 100% { transform: translateY(0); opacity: 0.4; }
-      40%            { transform: translateY(-6px); opacity: 1; }
-    }
-
-    .sub {
-      font-size: 0.9rem;
-      color: var(--text-dim);
-      letter-spacing: 0.08em;
+      padding: 0.78rem 1.45rem;
+      border-radius: 4px;
+      text-decoration: none;
       text-transform: uppercase;
-      margin-top: 0.4rem;
-      transition: color 0.3s;
+      letter-spacing: 0.08em;
+      font-weight: 700;
+      font-size: 0.84rem;
+      border: 1px solid transparent;
+      transition: 0.2s ease;
     }
 
-    /* ── Progress bar ── */
-    .progress-track {
-      width: 220px;
-      height: 3px;
-      background: rgba(128, 128, 160, 0.18);
-      border-radius: 99px;
-      overflow: hidden;
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
     }
 
-    .progress-fill {
-      height: 100%;
-      border-radius: 99px;
-      background: linear-gradient(90deg, var(--accent), var(--accent-2));
-      animation: progress-run 2.6s ease-in-out infinite;
+    .btn-primary:hover {
+      background: var(--primary-dark);
     }
 
-    @keyframes progress-run {
-      0%   { transform: translateX(-100%); }
-      60%  { transform: translateX(0%); }
-      100% { transform: translateX(100%); }
+    .section {
+      padding: 3.4rem 0;
+    }
+
+    .section-title {
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+      letter-spacing: 0.01em;
+    }
+
+    .section-sub {
+      color: var(--muted);
+      max-width: 70ch;
+      margin-bottom: 1.6rem;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.15rem;
+      box-shadow: 0 8px 24px rgba(12, 32, 56, 0.05);
+    }
+
+    .card h3 {
+      font-size: 1.04rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .card p {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .timeline {
+      margin-top: 1rem;
+      display: grid;
+      gap: 0.85rem;
+    }
+
+    .timeline li {
+      list-style: none;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.85rem 1rem;
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .timeline strong {
+      font-size: 0.95rem;
+    }
+
+    .timeline span {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    footer {
+      padding: 1.25rem 0 2rem;
+      color: var(--muted);
+      text-align: center;
+      font-size: 0.85rem;
+    }
+
+    @media (max-width: 960px) {
+      .header-inner {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 0.9rem 0;
+      }
+
+      .cards {
+        grid-template-columns: 1fr;
+      }
+
+      .hero,
+      .hero-content {
+        min-height: 62vh;
+      }
     }
   </style>
 </head>
 <body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="#">
+        <img src="/images/CoveyBlackLogo.png" alt="Covey logo" />
+        <div class="brand-copy">
+          <strong>Covey WorldFlight Team</strong>
+          <span>Flight simulation • Charity • Community</span>
+        </div>
+      </a>
 
-  <!-- Background layers -->
-  <div class="bg-photo" aria-hidden="true"></div>
-  <div class="bg-overlay" aria-hidden="true"></div>
-  <div class="bg-grid" aria-hidden="true"></div>
-
-  <!-- Dark / Light mode toggle -->
-  <button class="theme-toggle" id="themeToggle" aria-label="Toggle light/dark mode">
-    <span class="toggle-icon" id="toggleIcon">☀️</span>
-    <span id="toggleLabel">Light</span>
-  </button>
-
-  <main class="card">
-    <!-- Logo with spinner ring -->
-    <div class="logo-wrap" aria-hidden="true">
-      <div class="spinner-ring-2"></div>
-      <div class="spinner-ring"></div>
-      <!-- Light logo (shown in dark mode) -->
-      <img class="logo-img logo-light" src="/images/CoveyWhiteLogo.png" alt="Logo" />
-      <!-- Dark logo (shown in light mode) -->
-      <img class="logo-img logo-dark" src="/images/CoveyBlackLogo.png" alt="Logo" />
+      <nav class="nav" aria-label="Main navigation">
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#operations">Operations</a>
+        <a href="#worldflight">WorldFlight</a>
+        <a href="#events">Events</a>
+        <a href="#contact">Contact</a>
+      </nav>
     </div>
+  </header>
 
-    <div>
-      <h1 class="headline">
-        Website Loading<span class="dots">
-          <span>.</span><span>.</span><span>.</span>
-        </span>
-      </h1>
-      <p class="sub">Something great is on its way</p>
-    </div>
+  <main>
+    <section class="hero" id="home">
+      <div class="hero-bg" aria-hidden="true"></div>
+      <div class="hero-content container">
+        <div>
+          <h1>Welcome to Covey WorldFlight</h1>
+          <p>Flying together to support great causes through continuous simulation events.</p>
+          <a class="btn btn-primary" href="#worldflight">Watch our live stream</a>
+        </div>
+      </div>
+    </section>
 
-    <div class="progress-track" role="progressbar" aria-label="Loading">
-      <div class="progress-fill"></div>
-    </div>
+    <section class="section" id="about">
+      <div class="container">
+        <h2 class="section-title">Who we are</h2>
+        <p class="section-sub">A modern, community-led worldflight team with a focus on realistic operations, welcoming pilots, and long-form charity streams. We keep the design clean and readable while still showcasing the excitement of cockpit life.</p>
+        <div class="cards">
+          <article class="card">
+            <h3>Our Mission</h3>
+            <p>Raise money for impactful charities through immersive, around-the-clock simulated flights.</p>
+          </article>
+          <article class="card" id="operations">
+            <h3>Operations Team</h3>
+            <p>Pilot rosters, dispatch planning, ATC coordination, and technical monitoring for smooth handovers.</p>
+          </article>
+          <article class="card" id="worldflight">
+            <h3>WorldFlight</h3>
+            <p>Global route legs flown by our team with livestream coverage, interviews, and community participation.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="events">
+      <div class="container">
+        <h2 class="section-title">Upcoming events</h2>
+        <p class="section-sub">Our planned schedule for training flights, community sessions, and major worldflight legs.</p>
+        <ul class="timeline">
+          <li><strong>Ops Briefing + Route Release</strong><span>12 Sept • 19:00 UTC</span></li>
+          <li><strong>Community Night Flight</strong><span>19 Sept • 20:30 UTC</span></li>
+          <li><strong>WorldFlight Charity Launch</strong><span>28 Sept • 09:00 UTC</span></li>
+        </ul>
+      </div>
+    </section>
   </main>
 
-  <script>
-    const html = document.documentElement;
-    const btn = document.getElementById('themeToggle');
-    const icon = document.getElementById('toggleIcon');
-    const label = document.getElementById('toggleLabel');
-
-    // Restore saved preference
-    const saved = localStorage.getItem('theme') || 'dark';
-    setTheme(saved);
-
-    btn.addEventListener('click', () => {
-      const next = html.dataset.theme === 'dark' ? 'light' : 'dark';
-      setTheme(next);
-      localStorage.setItem('theme', next);
-    });
-
-    function setTheme(theme) {
-      html.dataset.theme = theme;
-      if (theme === 'dark') {
-        icon.textContent  = '☀️';
-        label.textContent = 'Light';
-      } else {
-        icon.textContent  = '🌙';
-        label.textContent = 'Dark';
-      }
-    }
-  </script>
-
+  <footer id="contact">
+    Covey WorldFlight Team © 2026 • Follow us for schedules, streams, and donation links.
+  </footer>
 </body>
 </html>
