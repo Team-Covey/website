@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact — Team Covey WorldFlight</title>
+  <link rel="icon" type="image/png" href="/images/CoveyBlackLogo.png" />
+  <link rel="apple-touch-icon" href="/images/CoveyBlackLogo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html">
+        <img src="/images/CoveyWhiteLogo.png" alt="Covey logo" />
+        <div class="brand-copy">
+          <strong>Team Covey WorldFlight</strong>
+          <span>Flight sim · Charity · Community</span>
+        </div>
+      </a>
+      <div class="header-right">
+        <nav class="main-nav" id="main-nav" aria-label="Main navigation">
+          <a href="index.html">Home</a>
+          <a href="about.html">About</a>
+          <a href="operations.html">Operations</a>
+          <a href="worldflight.html">WorldFlight</a>
+          <a href="events.html">Events</a>
+          <a href="contact.html" class="active">Contact</a>
+        </nav>
+        <a class="btn-live" href="https://twitch.tv/teamcovey" target="_blank" rel="noopener noreferrer">
+          <span class="live-dot" aria-hidden="true"></span>
+          Watch Live
+        </a>
+        <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+
+    <div class="page-hero">
+      <div class="container">
+        <p class="section-label">Get In Touch</p>
+        <h1 class="section-title">Contact &amp; Socials</h1>
+        <p class="section-sub">Follow us across our platforms and get in touch with the team.</p>
+      </div>
+    </div>
+
+    <section class="section">
+      <div class="container">
+        <!-- TODO: Add contact form, social links, Discord invite, etc. -->
+        <div class="contact-grid">
+          <div class="contact-card">
+            <h3>Follow the stream</h3>
+            <p>Watch live on Twitch and subscribe for notifications when we go live for WorldFlight and community events.</p>
+            <div class="social-links">
+              <a class="social-link twitch-link" href="https://twitch.tv/teamcovey" target="_blank" rel="noopener noreferrer">
+                <svg style="width:13px;height:13px;fill:currentColor;flex-shrink:0" viewBox="0 0 24 24"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714z"/></svg>
+                Twitch — teamcovey
+              </a>
+            </div>
+          </div>
+
+          <div class="contact-card">
+            <h3>Join the community</h3>
+            <p>Connect with the team, stay updated on upcoming events, and get involved with WorldFlight planning and volunteering.</p>
+            <div class="social-links">
+              <a class="social-link" href="#" target="_blank" rel="noopener noreferrer">Discord</a>
+              <a class="social-link" href="#" target="_blank" rel="noopener noreferrer">Twitter / X</a>
+              <a class="social-link" href="#" target="_blank" rel="noopener noreferrer">YouTube</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <a class="footer-brand" href="index.html">
+        <img src="/images/CoveyWhiteLogo.png" alt="Covey logo" />
+        <span>Team Covey WorldFlight</span>
+      </a>
+      <span class="footer-copy">© 2026 Team Covey WorldFlight</span>
+      <nav class="footer-nav" aria-label="Footer navigation">
+        <a href="about.html">About</a>
+        <a href="events.html">Events</a>
+        <a href="https://twitch.tv/teamcovey" target="_blank" rel="noopener noreferrer">Twitch</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script>
+    const toggle = document.getElementById('nav-toggle');
+    const nav    = document.getElementById('main-nav');
+    toggle.addEventListener('click', () => {
+      const open = nav.classList.toggle('open');
+      toggle.classList.toggle('open', open);
+      toggle.setAttribute('aria-expanded', open);
+    });
+    nav.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        nav.classList.remove('open');
+        toggle.classList.remove('open');
+        toggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+  </script>
+
+</body>
+</html>

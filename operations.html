@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Operations — Team Covey WorldFlight</title>
+  <link rel="icon" type="image/png" href="/images/CoveyBlackLogo.png" />
+  <link rel="apple-touch-icon" href="/images/CoveyBlackLogo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html">
+        <img src="/images/CoveyWhiteLogo.png" alt="Covey logo" />
+        <div class="brand-copy">
+          <strong>Team Covey WorldFlight</strong>
+          <span>Flight sim · Charity · Community</span>
+        </div>
+      </a>
+      <div class="header-right">
+        <nav class="main-nav" id="main-nav" aria-label="Main navigation">
+          <a href="index.html">Home</a>
+          <a href="about.html">About</a>
+          <a href="operations.html" class="active">Operations</a>
+          <a href="worldflight.html">WorldFlight</a>
+          <a href="events.html">Events</a>
+          <a href="contact.html">Contact</a>
+        </nav>
+        <a class="btn-live" href="https://twitch.tv/teamcovey" target="_blank" rel="noopener noreferrer">
+          <span class="live-dot" aria-hidden="true"></span>
+          Watch Live
+        </a>
+        <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+
+    <div class="page-hero">
+      <div class="container">
+        <p class="section-label">Behind the Scenes</p>
+        <h1 class="section-title">Operations</h1>
+        <p class="section-sub">Meet the team that keeps every flight running — from dispatch and ATC to stream management and charity coordination.</p>
+      </div>
+    </div>
+
+    <section class="section">
+      <div class="container">
+        <!-- TODO: Add operations team details, roles, roster, etc. -->
+        <div class="section-hdr">
+          <p class="section-label">What We Do</p>
+          <h2 class="section-title">The ops team</h2>
+          <p class="section-sub">Our operations team works around the clock to ensure every flight runs smoothly — from pre-flight planning to handover and technical support.</p>
+        </div>
+
+        <div class="ops-grid">
+          <div class="ops-card">
+            <div class="ops-icon">📋</div>
+            <h3>Dispatch &amp; Planning</h3>
+            <p>Route planning, weather briefings, fuel calculations, and NOTAM checks for every leg of the route.</p>
+          </div>
+          <div class="ops-card">
+            <div class="ops-icon">🎙️</div>
+            <h3>ATC Coordination</h3>
+            <p>Volunteer controllers provide professional ATC services on VATSIM and IVAO, enhancing realism throughout.</p>
+          </div>
+          <div class="ops-card">
+            <div class="ops-icon">🖥️</div>
+            <h3>Technical Monitoring</h3>
+            <p>Dedicated staff monitor stream health, simulator stability, and connectivity in real time.</p>
+          </div>
+          <div class="ops-card">
+            <div class="ops-icon">🤝</div>
+            <h3>Pilot Handovers</h3>
+            <p>Smooth crew transitions between legs, maintaining consistent realism and coverage without interruption.</p>
+          </div>
+          <div class="ops-card">
+            <div class="ops-icon">💬</div>
+            <h3>Community Engagement</h3>
+            <p>Moderators and hosts keep the stream chat active, answer questions, and run charity milestones live.</p>
+          </div>
+          <div class="ops-card">
+            <div class="ops-icon">🎗️</div>
+            <h3>Charity Coordination</h3>
+            <p>Managing donation drives, charity announcements, and milestone celebrations across the stream.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <a class="footer-brand" href="index.html">
+        <img src="/images/CoveyWhiteLogo.png" alt="Covey logo" />
+        <span>Team Covey WorldFlight</span>
+      </a>
+      <span class="footer-copy">© 2026 Team Covey WorldFlight</span>
+      <nav class="footer-nav" aria-label="Footer navigation">
+        <a href="about.html">About</a>
+        <a href="events.html">Events</a>
+        <a href="https://twitch.tv/teamcovey" target="_blank" rel="noopener noreferrer">Twitch</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script>
+    const toggle = document.getElementById('nav-toggle');
+    const nav    = document.getElementById('main-nav');
+    toggle.addEventListener('click', () => {
+      const open = nav.classList.toggle('open');
+      toggle.classList.toggle('open', open);
+      toggle.setAttribute('aria-expanded', open);
+    });
+    nav.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        nav.classList.remove('open');
+        toggle.classList.remove('open');
+        toggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+  </script>
+
+</body>
+</html>

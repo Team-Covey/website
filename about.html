@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About — Team Covey WorldFlight</title>
+  <link rel="icon" type="image/png" href="/images/CoveyBlackLogo.png" />
+  <link rel="apple-touch-icon" href="/images/CoveyBlackLogo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html">
+        <img src="/images/CoveyWhiteLogo.png" alt="Covey logo" />
+        <div class="brand-copy">
+          <strong>Team Covey WorldFlight</strong>
+          <span>Flight sim · Charity · Community</span>
+        </div>
+      </a>
+      <div class="header-right">
+        <nav class="main-nav" id="main-nav" aria-label="Main navigation">
+          <a href="index.html">Home</a>
+          <a href="about.html" class="active">About</a>
+          <a href="operations.html">Operations</a>
+          <a href="worldflight.html">WorldFlight</a>
+          <a href="events.html">Events</a>
+          <a href="contact.html">Contact</a>
+        </nav>
+        <a class="btn-live" href="https://twitch.tv/teamcovey" target="_blank" rel="noopener noreferrer">
+          <span class="live-dot" aria-hidden="true"></span>
+          Watch Live
+        </a>
+        <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+
+    <div class="page-hero">
+      <div class="container">
+        <p class="section-label">About Us</p>
+        <h1 class="section-title">Who we are</h1>
+        <p class="section-sub">Learn about Team Covey WorldFlight — our mission, our people, and what drives us to fly for charity.</p>
+      </div>
+    </div>
+
+    <section class="section">
+      <div class="container">
+        <!-- TODO: Add team story / about content here -->
+        <div class="about-grid">
+          <div>
+            <p class="section-label">Our Story</p>
+            <h2 class="section-title">Built by the community</h2>
+            <p class="section-sub">
+              Team Covey WorldFlight is a modern, community-led simulation team. We bring together pilots, controllers, and aviation enthusiasts for immersive, long-form charity stream events — flying real-world routes across the globe.
+            </p>
+            <div class="pillars">
+              <div class="pillar">
+                <div class="pillar-icon">✈️</div>
+                <div class="pillar-body">
+                  <strong>Realistic Operations</strong>
+                  <p>Full dispatch planning, ATC coordination, and professional handovers on every leg.</p>
+                </div>
+              </div>
+              <div class="pillar">
+                <div class="pillar-icon">🌍</div>
+                <div class="pillar-body">
+                  <strong>Charity Focus</strong>
+                  <p>Every event raises money for impactful causes, driven by the community.</p>
+                </div>
+              </div>
+              <div class="pillar">
+                <div class="pillar-icon">🎙️</div>
+                <div class="pillar-body">
+                  <strong>Community-First</strong>
+                  <p>Welcoming to all skill levels — pilot or spectator, everyone's part of the team.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="about-visual">
+            <img src="/images/background.JPG" alt="Cockpit view from a Team Covey WorldFlight event" />
+            <div class="about-badge">🛫 Live stream coverage on Twitch</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <a class="footer-brand" href="index.html">
+        <img src="/images/CoveyWhiteLogo.png" alt="Covey logo" />
+        <span>Team Covey WorldFlight</span>
+      </a>
+      <span class="footer-copy">© 2026 Team Covey WorldFlight</span>
+      <nav class="footer-nav" aria-label="Footer navigation">
+        <a href="about.html">About</a>
+        <a href="events.html">Events</a>
+        <a href="https://twitch.tv/teamcovey" target="_blank" rel="noopener noreferrer">Twitch</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script>
+    const toggle = document.getElementById('nav-toggle');
+    const nav    = document.getElementById('main-nav');
+    toggle.addEventListener('click', () => {
+      const open = nav.classList.toggle('open');
+      toggle.classList.toggle('open', open);
+      toggle.setAttribute('aria-expanded', open);
+    });
+    nav.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        nav.classList.remove('open');
+        toggle.classList.remove('open');
+        toggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+  </script>
+
+</body>
+</html>
