@@ -132,10 +132,15 @@
     worldCopyJump: true
   });
 
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  var isDark = document.documentElement.getAttribute('data-theme') !== 'light';
+  var tileUrl = isDark
+    ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
+    : 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
+
+  L.tileLayer(tileUrl, {
     maxZoom: 8,
     minZoom: 2,
-    attribution: '&copy; OpenStreetMap contributors'
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>'
   }).addTo(map);
 
   var routeLatLngs = resolvedRoute.map(function (airport) {

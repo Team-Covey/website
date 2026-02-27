@@ -116,7 +116,7 @@
 [data-theme="light"] .wf-countdown-card-hero .section-title,
 [data-theme="light"] .wf-countdown-card-hero .section-label,
 [data-theme="light"] .wf-countdown-card-hero .wf-countdown-unit span {
-  color: #f8fafc;
+  color: var(--primary);
 }
 [data-theme="light"] .wf-countdown-card-hero .wf-countdown-sub,
 [data-theme="light"] .wf-countdown-card-hero .wf-countdown-unit small {
@@ -134,7 +134,7 @@
   border-color: #dbe4ef;
 }
 [data-theme="light"] .wf-countdown-unit span {
-  color: #0f172a;
+  color: var(--primary);
 }
 [data-theme="light"] .wf-countdown-unit small {
   color: #64748b;
@@ -170,6 +170,7 @@ body {
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--border);
+  border-top: 2px solid var(--primary);
 }
 
 .header-inner {
@@ -721,7 +722,7 @@ body {
 
 .wf-countdown-unit {
   background: rgba(7, 12, 20, 0.42);
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(43, 125, 233, 0.2);
   border-radius: 10px;
   text-align: center;
   padding: 0.65rem 0.5rem;
@@ -733,13 +734,13 @@ body {
   font-weight: 800;
   letter-spacing: 0.04em;
   line-height: 1.1;
-  color: #e2ecff;
+  color: var(--primary);
 }
 
 .wf-countdown-unit small {
   display: block;
   margin-top: 0.2rem;
-  color: #9fb3ce;
+  color: var(--text-2);
   font-size: 0.68rem;
   text-transform: uppercase;
   letter-spacing: 0.12em;
@@ -1016,9 +1017,10 @@ body {
 
 .wf-route-metric span {
   display: block;
-  font-size: 1rem;
-  font-weight: 700;
-  color: var(--text);
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--primary);
+  letter-spacing: -0.02em;
 }
 
 .wf-route-metric small {
@@ -1394,6 +1396,119 @@ body {
   transform: translateX(3px);
 }
 
+/* ─── MAP PANEL HEADER ───────────────────────────── */
+.wf-map-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.65rem 1rem;
+  margin: -1rem -1rem 1rem;
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--border);
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+
+.wf-map-panel-info {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.wf-map-status {
+  width: 7px;
+  height: 7px;
+  background: #22c55e;
+  border-radius: 50%;
+  flex-shrink: 0;
+  animation: blink 2.5s ease-in-out infinite;
+}
+
+.wf-map-panel-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--primary);
+}
+
+.wf-map-panel-hint {
+  font-size: 0.7rem;
+  color: var(--muted);
+}
+
+/* ─── LEAFLET POPUP OVERRIDES ────────────────────── */
+.leaflet-popup-content-wrapper {
+  background: var(--surface) !important;
+  color: var(--text) !important;
+  border: 1px solid var(--border-2) !important;
+  border-radius: 8px !important;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.4) !important;
+  padding: 0 !important;
+}
+
+.leaflet-popup-tip {
+  background: var(--surface) !important;
+}
+
+.leaflet-popup-content {
+  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif !important;
+  font-size: 0.82rem !important;
+  line-height: 1.6 !important;
+  margin: 0.75rem 0.95rem !important;
+  color: var(--text) !important;
+}
+
+.leaflet-popup-content strong {
+  color: var(--primary) !important;
+  font-size: 0.9rem !important;
+  display: block;
+  margin-bottom: 0.15rem;
+}
+
+.leaflet-popup-content small {
+  color: var(--muted) !important;
+  display: block;
+  margin-top: 0.2rem;
+}
+
+.leaflet-popup-close-button {
+  color: var(--muted) !important;
+  font-size: 1rem !important;
+  padding: 4px 8px !important;
+}
+
+.leaflet-popup-close-button:hover {
+  color: var(--text) !important;
+}
+
+/* ─── ABOUT STATS ────────────────────────────────── */
+.about-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  align-content: start;
+}
+
+.about-stat-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem 1.2rem;
+  text-align: center;
+  transition: border-color 0.18s;
+}
+
+.about-stat-card:hover {
+  border-color: var(--primary);
+}
+
+.about-story-text {
+  color: var(--text-2);
+  font-size: 0.95rem;
+  line-height: 1.75;
+  margin-bottom: 1.8rem;
+}
+
 /* ─── FOOTER ──────────────────────────────────────── */
 footer {
   padding: 1.75rem 0 2.5rem;
@@ -1589,4 +1704,7 @@ footer {
   /* Keep header from overflowing on small phones */
   .brand-copy span { display: none; }
   .btn-live { display: none; }
+
+  .wf-map-panel-hint { display: none; }
+  .about-stats { grid-template-columns: 1fr 1fr; }
 }
