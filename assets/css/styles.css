@@ -239,6 +239,8 @@ body {
 
 .nav-dropdown {
   position: relative;
+  display: flex;
+  align-items: center;
 }
 
 .nav-dropdown-toggle {
@@ -502,9 +504,15 @@ body {
 }
 
 .wf-countdown-card-hero {
-  backdrop-filter: blur(3px);
-  -webkit-backdrop-filter: blur(3px);
-  background: linear-gradient(140deg, rgba(14, 27, 51, 0.92) 0%, rgba(18, 33, 63, 0.9) 100%);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  background: rgba(5, 10, 20, 0.48);
+  border-color: rgba(43, 125, 233, 0.22);
+}
+
+.wf-countdown-card-hero .wf-countdown-unit {
+  background: rgba(43, 125, 233, 0.1);
+  border-color: rgba(43, 125, 233, 0.28);
 }
 
 .wf-countdown-card-hero .section-title {
@@ -1558,10 +1566,8 @@ footer {
 }
 
 .footer-flag {
-  width: 18px;
-  height: 12px;
-  border-radius: 2px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  font-size: 1rem;
+  line-height: 1;
   flex-shrink: 0;
 }
 
