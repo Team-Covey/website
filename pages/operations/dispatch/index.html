@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dispatch Board - WorldFlight Team Covey</title>
+  <meta name="description" content="Team Covey dispatch board for active legs, crew handovers, and OBS overlay output." />
+  <link rel="icon" type="image/png" href="/images/CoveyBlackLogo.png" />
+  <link rel="apple-touch-icon" href="/images/CoveyBlackLogo.png" />
+  <script>(function(){var t=localStorage.getItem('tcwf-theme');if(t)document.documentElement.setAttribute('data-theme',t);})();</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/css/styles.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/index.html">
+        <img src="/images/CoveyWhiteLogo.png" alt="WorldFlight Team Covey logo" />
+        <div class="brand-copy">
+          <strong>WorldFlight Team Covey</strong>
+        </div>
+      </a>
+      <div class="header-right">
+        <nav class="main-nav" id="main-nav" aria-label="Main navigation">
+          <a href="/index.html">Home</a>
+          <a href="/pages/about/">About</a>
+          <div class="nav-dropdown">
+            <button class="nav-dropdown-toggle active" type="button" aria-expanded="false" aria-haspopup="true">
+              Operations
+            </button>
+            <div class="nav-dropdown-menu" role="menu" aria-label="Operations">
+              <a href="/pages/operations/dispatch/" role="menuitem">Dispatch Board</a>
+              <a href="#" role="menuitem" data-placeholder="true">Crew Roster (Soon)</a>
+              <a href="#" role="menuitem" data-placeholder="true">Simulator Status (Soon)</a>
+            </div>
+          </div>
+          <a href="/pages/worldflight/">WorldFlight</a>
+          <a href="/pages/contact/">Contact</a>
+        </nav>
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle light and dark mode">
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+        <a class="btn-live" href="https://twitch.tv/teamcovey" target="_blank" rel="noopener noreferrer">
+          <span class="live-dot" aria-hidden="true"></span>
+          Watch Live
+        </a>
+        <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="dispatch-page">
+
+    <div class="page-hero dispatch-hero">
+      <div class="container">
+        <p class="section-label">Operations</p>
+        <h1 class="section-title">Dispatch Board</h1>
+        <p class="section-sub">Live-style handover board for pilots, stream ops, and crew control.</p>
+
+        <div class="dispatch-tools" id="dispatch-tools">
+          <a class="btn btn-outline" href="?overlay=1" target="_blank" rel="noopener noreferrer">Open Overlay Preview</a>
+          <div class="dispatch-overlay-url-wrap">
+            <label for="dispatch-overlay-url">OBS Browser Source URL</label>
+            <div class="dispatch-overlay-url-row">
+              <input id="dispatch-overlay-url" type="text" readonly />
+              <button class="btn btn-outline" id="dispatch-copy-overlay" type="button">Copy</button>
+            </div>
+            <p class="dispatch-copy-status" id="dispatch-copy-status" aria-live="polite"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section class="section dispatch-section">
+      <div class="container">
+        <div class="dispatch-board-shell" id="dispatch-board-shell">
+          <div class="dispatch-board-head">
+            <div>
+              <p class="dispatch-kicker" id="dispatch-event-name">WorldFlight 2026</p>
+              <h2 id="dispatch-leg-route">----</h2>
+            </div>
+
+            <div class="dispatch-head-right">
+              <span class="dispatch-status-pill" id="dispatch-event-status">Standby</span>
+              <div class="dispatch-clocks" aria-label="Current time">
+                <div>
+                  <small>UTC</small>
+                  <strong data-dispatch-clock="utc">--:--:--</strong>
+                </div>
+                <div>
+                  <small>Sydney</small>
+                  <strong data-dispatch-clock="aedt">--:--:--</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="dispatch-system-strip" id="dispatch-system-strip" aria-label="System status"></div>
+
+          <div class="dispatch-grid">
+            <article class="dispatch-card dispatch-card-current">
+              <h3>Current Leg</h3>
+              <div class="dispatch-leg-meta">
+                <div>
+                  <small>Leg</small>
+                  <strong id="dispatch-leg-number">----</strong>
+                </div>
+                <div>
+                  <small>Callsign</small>
+                  <strong id="dispatch-leg-callsign">----</strong>
+                </div>
+                <div>
+                  <small>Aircraft</small>
+                  <strong id="dispatch-leg-aircraft">----</strong>
+                </div>
+                <div>
+                  <small>Distance</small>
+                  <strong id="dispatch-leg-distance">----</strong>
+                </div>
+              </div>
+
+              <div class="dispatch-time-grid">
+                <div class="dispatch-time-cell">
+                  <small>ETD (UTC)</small>
+                  <strong id="dispatch-leg-etd">--</strong>
+                  <span id="dispatch-leg-departure-state">--</span>
+                </div>
+                <div class="dispatch-time-cell">
+                  <small>ETA (UTC)</small>
+                  <strong id="dispatch-leg-eta">--</strong>
+                  <span id="dispatch-leg-arrival-state">--</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="dispatch-card">
+              <h3>Next Legs</h3>
+              <div class="dispatch-leg-list" id="dispatch-next-legs"></div>
+            </article>
+
+            <article class="dispatch-card">
+              <h3>Crew On Shift</h3>
+              <div class="dispatch-crew-list" id="dispatch-crew-list"></div>
+            </article>
+
+            <article class="dispatch-card dispatch-card-notes">
+              <h3>Ops Notes</h3>
+              <ul class="dispatch-note-list" id="dispatch-notes-list"></ul>
+            </article>
+          </div>
+
+          <p class="dispatch-last-updated" id="dispatch-last-updated">Updated --</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer id="site-footer"></footer>
+
+  <script id="dispatch-config" type="application/json">
+    {
+      "eventName": "WorldFlight Team Covey",
+      "status": "Crew Ready",
+      "lastUpdatedUtc": "2026-02-27T00:00:00Z",
+      "currentLeg": {
+        "leg": "2501",
+        "from": "YSSY",
+        "to": "NZAA",
+        "callsign": "TCV2501",
+        "aircraft": "B738",
+        "distanceNm": 1160,
+        "etdUtc": "2026-10-31T21:00:00Z",
+        "etaUtc": "2026-11-01T00:20:00Z"
+      },
+      "nextLegs": [
+        { "leg": "2502", "from": "NZAA", "to": "NZCH", "etdUtc": "2026-11-01T00:45:00Z" },
+        { "leg": "2503", "from": "NZCH", "to": "NSFA", "etdUtc": "2026-11-01T02:30:00Z" },
+        { "leg": "2504", "from": "NSFA", "to": "SCGC", "etdUtc": "2026-11-01T05:00:00Z" }
+      ],
+      "crew": [
+        { "role": "Captain", "name": "Levi" },
+        { "role": "First Officer", "name": "Caleb" },
+        { "role": "Dispatch", "name": "Ops Desk" },
+        { "role": "Stream Producer", "name": "Broadcast" }
+      ],
+      "systems": [
+        { "label": "Simulator", "state": "Online" },
+        { "label": "Network", "state": "Connected" },
+        { "label": "Stream", "state": "Live" }
+      ],
+      "notes": [
+        "Weather check complete for current and next two legs.",
+        "Fuel planning includes reserve for hold at destination.",
+        "Crew handover scheduled 30 minutes before top of descent.",
+        "Comms sync at each leg departure and arrival."
+      ]
+    }
+  </script>
+
+  <script src="/assets/js/site.js"></script>
+  <script src="/assets/js/dispatch-board.js"></script>
+  <script src="/assets/js/footer.js"></script>
+
+</body>
+</html>
