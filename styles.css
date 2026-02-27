@@ -1054,5 +1054,5 @@ footer {
 
   /* Keep header from overflowing on small phones */
   .brand-copy span { display: none; }
-  .btn-live { padding: 0.45rem 0.7rem; font-size: 0.72rem; letter-spacing: 0.04em; }
+  .btn-live { display: none; }
 }
