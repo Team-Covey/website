@@ -151,14 +151,9 @@
         const doc = new DOMParser().parseFromString(html, 'text/html');
         const teamCards = Array.from(doc.querySelectorAll('.team-grid .team-card'));
 
-        const pilotCount = teamCards.filter(card => {
-          const role = card.querySelector('.team-role');
-          return role && /pilot/i.test((role.textContent || '').trim());
-        }).length;
-
-        const resolvedCount = pilotCount > 0 ? pilotCount : teamCards.length;
-        if (resolvedCount > 0) {
-          countEl.textContent = String(resolvedCount);
+        const listedCardCount = teamCards.length;
+        if (listedCardCount > 0) {
+          countEl.textContent = String(listedCardCount);
         }
       } catch (_error) {
         // Keep fallback value already rendered in HTML.
