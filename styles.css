@@ -887,6 +887,70 @@ body {
   line-height: 1.65;
 }
 
+/* ─── QUICK LINK CARDS (homepage) ───────────────────── */
+.quick-links {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.quick-link-card {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.4rem 1.5rem;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.18s, transform 0.18s, box-shadow 0.18s;
+}
+
+.quick-link-card:hover {
+  border-color: var(--primary);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 32px rgba(43, 125, 233, 0.1);
+}
+
+.quick-link-icon {
+  font-size: 1.6rem;
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  background: var(--primary-glow);
+  border: 1px solid rgba(43, 125, 233, 0.25);
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+}
+
+.quick-link-card strong {
+  display: block;
+  font-size: 0.97rem;
+  font-weight: 700;
+  margin-bottom: 0.2rem;
+}
+
+.quick-link-card p {
+  font-size: 0.84rem;
+  color: var(--text-2);
+  line-height: 1.5;
+}
+
+.quick-link-arrow {
+  margin-left: auto;
+  font-size: 1.1rem;
+  color: var(--muted);
+  flex-shrink: 0;
+  transition: color 0.15s, transform 0.15s;
+}
+
+.quick-link-card:hover .quick-link-arrow {
+  color: var(--primary);
+  transform: translateX(3px);
+}
+
 /* ─── FOOTER ──────────────────────────────────────── */
 footer {
   padding: 1.75rem 0 2.5rem;
@@ -927,6 +991,10 @@ footer {
 
 /* ─── RESPONSIVE ──────────────────────────────────── */
 @media (max-width: 920px) {
+  /* Reduce section vertical padding on tablets/mobile */
+  .section { padding: 4rem 0; }
+  .page-hero { padding: 3.5rem 0 3rem; }
+
   .main-nav {
     display: none;
     position: absolute;
@@ -951,7 +1019,8 @@ footer {
 
   .ops-grid,
   .wf-highlights,
-  .team-grid { grid-template-columns: repeat(2, 1fr); }
+  .team-grid,
+  .quick-links { grid-template-columns: repeat(2, 1fr); }
 
   .stats-grid { grid-template-columns: repeat(2, 1fr); }
 
@@ -970,10 +1039,20 @@ footer {
 @media (max-width: 560px) {
   .ops-grid,
   .wf-highlights,
-  .team-grid { grid-template-columns: 1fr; }
+  .team-grid,
+  .quick-links { grid-template-columns: 1fr; }
 
   .hero h1 { font-size: 2.3rem; }
+  .hero-content { padding: 5rem 0 3.5rem; }
+
+  .section { padding: 3rem 0; }
+  .page-hero { padding: 2.8rem 0 2.4rem; }
+  .stream-cta { padding: 3.5rem 0; }
 
   .footer-inner { flex-direction: column; text-align: center; }
   .footer-nav   { justify-content: center; }
+
+  /* Keep header from overflowing on small phones */
+  .brand-copy span { display: none; }
+  .btn-live { padding: 0.45rem 0.7rem; font-size: 0.72rem; letter-spacing: 0.04em; }
 }

@@ -6,7 +6,6 @@
   <title>Team Covey WorldFlight</title>
   <link rel="icon" type="image/png" href="/images/CoveyBlackLogo.png" />
   <link rel="apple-touch-icon" href="/images/CoveyBlackLogo.png" />
-  <!-- Restore saved theme before render to prevent flash -->
   <script>(function(){var t=localStorage.getItem('tcwf-theme');if(t)document.documentElement.setAttribute('data-theme',t);})();</script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -37,12 +36,8 @@
         </nav>
 
         <button class="theme-toggle" id="theme-toggle" aria-label="Toggle light/dark mode">
-          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-            <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
-          </svg>
-          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-          </svg>
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
         </button>
 
         <a class="btn-live" href="https://twitch.tv/teamcovey" target="_blank" rel="noopener noreferrer">
@@ -68,14 +63,14 @@
         <p class="eyebrow">Team Covey WorldFlight</p>
         <h1>Flying for<br><em>charity,</em> together.</h1>
         <p class="hero-desc">
-          A community-led flight simulation team. We run around-the-clock charity stream events, flying real-world routes across every continent — live on Twitch.
+          A community-led flight simulation team running around-the-clock charity stream events, live on Twitch.
         </p>
         <div class="ctas">
           <a class="btn btn-twitch" href="https://twitch.tv/teamcovey" target="_blank" rel="noopener noreferrer">
             <svg class="twitch-icon" viewBox="0 0 24 24"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714z"/></svg>
             Watch on Twitch
           </a>
-          <a class="btn btn-outline" href="#about">Learn More</a>
+          <a class="btn btn-outline" href="about.html">Meet the Team</a>
         </div>
       </div>
 
@@ -109,139 +104,39 @@
       </div>
     </div>
 
-    <!-- ═══ ABOUT ══════════════════════════════════════════ -->
-    <section class="section" id="about">
+    <!-- ═══ QUICK LINKS ════════════════════════════════════ -->
+    <section class="section">
       <div class="container">
-        <div class="about-grid">
+        <div class="quick-links">
 
-          <div>
-            <p class="section-label">About Us</p>
-            <h2 class="section-title">Who we are</h2>
-            <p class="section-sub">
-              Team Covey WorldFlight is a modern, community-led simulation team. We bring together pilots, controllers, and aviation enthusiasts for immersive, long-form charity stream events — flying real-world routes across the globe.
-            </p>
-            <div class="pillars">
-              <div class="pillar">
-                <div class="pillar-icon">✈️</div>
-                <div class="pillar-body">
-                  <strong>Realistic Operations</strong>
-                  <p>Full dispatch planning, ATC coordination, and professional handovers on every leg.</p>
-                </div>
-              </div>
-              <div class="pillar">
-                <div class="pillar-icon">🌍</div>
-                <div class="pillar-body">
-                  <strong>Charity Focus</strong>
-                  <p>Every event raises money for impactful causes, driven by the community.</p>
-                </div>
-              </div>
-              <div class="pillar">
-                <div class="pillar-icon">🎙️</div>
-                <div class="pillar-body">
-                  <strong>Community-First</strong>
-                  <p>Welcoming to all skill levels — pilot or spectator, everyone's part of the team.</p>
-                </div>
-              </div>
+          <a class="quick-link-card" href="about.html">
+            <span class="quick-link-icon">👥</span>
+            <div>
+              <strong>About the Team</strong>
+              <p>Meet the pilots and crew behind every WorldFlight event.</p>
             </div>
-          </div>
+            <span class="quick-link-arrow">→</span>
+          </a>
 
-          <div class="about-visual">
-            <img src="/images/background.JPG" alt="Cockpit view from a Team Covey WorldFlight event" />
-            <div class="about-badge">🛫 Live stream coverage on Twitch</div>
-          </div>
-
-        </div>
-      </div>
-    </section>
-
-    <!-- ═══ OPERATIONS ═════════════════════════════════════ -->
-    <section class="section section-alt" id="operations">
-      <div class="container">
-
-        <div class="section-hdr">
-          <p class="section-label">Behind the Scenes</p>
-          <h2 class="section-title">Operations</h2>
-          <p class="section-sub">Our ops team works around the clock to ensure every flight runs smoothly — from pre-flight planning to handover and technical support.</p>
-        </div>
-
-        <div class="ops-grid">
-          <div class="ops-card">
-            <div class="ops-icon">📋</div>
-            <h3>Dispatch &amp; Planning</h3>
-            <p>Route planning, weather briefings, fuel calculations, and NOTAM checks for every leg of the route.</p>
-          </div>
-          <div class="ops-card">
-            <div class="ops-icon">🎙️</div>
-            <h3>ATC Coordination</h3>
-            <p>Volunteer controllers provide professional ATC services on VATSIM and IVAO, enhancing realism throughout.</p>
-          </div>
-          <div class="ops-card">
-            <div class="ops-icon">🖥️</div>
-            <h3>Technical Monitoring</h3>
-            <p>Dedicated staff monitor stream health, simulator stability, and connectivity in real time.</p>
-          </div>
-          <div class="ops-card">
-            <div class="ops-icon">🤝</div>
-            <h3>Pilot Handovers</h3>
-            <p>Smooth crew transitions between legs, maintaining consistent realism and coverage without interruption.</p>
-          </div>
-          <div class="ops-card">
-            <div class="ops-icon">💬</div>
-            <h3>Community Engagement</h3>
-            <p>Moderators and hosts keep the stream chat active, answer questions, and run charity milestones live.</p>
-          </div>
-          <div class="ops-card">
-            <div class="ops-icon">🎗️</div>
-            <h3>Charity Coordination</h3>
-            <p>Managing donation drives, charity announcements, and milestone celebrations across the stream.</p>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- ═══ WORLDFLIGHT ════════════════════════════════════ -->
-    <section class="section" id="worldflight">
-      <div class="container">
-
-        <div class="section-hdr">
-          <p class="section-label">The Event</p>
-          <h2 class="section-title">WorldFlight</h2>
-          <p class="section-sub">An annual around-the-world simulation event streamed live — raising money for charity while showcasing the best of virtual aviation.</p>
-        </div>
-
-        <div class="wf-banner">
-          <div>
-            <h3>Watch the journey unfold</h3>
-            <p>
-              WorldFlight is a continuous, non-stop around-the-world flight simulation event. Our team takes turns at the controls, flying real-world routes across every continent — streamed live for the community to follow along.
-            </p>
-            <div class="ctas">
-              <a class="btn btn-twitch" href="https://twitch.tv/teamcovey" target="_blank" rel="noopener noreferrer">
-                <svg class="twitch-icon" viewBox="0 0 24 24"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714z"/></svg>
-                Watch on Twitch
-              </a>
-              <a class="btn btn-outline" href="worldflight.html">Learn More</a>
+          <a class="quick-link-card" href="worldflight.html">
+            <span class="quick-link-icon">🌍</span>
+            <div>
+              <strong>WorldFlight</strong>
+              <p>Learn about the annual around-the-world charity stream.</p>
             </div>
-          </div>
-          <a class="btn btn-twitch wf-play" href="https://twitch.tv/teamcovey" target="_blank" rel="noopener noreferrer" aria-label="Watch live on Twitch">▶</a>
-        </div>
+            <span class="quick-link-arrow">→</span>
+          </a>
 
-        <div class="wf-highlights">
-          <div class="wf-highlight">
-            <span class="wf-num">7</span>
-            <span class="wf-label">Days of continuous flight</span>
-          </div>
-          <div class="wf-highlight">
-            <span class="wf-num">50+</span>
-            <span class="wf-label">Route legs worldwide</span>
-          </div>
-          <div class="wf-highlight">
-            <span class="wf-num">24/7</span>
-            <span class="wf-label">Live stream coverage</span>
-          </div>
-        </div>
+          <a class="quick-link-card" href="operations.html">
+            <span class="quick-link-icon">🖥️</span>
+            <div>
+              <strong>Operations</strong>
+              <p>How we plan, dispatch, and run each flight leg.</p>
+            </div>
+            <span class="quick-link-arrow">→</span>
+          </a>
 
+        </div>
       </div>
     </section>
 
@@ -250,46 +145,11 @@
       <div class="container">
         <p class="section-label">Live on Twitch</p>
         <h2 class="section-title">Don't miss a moment</h2>
-        <p>Follow us on Twitch to get notified when we go live. Watch the cockpit, interact with the crew, and help drive the charity total higher in real time.</p>
+        <p>Follow us on Twitch and get notified when we go live. Watch the cockpit, interact with the crew, and support the charity drive in real time.</p>
         <a class="btn btn-twitch" href="https://twitch.tv/teamcovey" target="_blank" rel="noopener noreferrer" style="font-size:0.95rem;padding:1rem 2.2rem;margin:0 auto">
           <svg class="twitch-icon" viewBox="0 0 24 24"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714z"/></svg>
           twitch.tv/teamcovey
         </a>
-      </div>
-    </section>
-
-    <!-- ═══ CONTACT ═════════════════════════════════════════ -->
-    <section class="section" id="contact">
-      <div class="container">
-
-        <div class="section-hdr">
-          <p class="section-label">Get In Touch</p>
-          <h2 class="section-title">Contact &amp; Socials</h2>
-          <p class="section-sub">Follow us across our platforms to stay updated with streams, announcements, and charity milestones.</p>
-        </div>
-
-        <div class="contact-grid">
-          <div class="contact-card">
-            <h3>Follow the stream</h3>
-            <p>Watch live on Twitch and subscribe for notifications when we go live for WorldFlight and community events.</p>
-            <div class="social-links">
-              <a class="social-link twitch-link" href="https://twitch.tv/teamcovey" target="_blank" rel="noopener noreferrer">
-                <svg style="width:13px;height:13px;fill:currentColor;flex-shrink:0" viewBox="0 0 24 24"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714z"/></svg>
-                Twitch — teamcovey
-              </a>
-            </div>
-          </div>
-          <div class="contact-card">
-            <h3>Join the community</h3>
-            <p>Connect with the team, stay updated on announcements, and get involved with WorldFlight planning and volunteering.</p>
-            <div class="social-links">
-              <a class="social-link" href="#" target="_blank" rel="noopener noreferrer">Discord</a>
-              <a class="social-link" href="#" target="_blank" rel="noopener noreferrer">Twitter / X</a>
-              <a class="social-link" href="#" target="_blank" rel="noopener noreferrer">YouTube</a>
-            </div>
-          </div>
-        </div>
-
       </div>
     </section>
 
@@ -312,7 +172,6 @@
   </footer>
 
   <script>
-    // Mobile nav
     const toggle = document.getElementById('nav-toggle');
     const nav    = document.getElementById('main-nav');
     toggle.addEventListener('click', () => {
@@ -327,8 +186,6 @@
         toggle.setAttribute('aria-expanded', 'false');
       });
     });
-
-    // Theme toggle
     document.getElementById('theme-toggle').addEventListener('click', () => {
       const next = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
       document.documentElement.setAttribute('data-theme', next);
