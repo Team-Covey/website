@@ -1,6 +1,7 @@
 (function () {
   var footerEl = document.getElementById('site-footer');
   if (!footerEl) { return; }
+  var auFlag = '\u{1F1E6}\u{1F1FA}';
 
   footerEl.innerHTML =
     '<div class="container footer-inner">' +
@@ -11,7 +12,7 @@
       '<div class="footer-meta">' +
         '<span class="footer-copy">\u00A9 2026 WorldFlight Team Covey</span>' +
         '<span class="footer-au" aria-label="Proudly Australian">' +
-          '<span class="footer-flag" aria-hidden="true">\uD83C\uDDE6\uD83C\uDDFA</span>' +
+          '<span class="footer-flag" aria-hidden="true">' + auFlag + '</span>' +
           '<span>Proudly Australian</span>' +
         '</span>' +
       '</div>' +

@@ -1720,6 +1720,7 @@ footer {
   font-size: 1rem;
   line-height: 1;
   flex-shrink: 0;
+  font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif;
 }
 
 .footer-nav { display: flex; gap: 1.4rem; }
