@@ -71,11 +71,11 @@
         <div class="section-hdr">
           <p class="section-label">Live Route Board</p>
           <h2 class="section-title">WorldFlight route map</h2>
-          <p class="section-sub">The interactive map is now the center of this page. It is built from ICAO codes, so when you update the route list the map, leg list, and totals update together.</p>
+          <p class="section-sub">The interactive map is built from ICAO codes, so when you update the route config the map and totals update together.</p>
         </div>
 
         <div class="wf-route-layout wf-route-layout-main">
-          <div class="wf-map-card">
+          <div class="wf-map-card wf-map-card-main">
             <div class="wf-map-panel-header">
               <div class="wf-map-panel-info">
                 <span class="wf-map-status" aria-hidden="true"></span>
@@ -84,27 +84,37 @@
               <span class="wf-map-panel-hint">Scroll to zoom &middot; Click markers for airport details</span>
             </div>
             <div id="worldflight-route-map" class="wf-route-map" aria-label="WorldFlight route map"></div>
-          </div>
 
-          <aside class="wf-route-panel" aria-label="Route summary">
-            <div class="wf-route-metrics">
-              <div class="wf-route-metric">
-                <span id="wf-route-legs">-</span>
-                <small>Legs</small>
+            <div class="wf-map-meta" aria-label="Route summary">
+              <div class="wf-route-metrics wf-route-metrics-inline">
+                <div class="wf-route-metric">
+                  <span id="wf-route-distance">-</span>
+                  <small>Total Distance</small>
+                </div>
+                <div class="wf-route-metric">
+                  <span id="wf-route-legs">-</span>
+                  <small>Legs</small>
+                </div>
+                <div class="wf-route-metric">
+                  <span id="wf-route-airports">-</span>
+                  <small>Airports</small>
+                </div>
               </div>
-              <div class="wf-route-metric">
-                <span id="wf-route-airports">-</span>
-                <small>Airports</small>
-              </div>
-              <div class="wf-route-metric">
-                <span id="wf-route-distance">-</span>
-                <small>Total Distance</small>
+
+              <div class="wf-route-terminals" aria-label="Route endpoints">
+                <div class="wf-route-terminal">
+                  <small>Start</small>
+                  <strong id="wf-route-start">----</strong>
+                </div>
+                <div class="wf-route-terminal">
+                  <small>Finish</small>
+                  <strong id="wf-route-finish">----</strong>
+                </div>
               </div>
             </div>
 
-            <ol class="wf-route-list" id="wf-route-list" aria-label="Route legs"></ol>
             <p class="wf-route-warning" id="wf-route-warning" hidden></p>
-          </aside>
+          </div>
         </div>
       </div>
     </section>

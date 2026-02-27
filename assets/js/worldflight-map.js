@@ -129,8 +129,10 @@
 
   var map = L.map(mapElement, {
     scrollWheelZoom: false,
-    worldCopyJump: true
+    worldCopyJump: true,
+    zoomControl: false
   });
+  L.control.zoom({ position: 'topright' }).addTo(map);
 
   var isDark = document.documentElement.getAttribute('data-theme') !== 'light';
   var tileUrl = isDark
@@ -138,7 +140,7 @@
     : 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
 
   L.tileLayer(tileUrl, {
-    maxZoom: 8,
+    maxZoom: 9,
     minZoom: 2,
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>'
   }).addTo(map);
@@ -147,27 +149,70 @@
     return [airport.lat, airport.lng];
   });
 
-  var routePolyline = L.polyline(routeLatLngs, {
+  L.polyline(routeLatLngs, {
     color: '#2b7de9',
-    weight: 3,
-    opacity: 0.95
+    weight: 10,
+    opacity: 0.24,
+    lineCap: 'round',
+    lineJoin: 'round'
+  }).addTo(map);
+
+  var routePolyline = L.polyline(routeLatLngs, {
+    color: '#63b3ff',
+    weight: 3.5,
+    opacity: 0.95,
+    lineCap: 'round',
+    lineJoin: 'round'
+  }).addTo(map);
+
+  L.polyline(routeLatLngs, {
+    color: '#dbeafe',
+    weight: 1.8,
+    opacity: 0.8,
+    dashArray: '4 10',
+    lineCap: 'round',
+    lineJoin: 'round'
   }).addTo(map);
 
   resolvedRoute.forEach(function (airport, index) {
-    var marker = L.marker([airport.lat, airport.lng], {
-      icon: L.divIcon({
-        className: 'wf-route-marker',
-        html: '<span>' + (index + 1) + '</span>',
-        iconSize: [26, 26],
-        iconAnchor: [13, 13],
-        popupAnchor: [0, -12]
-      })
-    }).addTo(map);
+    var lastIndex = resolvedRoute.length - 1;
+    var marker;
+
+    if (index === 0 || index === lastIndex) {
+      var markerType = index === 0 ? 'start' : 'finish';
+      marker = L.marker([airport.lat, airport.lng], {
+        icon: L.divIcon({
+          className: 'wf-route-marker wf-route-marker--' + markerType,
+          html: '<span class="wf-route-pin">' + (index === 0 ? 'S' : 'F') + '</span>',
+          iconSize: [34, 34],
+          iconAnchor: [17, 17],
+          popupAnchor: [0, -16]
+        })
+      }).addTo(map);
+    } else {
+      marker = L.circleMarker([airport.lat, airport.lng], {
+        radius: 4.2,
+        className: 'wf-route-waypoint',
+        color: '#ffffff',
+        weight: 1.2,
+        fillColor: '#2b7de9',
+        fillOpacity: 0.95
+      }).addTo(map);
+    }
 
     var next = resolvedRoute[index + 1];
-    var legLabel = next
-      ? 'Leg ' + (index + 1) + ': ' + airport.icao + ' to ' + next.icao
-      : 'Final destination';
+    var legLabel;
+    if (index === 0) {
+      legLabel = next
+        ? 'Start hub - Next leg to ' + next.icao
+        : 'Start hub';
+    } else if (index === resolvedRoute.length - 1) {
+      legLabel = 'Final destination';
+    } else {
+      legLabel = next
+        ? 'Leg ' + (index + 1) + ' - Next to ' + next.icao
+        : 'Waypoint';
+    }
 
     marker.bindPopup(
       '<strong>' + airport.icao + '</strong><br>' +
@@ -176,7 +221,8 @@
     );
   });
 
-  map.fitBounds(routePolyline.getBounds().pad(0.18));
+  var routeBounds = routePolyline.getBounds().pad(0.16);
+  map.fitBounds(routeBounds);
 
   mapElement.addEventListener('mouseenter', function () {
     map.scrollWheelZoom.enable();
@@ -194,42 +240,14 @@
   setText('wf-route-legs', String(Math.max(0, resolvedRoute.length - 1)));
   setText('wf-route-airports', String(resolvedRoute.length));
   setText('wf-route-distance', formatKm(totalDistanceKm));
-  fillLegList(resolvedRoute);
+  setText('wf-route-start', resolvedRoute[0].icao);
+  setText('wf-route-finish', resolvedRoute[resolvedRoute.length - 1].icao);
   showMissingWarning(missingIcaos);
 
   function setText(id, value) {
     var node = document.getElementById(id);
     if (node) {
       node.textContent = value;
-    }
-  }
-
-  function fillLegList(route) {
-    var list = document.getElementById('wf-route-list');
-    if (!list) {
-      return;
-    }
-    list.innerHTML = '';
-
-    for (var legIndex = 0; legIndex < route.length - 1; legIndex += 1) {
-      var fromAirport = route[legIndex];
-      var toAirport = route[legIndex + 1];
-      var legDistanceKm = haversineKm(fromAirport, toAirport);
-
-      var item = document.createElement('li');
-
-      var codes = document.createElement('span');
-      codes.className = 'wf-leg-codes';
-      codes.innerHTML =
-        '<strong>' + fromAirport.icao + '</strong> to <strong>' + toAirport.icao + '</strong>';
-
-      var distance = document.createElement('span');
-      distance.className = 'wf-leg-distance';
-      distance.textContent = formatKm(legDistanceKm);
-
-      item.appendChild(codes);
-      item.appendChild(distance);
-      list.appendChild(item);
     }
   }
 
@@ -270,3 +288,4 @@
     return Math.round(distanceKm).toLocaleString() + ' km';
   }
 })();
+
