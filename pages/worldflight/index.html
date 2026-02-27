@@ -83,7 +83,13 @@
               </div>
               <span class="wf-map-panel-hint">Scroll to zoom &middot; Click markers for airport details</span>
             </div>
-            <div id="worldflight-route-map" class="wf-route-map" aria-label="WorldFlight route map"></div>
+            <div class="wf-route-map-wrap">
+              <div class="wf-route-direction" aria-live="polite">
+                <span class="wf-route-direction-arrow" id="wf-route-direction-arrow" aria-hidden="true">↑</span>
+                <span class="wf-route-direction-text" id="wf-route-direction">Direction: --</span>
+              </div>
+              <div id="worldflight-route-map" class="wf-route-map" aria-label="WorldFlight route map"></div>
+            </div>
 
             <div class="wf-map-meta" aria-label="Route summary">
               <div class="wf-route-metrics wf-route-metrics-inline">

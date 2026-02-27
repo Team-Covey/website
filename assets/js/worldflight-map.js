@@ -149,6 +149,14 @@
     return [airport.lat, airport.lng];
   });
 
+  var firstLegBearingDeg = bearingDegrees(resolvedRoute[0], resolvedRoute[1]);
+  setDirectionIndicator(
+    firstLegBearingDeg,
+    directionLabelFromBearing(firstLegBearingDeg),
+    resolvedRoute[0].icao,
+    resolvedRoute[1].icao
+  );
+
   L.polyline(routeLatLngs, {
     color: '#2b7de9',
     weight: 10,
@@ -251,6 +259,35 @@
     }
   }
 
+  function setDirectionIndicator(bearingDeg, directionLabel, fromIcao, toIcao) {
+    var directionText = document.getElementById('wf-route-direction');
+    if (directionText) {
+      directionText.textContent =
+        'Direction: ' + directionLabel + ' (' + fromIcao + ' -> ' + toIcao + ')';
+    }
+
+    var directionArrow = document.getElementById('wf-route-direction-arrow');
+    if (directionArrow) {
+      directionArrow.style.transform = 'rotate(' + Math.round(bearingDeg) + 'deg)';
+    }
+  }
+
+  function directionLabelFromBearing(bearingDeg) {
+    var labels = [
+      'Northbound',
+      'Northeastbound',
+      'Eastbound',
+      'Southeastbound',
+      'Southbound',
+      'Southwestbound',
+      'Westbound',
+      'Northwestbound'
+    ];
+
+    var index = Math.round(bearingDeg / 45) % 8;
+    return labels[index];
+  }
+
   function showMissingWarning(codes) {
     var warning = document.getElementById('wf-route-warning');
     if (!warning) {
@@ -282,6 +319,17 @@
 
   function toRadians(value) {
     return value * (Math.PI / 180);
+  }
+
+  function bearingDegrees(fromAirport, toAirport) {
+    var lat1 = toRadians(fromAirport.lat);
+    var lat2 = toRadians(toAirport.lat);
+    var dLng = toRadians(toAirport.lng - fromAirport.lng);
+    var y = Math.sin(dLng) * Math.cos(lat2);
+    var x =
+      Math.cos(lat1) * Math.sin(lat2) -
+      Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLng);
+    return (Math.atan2(y, x) * 180 / Math.PI + 360) % 360;
   }
 
   function formatKm(distanceKm) {

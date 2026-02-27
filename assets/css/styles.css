@@ -1082,6 +1082,62 @@ body {
   background: #e7edf4;
 }
 
+.wf-route-map-wrap {
+  position: relative;
+}
+
+.wf-route-direction {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.35rem 0.6rem;
+  border-radius: 999px;
+  border: 1px solid rgba(151, 174, 200, 0.35);
+  background: rgba(7, 12, 20, 0.74);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  pointer-events: none;
+}
+
+.wf-route-direction-arrow {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: rgba(43, 125, 233, 0.2);
+  color: #bfdbfe;
+  font-size: 0.75rem;
+  line-height: 1;
+  transition: transform 0.2s ease-out;
+}
+
+.wf-route-direction-text {
+  font-size: 0.63rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: #dbeafe;
+  white-space: nowrap;
+}
+
+[data-theme="light"] .wf-route-direction {
+  background: rgba(255, 255, 255, 0.84);
+  border-color: rgba(148, 163, 184, 0.45);
+}
+
+[data-theme="light"] .wf-route-direction-arrow {
+  color: #1d4ed8;
+  background: rgba(59, 130, 246, 0.15);
+}
+
+[data-theme="light"] .wf-route-direction-text {
+  color: #1e293b;
+}
+
 .wf-route-map .leaflet-control-zoom a {
   color: #0f172a;
 }
@@ -1842,6 +1898,11 @@ footer {
 
   .wf-map-focus .wf-route-map {
     height: 400px;
+  }
+
+  .wf-route-direction-text {
+    font-size: 0.58rem;
+    letter-spacing: 0.07em;
   }
 
   .wf-route-metrics {
