@@ -17,6 +17,58 @@
   --max-width:     1160px;
 }
 
+/* ─── LIGHT THEME ─────────────────────────────────── */
+[data-theme="light"] {
+  --bg:           #f8fafc;
+  --bg-alt:       #f1f5f9;
+  --surface:      #ffffff;
+  --surface-2:    #f8fafc;
+  --border:       #e2e8f0;
+  --border-2:     #cbd5e1;
+  --text:         #0f172a;
+  --text-2:       #475569;
+  --muted:        #94a3b8;
+  --primary-glow: rgba(43, 125, 233, 0.1);
+}
+
+/* Invert white logos to black in light mode */
+[data-theme="light"] .brand img,
+[data-theme="light"] .footer-brand img { filter: brightness(0); }
+
+/* Header backdrop */
+[data-theme="light"] .site-header { background: rgba(248, 250, 252, 0.92); }
+
+/* Mobile nav dropdown */
+[data-theme="light"] .main-nav { background: rgba(248, 250, 252, 0.98); }
+
+/* WorldFlight banner */
+[data-theme="light"] .wf-banner {
+  background: linear-gradient(135deg, #dbeafe 0%, #eff6ff 60%, #e0f2fe 100%);
+  border-color: var(--border);
+}
+[data-theme="light"] .wf-banner::before {
+  background: radial-gradient(circle, rgba(43, 125, 233, 0.06) 0%, transparent 65%);
+}
+
+/* Stream CTA */
+[data-theme="light"] .stream-cta {
+  background: linear-gradient(135deg, #f3eeff 0%, #ede5ff 50%, #f0eaff 100%);
+  border-top-color: rgba(145, 70, 255, 0.12);
+  border-bottom-color: rgba(145, 70, 255, 0.12);
+}
+[data-theme="light"] .stream-cta::before {
+  background: radial-gradient(ellipse at center, rgba(145, 70, 255, 0.07) 0%, transparent 62%);
+}
+
+/* Page hero */
+[data-theme="light"] .page-hero {
+  background: linear-gradient(160deg, #f1f5f9 0%, #f8fafc 100%);
+}
+[data-theme="light"] .page-hero::before {
+  background: radial-gradient(circle, rgba(43, 125, 233, 0.06) 0%, transparent 65%);
+}
+
+/* ─────────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 html { scroll-behavior: smooth; }
@@ -163,6 +215,41 @@ body {
 .nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
 .nav-toggle.open span:nth-child(2) { opacity: 0; }
 .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* ─── THEME TOGGLE ────────────────────────────────── */
+.theme-toggle {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--text-2);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+
+.theme-toggle:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+  background: var(--primary-glow);
+}
+
+.theme-toggle svg {
+  width: 15px;
+  height: 15px;
+  pointer-events: none;
+}
+
+/* Dark mode → show sun (switch to light) */
+.icon-sun  { display: block; }
+.icon-moon { display: none; }
+
+/* Light mode → show moon (switch to dark) */
+[data-theme="light"] .icon-sun  { display: none; }
+[data-theme="light"] .icon-moon { display: block; }
 
 /* ─── HERO (home page) ───────────────────────────── */
 .hero {
