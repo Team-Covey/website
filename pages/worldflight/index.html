@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WorldFlight - WorldFlight Team Covey</title>
+  <meta name="description" content="Learn how Team Covey runs WorldFlight: a non-stop around-the-world charity stream with simulator crews rotating 24/7." />
+  <link rel="icon" type="image/png" href="/images/CoveyBlackLogo.png" />
+  <link rel="apple-touch-icon" href="/images/CoveyBlackLogo.png" />
+  <script>(function(){var t=localStorage.getItem('tcwf-theme');if(t)document.documentElement.setAttribute('data-theme',t);})();</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="/assets/css/styles.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/index.html">
+        <img src="/images/CoveyWhiteLogo.png" alt="WorldFlight Team Covey logo" />
+        <div class="brand-copy">
+          <strong>WorldFlight Team Covey</strong>
+        </div>
+      </a>
+      <div class="header-right">
+        <nav class="main-nav" id="main-nav" aria-label="Main navigation">
+          <a href="/index.html">Home</a>
+          <a href="/pages/about/">About</a>
+          <a href="/pages/operations/">Operations</a>
+          <a href="/pages/worldflight/" class="active">WorldFlight</a>
+          <a href="/pages/events/">Events</a>
+          <a href="/pages/contact/">Contact</a>
+        </nav>
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle light and dark mode">
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+        <a class="btn-live" href="https://twitch.tv/teamcovey" target="_blank" rel="noopener noreferrer">
+          <span class="live-dot" aria-hidden="true"></span>
+          Watch Live
+        </a>
+        <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+
+    <div class="page-hero">
+      <div class="container">
+        <p class="section-label">The Main Event</p>
+        <h1 class="section-title">WorldFlight</h1>
+        <p class="section-sub">A week-long around-the-world simulator event where the team flies live, non-stop, to raise money for charity.</p>
+      </div>
+    </div>
+
+    <section class="section">
+      <div class="container">
+
+        <div class="wf-banner">
+          <div>
+            <h3>Watch the full journey in real time</h3>
+            <p>Team Covey crews rotate throughout the week while the simulator and broadcast remain active around the clock.</p>
+            <div class="ctas">
+              <a class="btn btn-twitch" href="https://twitch.tv/teamcovey" target="_blank" rel="noopener noreferrer">
+                <svg class="twitch-icon" viewBox="0 0 24 24"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714z"/></svg>
+                Watch on Twitch
+              </a>
+              <a class="btn btn-outline" href="/pages/events/">View Schedule</a>
+            </div>
+          </div>
+          <a class="btn btn-twitch wf-play" href="https://twitch.tv/teamcovey" target="_blank" rel="noopener noreferrer" aria-label="Watch live on Twitch">Play</a>
+        </div>
+
+        <div class="wf-highlights">
+          <div class="wf-highlight">
+            <span class="wf-num">7</span>
+            <span class="wf-label">Days of continuous flying</span>
+          </div>
+          <div class="wf-highlight">
+            <span class="wf-num">50+</span>
+            <span class="wf-label">Route legs and transitions</span>
+          </div>
+          <div class="wf-highlight">
+            <span class="wf-num">24/7</span>
+            <span class="wf-label">Live stream and moderation</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="wf-countdown-section">
+      <div class="container">
+        <div class="wf-countdown-card" data-worldflight-countdown data-target-utc="2026-10-31T21:00:00Z">
+          <p class="section-label">WorldFlight 2026</p>
+          <h2 class="section-title">Countdown To Launch</h2>
+          <p class="wf-countdown-sub">Starts 1 November 2026 at 8:00 AM AEDT</p>
+          <div class="wf-countdown-grid" role="timer" aria-live="polite" aria-atomic="true">
+            <div class="wf-countdown-unit">
+              <span data-countdown-part="days">000</span>
+              <small>Days</small>
+            </div>
+            <div class="wf-countdown-unit">
+              <span data-countdown-part="hours">00</span>
+              <small>Hours</small>
+            </div>
+            <div class="wf-countdown-unit">
+              <span data-countdown-part="minutes">00</span>
+              <small>Minutes</small>
+            </div>
+            <div class="wf-countdown-unit">
+              <span data-countdown-part="seconds">00</span>
+              <small>Seconds</small>
+            </div>
+          </div>
+          <p class="wf-countdown-finished" data-countdown-finished hidden>WorldFlight 2026 is now live.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-hdr">
+          <p class="section-label">Custom Route Map</p>
+          <h2 class="section-title">Interactive ICAO route</h2>
+          <p class="section-sub">This map is drawn from a configured list of airport ICAO codes. Update the route codes in one place and the map, legs, and totals update automatically.</p>
+        </div>
+
+        <div class="wf-route-layout">
+          <div class="wf-map-card">
+            <div id="worldflight-route-map" class="wf-route-map" aria-label="WorldFlight route map"></div>
+            <p class="wf-map-hint">Tip: click and drag to explore the route, then click a marker for airport details.</p>
+          </div>
+
+          <aside class="wf-route-panel" aria-label="Route summary">
+            <div class="wf-route-metrics">
+              <div class="wf-route-metric">
+                <span id="wf-route-legs">-</span>
+                <small>Legs</small>
+              </div>
+              <div class="wf-route-metric">
+                <span id="wf-route-airports">-</span>
+                <small>Airports</small>
+              </div>
+              <div class="wf-route-metric">
+                <span id="wf-route-distance">-</span>
+                <small>Total Distance</small>
+              </div>
+            </div>
+
+            <ol class="wf-route-list" id="wf-route-list" aria-label="Route legs"></ol>
+            <p class="wf-route-warning" id="wf-route-warning" hidden></p>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-alt">
+      <div class="container">
+        <div class="section-hdr">
+          <p class="section-label">How It Works</p>
+          <h2 class="section-title">Event flow from launch to finish</h2>
+          <p class="section-sub">The event is run in structured stages so the stream and simulator can stay stable for the full week.</p>
+        </div>
+
+        <div class="event-flow">
+          <article class="event-flow-item">
+            <h3>Pre-flight build week</h3>
+            <p>Scenario checks, route validation, crew assignments, and broadcast scene rehearsals.</p>
+          </article>
+          <article class="event-flow-item">
+            <h3>Global launch leg</h3>
+            <p>The stream opens with team introductions, charity context, and departure from the starting hub.</p>
+          </article>
+          <article class="event-flow-item">
+            <h3>Continuous relay operations</h3>
+            <p>Pilots, dispatch, and tech rotate while each leg is completed and handed to the next crew.</p>
+          </article>
+          <article class="event-flow-item">
+            <h3>Final approach and wrap-up</h3>
+            <p>The team lands the final leg live, closes the campaign totals, and publishes post-event highlights.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="stream-cta">
+      <div class="container">
+        <p class="section-label">Follow Along</p>
+        <h2 class="section-title">Get alerts before each major leg</h2>
+        <p>Follow the channel and keep notifications enabled to catch departures, handovers, and campaign milestones.</p>
+        <a class="btn btn-twitch" href="https://twitch.tv/teamcovey" target="_blank" rel="noopener noreferrer">Follow on Twitch</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <a class="footer-brand" href="/index.html">
+        <img src="/images/CoveyWhiteLogo.png" alt="WorldFlight Team Covey logo" />
+        <span>WorldFlight Team Covey</span>
+      </a>
+      <div class="footer-meta">
+      <span class="footer-copy">Copyright 2026 WorldFlight Team Covey</span>
+      <span class="footer-au" aria-label="Proudly Australian">
+        <svg class="footer-flag" viewBox="0 0 48 32" aria-hidden="true" focusable="false">
+          <rect width="48" height="32" fill="#012169" />
+          <g transform="scale(0.5)">
+            <rect width="48" height="32" fill="#012169" />
+            <path d="M0,0 L48,32 M48,0 L0,32" stroke="#FFFFFF" stroke-width="6" />
+            <path d="M0,0 L48,32 M48,0 L0,32" stroke="#C8102E" stroke-width="3" />
+            <rect x="20" width="8" height="32" fill="#FFFFFF" />
+            <rect y="12" width="48" height="8" fill="#FFFFFF" />
+            <rect x="22" width="4" height="32" fill="#C8102E" />
+            <rect y="14" width="48" height="4" fill="#C8102E" />
+          </g>
+          <g fill="#FFFFFF">
+            <circle cx="34" cy="9" r="2.2" />
+            <circle cx="40" cy="16" r="2.1" />
+            <circle cx="33" cy="22" r="2.2" />
+            <circle cx="42" cy="26" r="2.1" />
+            <circle cx="26" cy="16" r="2.8" />
+          </g>
+        </svg>
+        <span>Proudly Australian</span>
+      </span>
+    </div>
+      <nav class="footer-nav" aria-label="Footer navigation">
+        <a href="/pages/about/">About</a>
+        <a href="/pages/operations/">Operations</a>
+        <a href="/pages/events/">Events</a>
+        <a href="https://twitch.tv/teamcovey" target="_blank" rel="noopener noreferrer">Twitch</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="/assets/js/worldflight-map.js"></script>
+  <script src="/assets/js/site.js"></script>
+
+</body>
+</html>

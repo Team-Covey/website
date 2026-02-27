@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Team Covey WorldFlight</title>
+  <title>WorldFlight Team Covey</title>
   <link rel="icon" type="image/png" href="/images/CoveyBlackLogo.png" />
   <link rel="apple-touch-icon" href="/images/CoveyBlackLogo.png" />
   <script>(function(){var t=localStorage.getItem('tcwf-theme');if(t)document.documentElement.setAttribute('data-theme',t);})();</script>
@@ -19,20 +19,19 @@
     <div class="container header-inner">
 
       <a class="brand" href="index.html">
-        <img src="/images/CoveyWhiteLogo.png" alt="Team Covey WorldFlight logo" />
+        <img src="/images/CoveyWhiteLogo.png" alt="WorldFlight Team Covey logo" />
         <div class="brand-copy">
-          <strong>Team Covey WorldFlight</strong>
-          <span>Flight sim · Charity · Community</span>
+          <strong>WorldFlight Team Covey</strong>
         </div>
       </a>
 
       <div class="header-right">
         <nav class="main-nav" id="main-nav" aria-label="Main navigation">
           <a href="index.html" class="active">Home</a>
-          <a href="about.html">About</a>
-          <a href="operations.html">Operations</a>
-          <a href="worldflight.html">WorldFlight</a>
-          <a href="contact.html">Contact</a>
+          <a href="/pages/about/">About</a>
+          <a href="/pages/operations/">Operations</a>
+          <a href="/pages/worldflight/">WorldFlight</a>
+          <a href="/pages/contact/">Contact</a>
         </nav>
 
         <button class="theme-toggle" id="theme-toggle" aria-label="Toggle light/dark mode">
@@ -60,14 +59,14 @@
       <div class="hero-bg" aria-hidden="true"></div>
 
       <div class="hero-content container">
-        <p class="eyebrow">Team Covey WorldFlight</p>
-        <h1>Flying for<br><em>charity,</em> together.</h1>
+        <p class="eyebrow">WorldFlight Team Covey</p>
+        <h1>Simulated Flight,<br><em>real</em> impact.</h1>
         <div class="ctas">
           <a class="btn btn-twitch" href="https://twitch.tv/teamcovey" target="_blank" rel="noopener noreferrer">
             <svg class="twitch-icon" viewBox="0 0 24 24"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714z"/></svg>
             Watch on Twitch
           </a>
-          <a class="btn btn-outline" href="about.html">Meet the Team</a>
+          <a class="btn btn-outline" href="/pages/about/">Meet the Team</a>
         </div>
       </div>
     </section>
@@ -77,7 +76,7 @@
       <div class="container">
         <div class="stats-grid">
           <div class="stat-item">
-            <span class="stat-num">24+</span>
+            <span class="stat-num" id="active-pilot-count">16</span>
             <span class="stat-label">Active Pilots</span>
           </div>
           <div class="stat-item">
@@ -96,44 +95,106 @@
       </div>
     </div>
 
+    <section class="wf-countdown-section">
+      <div class="container">
+        <div class="wf-countdown-card" data-worldflight-countdown data-target-utc="2026-10-31T21:00:00Z">
+          <p class="section-label">WorldFlight 2026</p>
+          <h2 class="section-title">Countdown To Wheels Up</h2>
+          <p class="wf-countdown-sub">Starts 1 November 2026 at 8:00 AM AEDT</p>
+          <div class="wf-countdown-grid" role="timer" aria-live="polite" aria-atomic="true">
+            <div class="wf-countdown-unit">
+              <span data-countdown-part="days">000</span>
+              <small>Days</small>
+            </div>
+            <div class="wf-countdown-unit">
+              <span data-countdown-part="hours">00</span>
+              <small>Hours</small>
+            </div>
+            <div class="wf-countdown-unit">
+              <span data-countdown-part="minutes">00</span>
+              <small>Minutes</small>
+            </div>
+            <div class="wf-countdown-unit">
+              <span data-countdown-part="seconds">00</span>
+              <small>Seconds</small>
+            </div>
+          </div>
+          <p class="wf-countdown-finished" data-countdown-finished hidden>WorldFlight 2026 is now live.</p>
+        </div>
+      </div>
+    </section>
+
   </main>
 
   <!-- ═══ FOOTER ══════════════════════════════════════════ -->
   <footer>
     <div class="container footer-inner">
       <a class="footer-brand" href="index.html">
-        <img src="/images/CoveyWhiteLogo.png" alt="Team Covey WorldFlight logo" />
-        <span>Team Covey WorldFlight</span>
+        <img src="/images/CoveyWhiteLogo.png" alt="WorldFlight Team Covey logo" />
+        <span>WorldFlight Team Covey</span>
       </a>
-      <span class="footer-copy">© 2026 Team Covey WorldFlight</span>
+      <div class="footer-meta">
+      <span class="footer-copy">© 2026 WorldFlight Team Covey</span>
+      <span class="footer-au" aria-label="Proudly Australian">
+        <svg class="footer-flag" viewBox="0 0 48 32" aria-hidden="true" focusable="false">
+          <rect width="48" height="32" fill="#012169" />
+          <g transform="scale(0.5)">
+            <rect width="48" height="32" fill="#012169" />
+            <path d="M0,0 L48,32 M48,0 L0,32" stroke="#FFFFFF" stroke-width="6" />
+            <path d="M0,0 L48,32 M48,0 L0,32" stroke="#C8102E" stroke-width="3" />
+            <rect x="20" width="8" height="32" fill="#FFFFFF" />
+            <rect y="12" width="48" height="8" fill="#FFFFFF" />
+            <rect x="22" width="4" height="32" fill="#C8102E" />
+            <rect y="14" width="48" height="4" fill="#C8102E" />
+          </g>
+          <g fill="#FFFFFF">
+            <circle cx="34" cy="9" r="2.2" />
+            <circle cx="40" cy="16" r="2.1" />
+            <circle cx="33" cy="22" r="2.2" />
+            <circle cx="42" cy="26" r="2.1" />
+            <circle cx="26" cy="16" r="2.8" />
+          </g>
+        </svg>
+        <span>Proudly Australian</span>
+      </span>
+    </div>
       <nav class="footer-nav" aria-label="Footer navigation">
-        <a href="about.html">About</a>
-        <a href="worldflight.html">WorldFlight</a>
+        <a href="/pages/about/">About</a>
+        <a href="/pages/worldflight/">WorldFlight</a>
         <a href="https://twitch.tv/teamcovey" target="_blank" rel="noopener noreferrer">Twitch</a>
       </nav>
     </div>
   </footer>
 
+  <script src="/assets/js/site.js"></script>
   <script>
-    const toggle = document.getElementById('nav-toggle');
-    const nav    = document.getElementById('main-nav');
-    toggle.addEventListener('click', () => {
-      const open = nav.classList.toggle('open');
-      toggle.classList.toggle('open', open);
-      toggle.setAttribute('aria-expanded', open);
-    });
-    nav.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', () => {
-        nav.classList.remove('open');
-        toggle.classList.remove('open');
-        toggle.setAttribute('aria-expanded', 'false');
-      });
-    });
-    document.getElementById('theme-toggle').addEventListener('click', () => {
-      const next = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
-      document.documentElement.setAttribute('data-theme', next);
-      localStorage.setItem('tcwf-theme', next);
-    });
+    async function updatePilotCountFromAbout() {
+      const countEl = document.getElementById('active-pilot-count');
+      if (!countEl) return;
+
+      try {
+        const response = await fetch('/pages/about/', { cache: 'no-store' });
+        if (!response.ok) return;
+
+        const html = await response.text();
+        const doc = new DOMParser().parseFromString(html, 'text/html');
+        const teamCards = Array.from(doc.querySelectorAll('.team-grid .team-card'));
+
+        const pilotCount = teamCards.filter(card => {
+          const role = card.querySelector('.team-role');
+          return role && /pilot/i.test((role.textContent || '').trim());
+        }).length;
+
+        const resolvedCount = pilotCount > 0 ? pilotCount : teamCards.length;
+        if (resolvedCount > 0) {
+          countEl.textContent = String(resolvedCount);
+        }
+      } catch (_error) {
+        // Keep fallback value already rendered in HTML.
+      }
+    }
+
+    updatePilotCountFromAbout();
   </script>
 
 </body>
