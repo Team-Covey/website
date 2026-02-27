@@ -511,8 +511,8 @@ body {
 }
 
 .wf-countdown-card-hero .wf-countdown-unit {
-  background: rgba(43, 125, 233, 0.1);
-  border-color: rgba(43, 125, 233, 0.28);
+  background: rgba(0, 0, 0, 0.35);
+  border-color: rgba(255, 255, 255, 0.08);
 }
 
 .wf-countdown-card-hero .section-title {
@@ -730,7 +730,7 @@ body {
 
 .wf-countdown-unit {
   background: rgba(7, 12, 20, 0.42);
-  border: 1px solid rgba(43, 125, 233, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 10px;
   text-align: center;
   padding: 0.65rem 0.5rem;
