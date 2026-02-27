@@ -721,6 +721,85 @@ body {
   color: #c084ff;
 }
 
+/* ─── TEAM ───────────────────────────────────────── */
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.2rem;
+}
+
+.team-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: border-color 0.18s, transform 0.18s, box-shadow 0.18s;
+}
+
+.team-card:hover {
+  border-color: var(--primary);
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(43, 125, 233, 0.1);
+}
+
+/* Photo area — shows a silhouette until a real image is dropped in */
+.team-photo-wrap {
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  position: relative;
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--border);
+}
+
+/* CSS person silhouette placeholder */
+.team-photo-wrap::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 50% 36%, var(--border-2) 19%, transparent 20%),
+    radial-gradient(ellipse 52% 32% at 50% 82%, var(--border-2) 47%, transparent 48%);
+  pointer-events: none;
+}
+
+.team-photo-wrap img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+  z-index: 1;
+  /* Hide browser broken-image icon; placeholder shows through instead */
+  color: transparent;
+}
+
+.team-info {
+  padding: 1.25rem 1.2rem 1.4rem;
+}
+
+.team-name {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 0.2rem;
+}
+
+.team-role {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--primary);
+  margin-bottom: 0.7rem;
+}
+
+.team-bio {
+  font-size: 0.86rem;
+  color: var(--text-2);
+  line-height: 1.65;
+}
+
 /* ─── FOOTER ──────────────────────────────────────── */
 footer {
   padding: 1.75rem 0 2.5rem;
@@ -784,7 +863,8 @@ footer {
   .contact-grid { grid-template-columns: 1fr; }
 
   .ops-grid,
-  .wf-highlights { grid-template-columns: repeat(2, 1fr); }
+  .wf-highlights,
+  .team-grid { grid-template-columns: repeat(2, 1fr); }
 
   .stats-grid { grid-template-columns: repeat(2, 1fr); }
 
@@ -802,7 +882,8 @@ footer {
 
 @media (max-width: 560px) {
   .ops-grid,
-  .wf-highlights { grid-template-columns: 1fr; }
+  .wf-highlights,
+  .team-grid { grid-template-columns: 1fr; }
 
   .hero h1 { font-size: 2.3rem; }
 
