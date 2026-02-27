@@ -58,20 +58,11 @@
 
   <main>
 
-    <div class="page-hero">
-      <div class="container">
-        <p class="section-label">The Main Event</p>
-        <h1 class="section-title">WorldFlight</h1>
-        <p class="section-sub">A week-long around-the-world simulator event where the team flies live, non-stop, to raise money for charity.</p>
-      </div>
-    </div>
-
     <section class="section wf-map-focus" id="route-map">
       <div class="container">
         <div class="section-hdr">
-          <p class="section-label">Live Route Board</p>
-          <h2 class="section-title">WorldFlight route map</h2>
-          <p class="section-sub">The interactive map is built from ICAO codes, so when you update the route config the map and totals update together.</p>
+          <p class="section-label">WorldFlight</p>
+          <h2 class="section-title">Route map</h2>
         </div>
 
         <div class="wf-route-layout wf-route-layout-main">
@@ -85,7 +76,7 @@
             </div>
             <div class="wf-route-map-wrap">
               <div class="wf-route-direction" aria-live="polite">
-                <span class="wf-route-direction-arrow" id="wf-route-direction-arrow" aria-hidden="true">↑</span>
+                <span class="wf-route-direction-arrow" id="wf-route-direction-arrow" aria-hidden="true">&uarr;</span>
                 <span class="wf-route-direction-text" id="wf-route-direction">Direction: --</span>
               </div>
               <div id="worldflight-route-map" class="wf-route-map" aria-label="WorldFlight route map"></div>
@@ -125,109 +116,6 @@
       </div>
     </section>
 
-    <section class="wf-countdown-section">
-      <div class="container">
-        <div class="wf-countdown-card" data-worldflight-countdown data-target-utc="2026-10-31T21:00:00Z">
-          <p class="section-label">WorldFlight 2026</p>
-          <h2 class="section-title">Countdown To Launch</h2>
-          <p class="wf-countdown-sub">Starts 1 November 2026 at 8:00 AM AEDT</p>
-          <div class="wf-countdown-grid" role="timer" aria-live="polite" aria-atomic="true">
-            <div class="wf-countdown-unit">
-              <span data-countdown-part="days">000</span>
-              <small>Days</small>
-            </div>
-            <div class="wf-countdown-unit">
-              <span data-countdown-part="hours">00</span>
-              <small>Hours</small>
-            </div>
-            <div class="wf-countdown-unit">
-              <span data-countdown-part="minutes">00</span>
-              <small>Minutes</small>
-            </div>
-            <div class="wf-countdown-unit">
-              <span data-countdown-part="seconds">00</span>
-              <small>Seconds</small>
-            </div>
-          </div>
-          <p class="wf-countdown-finished" data-countdown-finished hidden>WorldFlight 2026 is now live.</p>
-        </div>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="container">
-
-        <div class="wf-banner">
-          <div>
-            <h3>Watch the full journey in real time</h3>
-            <p>Team Covey crews rotate throughout the week while the simulator and broadcast remain active around the clock.</p>
-            <div class="ctas">
-              <a class="btn btn-twitch" href="https://twitch.tv/teamcovey" target="_blank" rel="noopener noreferrer">
-                <svg class="twitch-icon" viewBox="0 0 24 24"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714z"/></svg>
-                Watch on Twitch
-              </a>
-              <a class="btn btn-outline" href="/pages/contact/">Get Involved</a>
-            </div>
-          </div>
-          <a class="btn btn-twitch wf-play" href="https://twitch.tv/teamcovey" target="_blank" rel="noopener noreferrer" aria-label="Watch live on Twitch">Play</a>
-        </div>
-
-        <div class="wf-highlights">
-          <div class="wf-highlight">
-            <span class="wf-num">7</span>
-            <span class="wf-label">Days of continuous flying</span>
-          </div>
-          <div class="wf-highlight">
-            <span class="wf-num">50+</span>
-            <span class="wf-label">Route legs and transitions</span>
-          </div>
-          <div class="wf-highlight">
-            <span class="wf-num">24/7</span>
-            <span class="wf-label">Live stream and moderation</span>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <section class="section section-alt">
-      <div class="container">
-        <div class="section-hdr">
-          <p class="section-label">How It Works</p>
-          <h2 class="section-title">Event flow from launch to finish</h2>
-          <p class="section-sub">The event is run in structured stages so the stream and simulator can stay stable for the full week.</p>
-        </div>
-
-        <div class="event-flow">
-          <article class="event-flow-item">
-            <h3>Pre-flight build week</h3>
-            <p>Scenario checks, route validation, crew assignments, and broadcast scene rehearsals.</p>
-          </article>
-          <article class="event-flow-item">
-            <h3>Global launch leg</h3>
-            <p>The stream opens with team introductions, charity context, and departure from the starting hub.</p>
-          </article>
-          <article class="event-flow-item">
-            <h3>Continuous relay operations</h3>
-            <p>Pilots, dispatch, and tech rotate while each leg is completed and handed to the next crew.</p>
-          </article>
-          <article class="event-flow-item">
-            <h3>Final approach and wrap-up</h3>
-            <p>The team lands the final leg live, closes the campaign totals, and publishes post-event highlights.</p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="stream-cta">
-      <div class="container">
-        <p class="section-label">Follow Along</p>
-        <h2 class="section-title">Get alerts before each major leg</h2>
-        <p>Follow the channel and keep notifications enabled to catch departures, handovers, and campaign milestones.</p>
-        <a class="btn btn-twitch" href="https://twitch.tv/teamcovey" target="_blank" rel="noopener noreferrer">Follow on Twitch</a>
-      </div>
-    </section>
-
   </main>
 
   <footer id="site-footer"></footer>
@@ -239,3 +127,4 @@
 
 </body>
 </html>
+
