@@ -27,9 +27,17 @@
         <nav class="main-nav" id="main-nav" aria-label="Main navigation">
           <a href="/index.html">Home</a>
           <a href="/pages/about/">About</a>
-          <a href="/pages/operations/">Operations</a>
+          <div class="nav-dropdown">
+            <button class="nav-dropdown-toggle" type="button" aria-expanded="false" aria-haspopup="true">
+              Operations
+            </button>
+            <div class="nav-dropdown-menu" role="menu" aria-label="Operations">
+              <a href="#" role="menuitem" data-placeholder="true">Dispatch Board (Soon)</a>
+              <a href="#" role="menuitem" data-placeholder="true">Crew Roster (Soon)</a>
+              <a href="#" role="menuitem" data-placeholder="true">Simulator Status (Soon)</a>
+            </div>
+          </div>
           <a href="/pages/worldflight/">WorldFlight</a>
-          <a href="/pages/events/">Events</a>
           <a href="/pages/contact/" class="active">Contact</a>
         </nav>
         <button class="theme-toggle" id="theme-toggle" aria-label="Toggle light and dark mode">
@@ -85,7 +93,7 @@
             <h3>Community spaces</h3>
             <p>Join the wider community to discuss routes, events, and upcoming streams.</p>
             <div class="social-links">
-              <a class="social-link" href="#" aria-disabled="true">Discord - coming soon</a>
+              <a class="social-link" href="https://discord.gg/H6qeE5rQfp" target="_blank" rel="noopener noreferrer">Discord</a>
               <a class="social-link" href="#" aria-disabled="true">X - coming soon</a>
             </div>
           </article>
@@ -147,7 +155,7 @@
       <nav class="footer-nav" aria-label="Footer navigation">
         <a href="/pages/about/">About</a>
         <a href="/pages/worldflight/">WorldFlight</a>
-        <a href="/pages/events/">Events</a>
+        <a href="/pages/contact/">Contact</a>
         <a href="https://twitch.tv/teamcovey" target="_blank" rel="noopener noreferrer">Twitch</a>
       </nav>
     </div>

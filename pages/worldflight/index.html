@@ -28,9 +28,17 @@
         <nav class="main-nav" id="main-nav" aria-label="Main navigation">
           <a href="/index.html">Home</a>
           <a href="/pages/about/">About</a>
-          <a href="/pages/operations/">Operations</a>
+          <div class="nav-dropdown">
+            <button class="nav-dropdown-toggle" type="button" aria-expanded="false" aria-haspopup="true">
+              Operations
+            </button>
+            <div class="nav-dropdown-menu" role="menu" aria-label="Operations">
+              <a href="#" role="menuitem" data-placeholder="true">Dispatch Board (Soon)</a>
+              <a href="#" role="menuitem" data-placeholder="true">Crew Roster (Soon)</a>
+              <a href="#" role="menuitem" data-placeholder="true">Simulator Status (Soon)</a>
+            </div>
+          </div>
           <a href="/pages/worldflight/" class="active">WorldFlight</a>
-          <a href="/pages/events/">Events</a>
           <a href="/pages/contact/">Contact</a>
         </nav>
         <button class="theme-toggle" id="theme-toggle" aria-label="Toggle light and dark mode">
@@ -58,39 +66,40 @@
       </div>
     </div>
 
-    <section class="section">
+    <section class="section wf-map-focus" id="route-map">
       <div class="container">
+        <div class="section-hdr">
+          <p class="section-label">Live Route Board</p>
+          <h2 class="section-title">WorldFlight route map</h2>
+          <p class="section-sub">The interactive map is now the center of this page. It is built from ICAO codes, so when you update the route list the map, leg list, and totals update together.</p>
+        </div>
 
-        <div class="wf-banner">
-          <div>
-            <h3>Watch the full journey in real time</h3>
-            <p>Team Covey crews rotate throughout the week while the simulator and broadcast remain active around the clock.</p>
-            <div class="ctas">
-              <a class="btn btn-twitch" href="https://twitch.tv/teamcovey" target="_blank" rel="noopener noreferrer">
-                <svg class="twitch-icon" viewBox="0 0 24 24"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714z"/></svg>
-                Watch on Twitch
-              </a>
-              <a class="btn btn-outline" href="/pages/events/">View Schedule</a>
+        <div class="wf-route-layout wf-route-layout-main">
+          <div class="wf-map-card">
+            <div id="worldflight-route-map" class="wf-route-map" aria-label="WorldFlight route map"></div>
+            <p class="wf-map-hint">Tip: click and drag to explore the route, then click a marker for airport details.</p>
+          </div>
+
+          <aside class="wf-route-panel" aria-label="Route summary">
+            <div class="wf-route-metrics">
+              <div class="wf-route-metric">
+                <span id="wf-route-legs">-</span>
+                <small>Legs</small>
+              </div>
+              <div class="wf-route-metric">
+                <span id="wf-route-airports">-</span>
+                <small>Airports</small>
+              </div>
+              <div class="wf-route-metric">
+                <span id="wf-route-distance">-</span>
+                <small>Total Distance</small>
+              </div>
             </div>
-          </div>
-          <a class="btn btn-twitch wf-play" href="https://twitch.tv/teamcovey" target="_blank" rel="noopener noreferrer" aria-label="Watch live on Twitch">Play</a>
-        </div>
 
-        <div class="wf-highlights">
-          <div class="wf-highlight">
-            <span class="wf-num">7</span>
-            <span class="wf-label">Days of continuous flying</span>
-          </div>
-          <div class="wf-highlight">
-            <span class="wf-num">50+</span>
-            <span class="wf-label">Route legs and transitions</span>
-          </div>
-          <div class="wf-highlight">
-            <span class="wf-num">24/7</span>
-            <span class="wf-label">Live stream and moderation</span>
-          </div>
+            <ol class="wf-route-list" id="wf-route-list" aria-label="Route legs"></ol>
+            <p class="wf-route-warning" id="wf-route-warning" hidden></p>
+          </aside>
         </div>
-
       </div>
     </section>
 
@@ -125,38 +134,37 @@
 
     <section class="section">
       <div class="container">
-        <div class="section-hdr">
-          <p class="section-label">Custom Route Map</p>
-          <h2 class="section-title">Interactive ICAO route</h2>
-          <p class="section-sub">This map is drawn from a configured list of airport ICAO codes. Update the route codes in one place and the map, legs, and totals update automatically.</p>
-        </div>
 
-        <div class="wf-route-layout">
-          <div class="wf-map-card">
-            <div id="worldflight-route-map" class="wf-route-map" aria-label="WorldFlight route map"></div>
-            <p class="wf-map-hint">Tip: click and drag to explore the route, then click a marker for airport details.</p>
-          </div>
-
-          <aside class="wf-route-panel" aria-label="Route summary">
-            <div class="wf-route-metrics">
-              <div class="wf-route-metric">
-                <span id="wf-route-legs">-</span>
-                <small>Legs</small>
-              </div>
-              <div class="wf-route-metric">
-                <span id="wf-route-airports">-</span>
-                <small>Airports</small>
-              </div>
-              <div class="wf-route-metric">
-                <span id="wf-route-distance">-</span>
-                <small>Total Distance</small>
-              </div>
+        <div class="wf-banner">
+          <div>
+            <h3>Watch the full journey in real time</h3>
+            <p>Team Covey crews rotate throughout the week while the simulator and broadcast remain active around the clock.</p>
+            <div class="ctas">
+              <a class="btn btn-twitch" href="https://twitch.tv/teamcovey" target="_blank" rel="noopener noreferrer">
+                <svg class="twitch-icon" viewBox="0 0 24 24"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714z"/></svg>
+                Watch on Twitch
+              </a>
+              <a class="btn btn-outline" href="/pages/contact/">Get Involved</a>
             </div>
-
-            <ol class="wf-route-list" id="wf-route-list" aria-label="Route legs"></ol>
-            <p class="wf-route-warning" id="wf-route-warning" hidden></p>
-          </aside>
+          </div>
+          <a class="btn btn-twitch wf-play" href="https://twitch.tv/teamcovey" target="_blank" rel="noopener noreferrer" aria-label="Watch live on Twitch">Play</a>
         </div>
+
+        <div class="wf-highlights">
+          <div class="wf-highlight">
+            <span class="wf-num">7</span>
+            <span class="wf-label">Days of continuous flying</span>
+          </div>
+          <div class="wf-highlight">
+            <span class="wf-num">50+</span>
+            <span class="wf-label">Route legs and transitions</span>
+          </div>
+          <div class="wf-highlight">
+            <span class="wf-num">24/7</span>
+            <span class="wf-label">Live stream and moderation</span>
+          </div>
+        </div>
+
       </div>
     </section>
 
@@ -233,8 +241,8 @@
     </div>
       <nav class="footer-nav" aria-label="Footer navigation">
         <a href="/pages/about/">About</a>
-        <a href="/pages/operations/">Operations</a>
-        <a href="/pages/events/">Events</a>
+        <a href="/pages/worldflight/">WorldFlight</a>
+        <a href="/pages/contact/">Contact</a>
         <a href="https://twitch.tv/teamcovey" target="_blank" rel="noopener noreferrer">Twitch</a>
       </nav>
     </div>

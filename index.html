@@ -29,7 +29,16 @@
         <nav class="main-nav" id="main-nav" aria-label="Main navigation">
           <a href="index.html" class="active">Home</a>
           <a href="/pages/about/">About</a>
-          <a href="/pages/operations/">Operations</a>
+          <div class="nav-dropdown">
+            <button class="nav-dropdown-toggle" type="button" aria-expanded="false" aria-haspopup="true">
+              Operations
+            </button>
+            <div class="nav-dropdown-menu" role="menu" aria-label="Operations">
+              <a href="#" role="menuitem" data-placeholder="true">Dispatch Board (Soon)</a>
+              <a href="#" role="menuitem" data-placeholder="true">Crew Roster (Soon)</a>
+              <a href="#" role="menuitem" data-placeholder="true">Simulator Status (Soon)</a>
+            </div>
+          </div>
           <a href="/pages/worldflight/">WorldFlight</a>
           <a href="/pages/contact/">Contact</a>
         </nav>
@@ -60,13 +69,40 @@
 
       <div class="hero-content container">
         <p class="eyebrow">WorldFlight Team Covey</p>
-        <h1>Simulated Flight,<br><em>real</em> impact.</h1>
+        <h1>Simulated Flight,<br><em>Real</em> Impact.</h1>
         <div class="ctas">
           <a class="btn btn-twitch" href="https://twitch.tv/teamcovey" target="_blank" rel="noopener noreferrer">
             <svg class="twitch-icon" viewBox="0 0 24 24"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714z"/></svg>
             Watch on Twitch
           </a>
           <a class="btn btn-outline" href="/pages/about/">Meet the Team</a>
+        </div>
+
+        <div class="hero-countdown">
+          <div class="wf-countdown-card wf-countdown-card-hero" data-worldflight-countdown data-target-utc="2026-10-31T21:00:00Z">
+            <p class="section-label">WorldFlight 2026</p>
+            <h2 class="section-title">Countdown To Wheels Up</h2>
+            <p class="wf-countdown-sub">Starts 1 November 2026 at 8:00 AM AEDT</p>
+            <div class="wf-countdown-grid" role="timer" aria-live="polite" aria-atomic="true">
+              <div class="wf-countdown-unit">
+                <span data-countdown-part="days">000</span>
+                <small>Days</small>
+              </div>
+              <div class="wf-countdown-unit">
+                <span data-countdown-part="hours">00</span>
+                <small>Hours</small>
+              </div>
+              <div class="wf-countdown-unit">
+                <span data-countdown-part="minutes">00</span>
+                <small>Minutes</small>
+              </div>
+              <div class="wf-countdown-unit">
+                <span data-countdown-part="seconds">00</span>
+                <small>Seconds</small>
+              </div>
+            </div>
+            <p class="wf-countdown-finished" data-countdown-finished hidden>WorldFlight 2026 is now live.</p>
+          </div>
         </div>
       </div>
     </section>
@@ -94,35 +130,6 @@
         </div>
       </div>
     </div>
-
-    <section class="wf-countdown-section">
-      <div class="container">
-        <div class="wf-countdown-card" data-worldflight-countdown data-target-utc="2026-10-31T21:00:00Z">
-          <p class="section-label">WorldFlight 2026</p>
-          <h2 class="section-title">Countdown To Wheels Up</h2>
-          <p class="wf-countdown-sub">Starts 1 November 2026 at 8:00 AM AEDT</p>
-          <div class="wf-countdown-grid" role="timer" aria-live="polite" aria-atomic="true">
-            <div class="wf-countdown-unit">
-              <span data-countdown-part="days">000</span>
-              <small>Days</small>
-            </div>
-            <div class="wf-countdown-unit">
-              <span data-countdown-part="hours">00</span>
-              <small>Hours</small>
-            </div>
-            <div class="wf-countdown-unit">
-              <span data-countdown-part="minutes">00</span>
-              <small>Minutes</small>
-            </div>
-            <div class="wf-countdown-unit">
-              <span data-countdown-part="seconds">00</span>
-              <small>Seconds</small>
-            </div>
-          </div>
-          <p class="wf-countdown-finished" data-countdown-finished hidden>WorldFlight 2026 is now live.</p>
-        </div>
-      </div>
-    </section>
 
   </main>
 

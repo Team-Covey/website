@@ -27,9 +27,17 @@
         <nav class="main-nav" id="main-nav" aria-label="Main navigation">
           <a href="/index.html">Home</a>
           <a href="/pages/about/">About</a>
-          <a href="/pages/operations/" class="active">Operations</a>
+          <div class="nav-dropdown">
+            <button class="nav-dropdown-toggle active" type="button" aria-expanded="false" aria-haspopup="true">
+              Operations
+            </button>
+            <div class="nav-dropdown-menu" role="menu" aria-label="Operations">
+              <a href="#" role="menuitem" data-placeholder="true">Dispatch Board (Soon)</a>
+              <a href="#" role="menuitem" data-placeholder="true">Crew Roster (Soon)</a>
+              <a href="#" role="menuitem" data-placeholder="true">Simulator Status (Soon)</a>
+            </div>
+          </div>
           <a href="/pages/worldflight/">WorldFlight</a>
-          <a href="/pages/events/">Events</a>
           <a href="/pages/contact/">Contact</a>
         </nav>
         <button class="theme-toggle" id="theme-toggle" aria-label="Toggle light and dark mode">
@@ -51,51 +59,24 @@
 
     <div class="page-hero">
       <div class="container">
-        <p class="section-label">Behind the Broadcast</p>
-        <h1 class="section-title">Operations</h1>
-        <p class="section-sub">Every flight leg depends on tight planning, reliable systems, and smooth handovers across a full 24/7 schedule.</p>
+        <p class="section-label">Operations</p>
+        <h1 class="section-title">Operations hub is being rebuilt</h1>
+        <p class="section-sub">Operations has been moved into a dedicated dropdown menu in the header. This page is now a temporary placeholder while those sections are split out.</p>
       </div>
     </div>
 
     <section class="section">
       <div class="container">
         <div class="section-hdr">
-          <p class="section-label">Core Areas</p>
-          <h2 class="section-title">How the team runs the event</h2>
-          <p class="section-sub">Operations is shared across dispatch, pilots, stream tech, and moderation so the event can stay stable and on-time.</p>
+          <p class="section-label">Placeholder Menu</p>
+          <h2 class="section-title">Current placeholder items</h2>
+          <p class="section-sub">These are available as placeholder dropdown entries in the main navigation and will be replaced with full pages later.</p>
         </div>
 
-        <div class="ops-grid">
-          <article class="ops-card">
-            <div class="ops-icon" aria-hidden="true">01</div>
-            <h3>Dispatch and Briefings</h3>
-            <p>Route release, weather review, payload planning, and pre-flight checklists for each leg.</p>
-          </article>
-          <article class="ops-card">
-            <div class="ops-icon" aria-hidden="true">02</div>
-            <h3>Crew Rotations</h3>
-            <p>Pilot schedules and structured handovers to keep fatigue low and continuity high.</p>
-          </article>
-          <article class="ops-card">
-            <div class="ops-icon" aria-hidden="true">03</div>
-            <h3>ATC and Network Flow</h3>
-            <p>Coordination with online ATC networks and fallback plans when traffic or coverage changes.</p>
-          </article>
-          <article class="ops-card">
-            <div class="ops-icon" aria-hidden="true">04</div>
-            <h3>Stream Reliability</h3>
-            <p>Monitoring audio, overlays, ingest health, and backup scenes to prevent downtime.</p>
-          </article>
-          <article class="ops-card">
-            <div class="ops-icon" aria-hidden="true">05</div>
-            <h3>Community Moderation</h3>
-            <p>Live chat moderation, milestone callouts, and viewer support during high-traffic hours.</p>
-          </article>
-          <article class="ops-card">
-            <div class="ops-icon" aria-hidden="true">06</div>
-            <h3>Donation Tracking</h3>
-            <p>Transparent updates for campaign totals, sponsor activations, and on-stream targets.</p>
-          </article>
+        <div class="ops-checklist" role="list">
+          <div class="ops-check-item" role="listitem"><strong>Dispatch Board:</strong> planned live board for active leg status and handover notes.</div>
+          <div class="ops-check-item" role="listitem"><strong>Crew Roster:</strong> planned team rotation view for stream and simulator roles.</div>
+          <div class="ops-check-item" role="listitem"><strong>Simulator Status:</strong> planned status panel for simulator, stream, and network health.</div>
         </div>
       </div>
     </section>
@@ -103,25 +84,10 @@
     <section class="section section-alt">
       <div class="container">
         <div class="section-hdr">
-          <p class="section-label">Handover Standard</p>
-          <h2 class="section-title">Leg transition checklist</h2>
-          <p class="section-sub">Each crew swap follows the same pattern to protect stream continuity and flight safety.</p>
+          <p class="section-label">Help Build It</p>
+          <h2 class="section-title">Want to contribute to operations?</h2>
+          <p class="section-sub">If you want to help with dispatch planning, scheduling, or technical operations, get in touch with the team.</p>
         </div>
-
-        <div class="ops-checklist" role="list">
-          <div class="ops-check-item" role="listitem"><strong>Brief incoming crew:</strong> route status, fuel state, weather threats, alternates.</div>
-          <div class="ops-check-item" role="listitem"><strong>Confirm simulator state:</strong> controls, FMC entries, failures, and checkpoint save.</div>
-          <div class="ops-check-item" role="listitem"><strong>Sync broadcast team:</strong> crew names, segment timing, and any planned announcements.</div>
-          <div class="ops-check-item" role="listitem"><strong>Log and close:</strong> handover timestamp and notes for the next duty block.</div>
-        </div>
-      </div>
-    </section>
-
-    <section class="stream-cta">
-      <div class="container">
-        <p class="section-label">Want To Help</p>
-        <h2 class="section-title">Volunteer with operations</h2>
-        <p>If you can help with dispatch, moderation, or technical support, the team is always open to experienced contributors.</p>
         <a class="btn btn-twitch" href="/pages/contact/">Contact The Team</a>
       </div>
     </section>
@@ -162,7 +128,7 @@
       <nav class="footer-nav" aria-label="Footer navigation">
         <a href="/pages/about/">About</a>
         <a href="/pages/worldflight/">WorldFlight</a>
-        <a href="/pages/events/">Events</a>
+        <a href="/pages/contact/">Contact</a>
         <a href="https://twitch.tv/teamcovey" target="_blank" rel="noopener noreferrer">Twitch</a>
       </nav>
     </div>

@@ -27,9 +27,17 @@
         <nav class="main-nav" id="main-nav" aria-label="Main navigation">
           <a href="/index.html">Home</a>
           <a href="/pages/about/">About</a>
-          <a href="/pages/operations/">Operations</a>
+          <div class="nav-dropdown">
+            <button class="nav-dropdown-toggle" type="button" aria-expanded="false" aria-haspopup="true">
+              Operations
+            </button>
+            <div class="nav-dropdown-menu" role="menu" aria-label="Operations">
+              <a href="#" role="menuitem" data-placeholder="true">Dispatch Board (Soon)</a>
+              <a href="#" role="menuitem" data-placeholder="true">Crew Roster (Soon)</a>
+              <a href="#" role="menuitem" data-placeholder="true">Simulator Status (Soon)</a>
+            </div>
+          </div>
           <a href="/pages/worldflight/">WorldFlight</a>
-          <a href="/pages/events/" class="active">Events</a>
           <a href="/pages/contact/">Contact</a>
         </nav>
         <button class="theme-toggle" id="theme-toggle" aria-label="Toggle light and dark mode">

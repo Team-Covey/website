@@ -2,12 +2,37 @@
   var toggle = document.getElementById('nav-toggle');
   var nav = document.getElementById('main-nav');
   var themeToggle = document.getElementById('theme-toggle');
+  var dropdowns = document.querySelectorAll('.nav-dropdown');
+
+  function closeDropdown(dropdown) {
+    if (!dropdown) {
+      return;
+    }
+
+    dropdown.classList.remove('open');
+    var dropdownToggle = dropdown.querySelector('.nav-dropdown-toggle');
+    if (dropdownToggle) {
+      dropdownToggle.setAttribute('aria-expanded', 'false');
+    }
+  }
+
+  function closeAllDropdowns(exceptDropdown) {
+    dropdowns.forEach(function (dropdown) {
+      if (dropdown !== exceptDropdown) {
+        closeDropdown(dropdown);
+      }
+    });
+  }
 
   if (toggle && nav) {
     toggle.addEventListener('click', function () {
       var open = nav.classList.toggle('open');
       toggle.classList.toggle('open', open);
       toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+
+      if (!open) {
+        closeAllDropdowns();
+      }
     });
 
     nav.querySelectorAll('a').forEach(function (link) {
@@ -15,9 +40,46 @@
         nav.classList.remove('open');
         toggle.classList.remove('open');
         toggle.setAttribute('aria-expanded', 'false');
+        closeAllDropdowns();
       });
     });
   }
+
+  if (dropdowns.length) {
+    dropdowns.forEach(function (dropdown) {
+      var dropdownToggle = dropdown.querySelector('.nav-dropdown-toggle');
+      if (!dropdownToggle) {
+        return;
+      }
+
+      dropdownToggle.addEventListener('click', function (event) {
+        event.preventDefault();
+
+        var willOpen = !dropdown.classList.contains('open');
+        closeAllDropdowns(dropdown);
+        dropdown.classList.toggle('open', willOpen);
+        dropdownToggle.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+      });
+    });
+
+    document.addEventListener('click', function (event) {
+      if (!event.target.closest('.nav-dropdown')) {
+        closeAllDropdowns();
+      }
+    });
+
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape') {
+        closeAllDropdowns();
+      }
+    });
+  }
+
+  document.querySelectorAll('a[data-placeholder="true"]').forEach(function (link) {
+    link.addEventListener('click', function (event) {
+      event.preventDefault();
+    });
+  });
 
   if (themeToggle) {
     themeToggle.addEventListener('click', function () {
