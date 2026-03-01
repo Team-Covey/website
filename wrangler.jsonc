@@ -8,13 +8,12 @@
     "STREAMLABS_SCOPES": "donations.read",
     "STREAMLABS_REDIRECT_URI": "https://teamcovey.org/streamlabs/callback"
   },
-  // Add this binding once you create a KV namespace:
-  // "kv_namespaces": [
-  //   {
-  //     "binding": "STREAMLABS_KV",
-  //     "id": "REPLACE_WITH_KV_NAMESPACE_ID"
-  //   }
-  // ],
+  "kv_namespaces": [
+    {
+      "binding": "STREAMLABS_KV",
+      "id": "1e40a12ee8494690a1f189228b0eb14e"
+    }
+  ],
   "observability": {
     "enabled": true
   },

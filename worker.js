@@ -56,16 +56,7 @@ async function handleStreamlabsConnect(request, env) {
   }
 
   const kv = getKvBinding(env);
-  if (!kv) {
-    return jsonResponse(
-      {
-        error: 'KV binding missing',
-        message: 'Add KV binding STREAMLABS_KV before using /streamlabs/connect.'
-      },
-      503
-    );
-  }
-
+  const credentials = getClientCredentials(env);
   const clientId = String(env.STREAMLABS_CLIENT_ID || '').trim();
   if (!clientId) {
     return jsonResponse(
@@ -79,11 +70,26 @@ async function handleStreamlabsConnect(request, env) {
 
   const redirectUri = getRedirectUri(request, env);
   const scopes = String(env.STREAMLABS_SCOPES || 'donations.read').trim();
-  const state = createStateToken();
-
-  await kv.put(OAUTH_STATE_PREFIX + state, JSON.stringify({ createdAt: Date.now() }), {
-    expirationTtl: OAUTH_STATE_TTL_SECONDS
-  });
+  let state = '';
+  if (kv) {
+    state = createStateToken();
+    await kv.put(OAUTH_STATE_PREFIX + state, JSON.stringify({ createdAt: Date.now() }), {
+      expirationTtl: OAUTH_STATE_TTL_SECONDS
+    });
+  } else {
+    const stateSecret = getStateSigningSecret(env, credentials);
+    if (!stateSecret) {
+      return jsonResponse(
+        {
+          error: 'Missing state signing secret',
+          message:
+            'Without KV, set STREAMLABS_CLIENT_SECRET (or STREAMLABS_OAUTH_STATE_SECRET) so OAuth state can be signed.'
+        },
+        503
+      );
+    }
+    state = await createSignedStateToken(stateSecret);
+  }
 
   const authorizeUrl = new URL(STREAMLABS_AUTHORIZE_URL);
   authorizeUrl.searchParams.set('client_id', clientId);
@@ -101,13 +107,6 @@ async function handleStreamlabsCallback(request, env) {
   }
 
   const kv = getKvBinding(env);
-  if (!kv) {
-    return htmlResponse(
-      'Streamlabs OAuth failed',
-      '<p>KV binding <code>STREAMLABS_KV</code> is required before connecting.</p>',
-      503
-    );
-  }
 
   const url = new URL(request.url);
   const errorText = String(url.searchParams.get('error') || '').trim();
@@ -134,18 +133,30 @@ async function handleStreamlabsCallback(request, env) {
     );
   }
 
-  const stateKey = OAUTH_STATE_PREFIX + state;
-  const stateValue = await kv.get(stateKey);
-  if (!stateValue) {
-    return htmlResponse(
-      'Streamlabs OAuth failed',
-      '<p>Invalid or expired OAuth state. Start again from <a href="/streamlabs/connect">/streamlabs/connect</a>.</p>',
-      400
-    );
-  }
-  await kv.delete(stateKey);
-
   const credentials = getClientCredentials(env);
+  const stateSecret = getStateSigningSecret(env, credentials);
+  if (kv) {
+    const stateKey = OAUTH_STATE_PREFIX + state;
+    const stateValue = await kv.get(stateKey);
+    if (!stateValue) {
+      return htmlResponse(
+        'Streamlabs OAuth failed',
+        '<p>Invalid or expired OAuth state. Start again from <a href="/streamlabs/connect">/streamlabs/connect</a>.</p>',
+        400
+      );
+    }
+    await kv.delete(stateKey);
+  } else {
+    const validSignedState = await verifySignedStateToken(state, stateSecret);
+    if (!validSignedState) {
+      return htmlResponse(
+        'Streamlabs OAuth failed',
+        '<p>Invalid or expired OAuth state. Start again from <a href="/streamlabs/connect">/streamlabs/connect</a>.</p>',
+        400
+      );
+    }
+  }
+
   if (!credentials.clientId || !credentials.clientSecret) {
     return htmlResponse(
       'Streamlabs OAuth failed',
@@ -223,7 +234,9 @@ async function handleStreamlabsCallback(request, env) {
     updatedAt: new Date().toISOString()
   };
 
-  await kv.put(STREAMLABS_TOKEN_KEY, JSON.stringify(tokenRecord));
+  if (kv) {
+    await kv.put(STREAMLABS_TOKEN_KEY, JSON.stringify(tokenRecord));
+  }
 
   const verificationNote =
     expectedUsername && !tokenRecord.accountVerified
@@ -232,15 +245,35 @@ async function handleStreamlabsCallback(request, env) {
         '</code>.</p>'
       : '';
 
+  if (kv) {
+    return htmlResponse(
+      'Streamlabs connected',
+      '<p>Connection saved successfully.</p>' +
+        '<p>Account: <strong>' +
+        escapeHtml(tokenRecord.accountUsername || expectedUsername || 'unknown') +
+        '</strong></p>' +
+        verificationNote +
+        '<p><a href="/api/streamlabs/total">Test donations endpoint</a></p>' +
+        '<p><a href="/">Back to home page</a></p>'
+    );
+  }
+
   return htmlResponse(
-    'Streamlabs connected',
-    '<p>Connection saved successfully.</p>' +
+    'Streamlabs token ready',
+    '<p>OAuth succeeded but KV is not configured, so the token was not persisted automatically.</p>' +
       '<p>Account: <strong>' +
       escapeHtml(tokenRecord.accountUsername || expectedUsername || 'unknown') +
       '</strong></p>' +
       verificationNote +
-      '<p><a href="/api/streamlabs/total">Test donations endpoint</a></p>' +
-      '<p><a href="/">Back to home page</a></p>'
+      '<p>Set this as <code>STREAMLABS_ACCESS_TOKEN</code> in Worker secrets:</p>' +
+      '<p><code style="word-break:break-all;display:block;padding:.6rem;">' +
+      escapeHtml(accessToken) +
+      '</code></p>' +
+      '<p>Optional refresh token:</p>' +
+      '<p><code style="word-break:break-all;display:block;padding:.6rem;">' +
+      escapeHtml(refreshToken || '(none returned)') +
+      '</code></p>' +
+      '<p><a href="/api/streamlabs/total">Test donations endpoint</a></p>'
   );
 }
 
@@ -601,6 +634,15 @@ function getExpectedUsername(env) {
   return normalizeUsername(configured);
 }
 
+function getStateSigningSecret(env, credentials) {
+  const explicit = String(env.STREAMLABS_OAUTH_STATE_SECRET || '').trim();
+  if (explicit) {
+    return explicit;
+  }
+
+  return String((credentials && credentials.clientSecret) || '').trim();
+}
+
 function createStateToken() {
   const bytes = new Uint8Array(24);
   crypto.getRandomValues(bytes);
@@ -609,6 +651,75 @@ function createStateToken() {
       return value.toString(16).padStart(2, '0');
     })
     .join('');
+}
+
+async function createSignedStateToken(secret) {
+  const timestamp = String(Date.now());
+  const nonce = createStateToken();
+  const payload = timestamp + '.' + nonce;
+  const signature = await signStatePayload(payload, secret);
+  return payload + '.' + signature;
+}
+
+async function verifySignedStateToken(state, secret) {
+  if (!state || !secret) {
+    return false;
+  }
+
+  const parts = String(state).split('.');
+  if (parts.length !== 3) {
+    return false;
+  }
+
+  const timestamp = Number.parseInt(parts[0], 10);
+  if (!Number.isFinite(timestamp) || timestamp <= 0) {
+    return false;
+  }
+
+  const ageMs = Date.now() - timestamp;
+  if (ageMs < 0 || ageMs > OAUTH_STATE_TTL_SECONDS * 1000) {
+    return false;
+  }
+
+  const payload = parts[0] + '.' + parts[1];
+  const expectedSignature = await signStatePayload(payload, secret);
+  return constantTimeEqual(parts[2], expectedSignature);
+}
+
+async function signStatePayload(payload, secret) {
+  const encoder = new TextEncoder();
+  const key = await crypto.subtle.importKey(
+    'raw',
+    encoder.encode(secret),
+    { name: 'HMAC', hash: 'SHA-256' },
+    false,
+    ['sign']
+  );
+
+  const signature = await crypto.subtle.sign('HMAC', key, encoder.encode(payload));
+  return base64UrlEncode(new Uint8Array(signature));
+}
+
+function base64UrlEncode(bytes) {
+  let binary = '';
+  for (let i = 0; i < bytes.length; i += 1) {
+    binary += String.fromCharCode(bytes[i]);
+  }
+
+  return btoa(binary).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+}
+
+function constantTimeEqual(a, b) {
+  if (typeof a !== 'string' || typeof b !== 'string' || a.length !== b.length) {
+    return false;
+  }
+
+  let mismatch = 0;
+  for (let i = 0; i < a.length; i += 1) {
+    mismatch |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  }
+
+  return mismatch === 0;
 }
 
 function extractPossibleUsernames(payload) {
