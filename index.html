@@ -28,7 +28,16 @@
       <div class="header-right">
         <nav class="main-nav" id="main-nav" aria-label="Main navigation">
           <a href="index.html" class="active">Home</a>
-          <a href="/pages/about/">About</a>
+          <div class="nav-dropdown">
+            <button class="nav-dropdown-toggle" type="button" aria-expanded="false" aria-haspopup="true">
+              About
+            </button>
+            <div class="nav-dropdown-menu" role="menu" aria-label="About">
+              <a href="/pages/about/" role="menuitem">Who We Are</a>
+              <a href="/pages/about/team/" role="menuitem">Meet the Team</a>
+              <a href="/pages/about/partners/" role="menuitem">Partners</a>
+            </div>
+          </div>
           <div class="nav-dropdown">
             <button class="nav-dropdown-toggle" type="button" aria-expanded="false" aria-haspopup="true">
               Operations
@@ -75,7 +84,7 @@
             <svg class="twitch-icon" viewBox="0 0 24 24"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714z"/></svg>
             Watch on Twitch
           </a>
-          <a class="btn btn-outline" href="/pages/about/">Meet the Team</a>
+          <a class="btn btn-outline" href="/pages/about/team/">Meet the Team</a>
         </div>
 
         <div class="hero-countdown">
@@ -201,4 +210,5 @@
 
 </body>
 </html>
+
 

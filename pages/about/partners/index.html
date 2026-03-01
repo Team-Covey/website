@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>About — WorldFlight Team Covey</title>
+  <title>Partners - WorldFlight Team Covey</title>
   <link rel="icon" type="image/png" href="/images/CoveyBlackLogo.png" />
   <link rel="apple-touch-icon" href="/images/CoveyBlackLogo.png" />
   <script>(function () { var t = localStorage.getItem('tcwf-theme'); if (t) document.documentElement.setAttribute('data-theme', t); })();</script>
@@ -33,9 +33,9 @@
               About
             </button>
             <div class="nav-dropdown-menu" role="menu" aria-label="About">
-              <a href="/pages/about/" role="menuitem" class="active">Who We Are</a>
+              <a href="/pages/about/" role="menuitem">Who We Are</a>
               <a href="/pages/about/team/" role="menuitem">Meet the Team</a>
-              <a href="/pages/about/partners/" role="menuitem">Partners</a>
+              <a href="/pages/about/partners/" role="menuitem" class="active">Partners</a>
             </div>
           </div>
           <div class="nav-dropdown">
@@ -85,78 +85,60 @@
     <div class="page-hero">
       <div class="container">
         <p class="section-label">About Us</p>
-        <h1 class="section-title">Who We Are</h1>
-        <p class="section-sub">A passionate team of aviation enthusiasts pushing simulator technology to its limits —
-          all in the name of charity.</p>
+        <h1 class="section-title">Partners and Sponsors</h1>
+        <p class="section-sub">Organizations that support Team Covey and help us deliver WorldFlight.</p>
       </div>
     </div>
 
-    <section class="section section-alt">
-      <div class="container">
-        <div class="about-grid">
-          <div>
-            <p class="section-label">Our Story</p>
-            <h2 class="section-title">Built on passion,<br>tested by perseverance</h2>
-            <p class="about-story-text">WorldFlight Team Covey started with a vision to fly a 737-800 simulator. An
-              unexpected opportunity changed everything, we acquired the legendary QFA25 747-400, the machine that
-              carried us around the world on our debut. Our story is one of adaptability, grit, and an unwavering love
-              of aviation.</p>
-            <div class="pillars">
-              <div class="pillar">
-                <div class="pillar-icon">✈️</div>
-                <div class="pillar-body">
-                  <strong>Debut WorldFlight · 2023</strong>
-                  <p>First around-the-world journey in the legacy QFA25 747-400. Challenging, raw, and unforgettable.
-                  </p>
-                </div>
-              </div>
-              <div class="pillar">
-                <div class="pillar-icon">🔧</div>
-                <div class="pillar-body">
-                  <strong>Rebuild Year · 2024</strong>
-                  <p>A deliberate pause while Caleb moved the simulator and started upgrading it and fixing the issues
-                    encountered in 2023</p>
-                </div>
-              </div>
-              <div class="pillar">
-                <div class="pillar-icon">🌍</div>
-                <div class="pillar-body">
-                  <strong>WorldFlight 2025</strong>
-                  <p>Team Covey flew every single leg, often ahead of schedule, a full-circle payoff for the rebuild
-                    year.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="about-stats">
-            <div class="about-stat-card">
-              <span class="wf-num">2023</span>
-              <span class="wf-label">Year founded</span>
-            </div>
-            <div class="about-stat-card">
-              <span class="wf-num">747</span>
-              <span class="wf-label">-400 Simulator</span>
-            </div>
-            <div class="about-stat-card">
-              <span class="wf-num">6</span>
-              <span class="wf-label">Continents visited</span>
-            </div>
-            <div class="about-stat-card">
-              <span class="wf-num">2+</span>
-              <span class="wf-label">Events completed</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
     <section class="section">
       <div class="container">
         <div class="section-hdr">
-          <p class="section-label">The People</p>
-          <h2 class="section-title">Meet the team</h2>
-          <p class="section-sub">View the dedicated team page for pilot bios and crew roles.</p>
+          <p class="section-label">Affiliations</p>
+          <h2 class="section-title">Our Partners</h2>
+          <p class="section-sub">Add cards below to list affiliations and sponsors with logo, name, and overview.</p>
         </div>
-        <a class="btn btn-primary" href="/pages/about/team/">Go To Meet The Team</a>
+
+        <div class="partners-grid">
+          <!--
+            HOW TO ADD A PARTNER:
+            1. Drop the logo into /images/partners/
+            2. Copy a partner-card block
+            3. Update logo path, organization name, type, and blurb
+          -->
+          <div class="partner-card">
+            <div class="partner-logo-wrap">
+              <img src="/images/partners/VATSIM_Logo_Official.png" alt="VATSIM logo" />
+            </div>
+            <div class="partner-info">
+              <p class="partner-name">VATSIM</p>
+              <p class="partner-type">Affiliation</p>
+              <p class="partner-blurb">The Virtual Air Traffic Simulation Network connects pilots and air traffic
+                controllers worldwide for realistic online aviation operations.</p>
+            </div>
+          </div>
+
+          <div class="partner-card">
+            <div class="partner-logo-wrap">
+              <img src="/images/CoveyWhiteLogo.png" alt="Sponsor logo placeholder" />
+            </div>
+            <div class="partner-info">
+              <p class="partner-name">Partner Name</p>
+              <p class="partner-type">Sponsor</p>
+              <p class="partner-blurb">Add a short description about this sponsor and how they support Team Covey.</p>
+            </div>
+          </div>
+
+          <div class="partner-card">
+            <div class="partner-logo-wrap">
+              <img src="/images/CoveyWhiteLogo.png" alt="Affiliation logo placeholder" />
+            </div>
+            <div class="partner-info">
+              <p class="partner-name">Partner Name</p>
+              <p class="partner-type">Affiliation</p>
+              <p class="partner-blurb">Add a short description about this affiliation and the relationship.</p>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
