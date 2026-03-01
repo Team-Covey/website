@@ -165,7 +165,7 @@
     }
 
     var activeIndex = 0;
-    var rotateMs = 7000;
+    var rotateMs = 3000;
 
     window.setInterval(function () {
       activeIndex = (activeIndex + 1) % slides.length;
