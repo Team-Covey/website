@@ -3,6 +3,18 @@
   "name": "website",
   "main": "worker.js",
   "compatibility_date": "2025-09-27",
+  "vars": {
+    "STREAMLABS_EXPECTED_USERNAME": "teamcovey",
+    "STREAMLABS_SCOPES": "donations.read",
+    "STREAMLABS_REDIRECT_URI": "https://teamcovey.org/streamlabs/callback"
+  },
+  // Add this binding once you create a KV namespace:
+  // "kv_namespaces": [
+  //   {
+  //     "binding": "STREAMLABS_KV",
+  //     "id": "REPLACE_WITH_KV_NAMESPACE_ID"
+  //   }
+  // ],
   "observability": {
     "enabled": true
   },
