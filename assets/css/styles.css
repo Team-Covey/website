@@ -2120,6 +2120,10 @@ html.dispatch-overlay-mode .dispatch-last-updated { display: none !important; }
   align-items: start;
 }
 
+.rfds-primary-cta {
+  margin-top: 1rem;
+}
+
 .rfds-primary-cta .btn {
   min-width: 150px;
 }
