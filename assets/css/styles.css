@@ -109,8 +109,8 @@
   border-color: rgba(191, 219, 254, 0.5);
 }
 [data-theme="light"] .hero-stat-item {
-  background: rgba(15, 23, 42, 0.25);
-  border-color: rgba(191, 219, 254, 0.35);
+  background: transparent;
+  border-color: rgba(191, 219, 254, 0.26);
 }
 [data-theme="light"] .hero-stat-num {
   color: #f8fafc;
@@ -641,21 +641,30 @@ body {
 .hero-stats-list {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.55rem;
+  gap: 0;
+  border-top: 1px solid rgba(140, 182, 255, 0.22);
 }
 
 .hero-stat-item {
   display: grid;
   gap: 0.2rem;
-  padding: 0.62rem 0.75rem;
-  min-height: 62px;
-  border: 1px solid rgba(140, 182, 255, 0.2);
-  border-radius: 9px;
-  background: rgba(4, 10, 19, 0.3);
+  padding: 0.72rem 0.7rem 0.66rem;
+  border-right: 1px solid rgba(140, 182, 255, 0.2);
+  border-bottom: 1px solid rgba(140, 182, 255, 0.2);
+  background: transparent;
+}
+
+.hero-stats-list .hero-stat-item:nth-child(even) {
+  border-right: none;
 }
 
 .hero-stats-list .hero-stat-item:nth-child(n + 5) {
   grid-column: 1 / -1;
+  border-right: none;
+}
+
+.hero-stats-list .hero-stat-item:last-child {
+  border-bottom: none;
 }
 
 .hero-stat-num {
@@ -3256,10 +3265,6 @@ footer {
   .hero-stats-panel {
     padding: 0.8rem;
     max-width: 100%;
-  }
-
-  .hero-stats-list {
-    gap: 0.45rem;
   }
 
   .hero-stat-item {
