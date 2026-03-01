@@ -810,7 +810,7 @@ body {
 
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(6, 1fr);
 }
 
 .stat-item {
@@ -837,6 +837,17 @@ body {
   text-transform: uppercase;
   letter-spacing: 0.12em;
   font-weight: 500;
+}
+
+.stat-num.stat-num-money {
+  font-size: clamp(1.2rem, 2.1vw, 1.65rem);
+  letter-spacing: -0.01em;
+}
+
+.stat-label.stat-label-detail {
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  line-height: 1.35;
 }
 
 /* ─── SECTIONS ────────────────────────────────────── */
