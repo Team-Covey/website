@@ -33,8 +33,6 @@
   var isAboutWho = path === '/pages/about/';
   var isAboutTeam = path === '/pages/about/team/';
   var isAboutPartners = path === '/pages/about/partners/';
-  var isOperations = path.indexOf('/pages/operations/') === 0;
-  var isDispatch = path === '/pages/operations/dispatch/';
   var isWorldflight = path.indexOf('/pages/worldflight/') === 0;
   var isWorldflightOverview = path === '/pages/worldflight/';
   var isWorldflightRoute = path === '/pages/worldflight/route/';
@@ -61,16 +59,6 @@
               '<a href="/pages/about/" role="menuitem"' + activeClass(isAboutWho) + '>Who We Are</a>' +
               '<a href="/pages/about/team/" role="menuitem"' + activeClass(isAboutTeam) + '>Meet the Team</a>' +
               '<a href="/pages/about/partners/" role="menuitem"' + activeClass(isAboutPartners) + '>Partners</a>' +
-            '</div>' +
-          '</div>' +
-          '<div class="nav-dropdown">' +
-            '<button class="nav-dropdown-toggle' + (isOperations ? ' active' : '') + '" type="button" aria-expanded="false" aria-haspopup="true">' +
-              'Operations' +
-            '</button>' +
-            '<div class="nav-dropdown-menu" role="menu" aria-label="Operations">' +
-              '<a href="/pages/operations/dispatch/" role="menuitem"' + activeClass(isDispatch) + '>Dispatch Board</a>' +
-              '<a href="#" role="menuitem" data-placeholder="true">Crew Roster (Soon)</a>' +
-              '<a href="#" role="menuitem" data-placeholder="true">Simulator Status (Soon)</a>' +
             '</div>' +
           '</div>' +
           '<div class="nav-dropdown">' +
