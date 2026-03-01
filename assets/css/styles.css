@@ -104,6 +104,20 @@
   color: #f8fafc;
   background: rgba(43, 125, 233, 0.32);
 }
+[data-theme="light"] .hero-stats-panel {
+  background: rgba(15, 23, 42, 0.3);
+  border-color: rgba(191, 219, 254, 0.5);
+}
+[data-theme="light"] .hero-stat-item {
+  background: rgba(15, 23, 42, 0.25);
+  border-color: rgba(191, 219, 254, 0.35);
+}
+[data-theme="light"] .hero-stat-num {
+  color: #f8fafc;
+}
+[data-theme="light"] .hero-stat-label {
+  color: rgba(226, 232, 240, 0.9);
+}
 
 [data-theme="light"] .wf-countdown-card {
   background: linear-gradient(140deg, #ffffff 0%, #f8fafc 100%);
@@ -594,6 +608,74 @@ body {
   position: relative;
   z-index: 1;
   padding: 7rem 0 5rem;
+}
+
+.hero-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 410px);
+  gap: clamp(1.4rem, 4vw, 4rem);
+  align-items: start;
+}
+
+.hero-main {
+  min-width: 0;
+}
+
+.hero-stats-panel {
+  align-self: center;
+  width: 100%;
+  max-width: 410px;
+  justify-self: end;
+  padding: 1rem;
+  border: 1px solid rgba(140, 182, 255, 0.35);
+  border-radius: 12px;
+  background: rgba(5, 12, 22, 0.35);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.hero-stats-panel .section-label {
+  margin-bottom: 0.65rem;
+}
+
+.hero-stats-list {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.hero-stat-item {
+  display: grid;
+  gap: 0.2rem;
+  padding: 0.62rem 0.75rem;
+  border: 1px solid rgba(140, 182, 255, 0.2);
+  border-radius: 9px;
+  background: rgba(4, 10, 19, 0.3);
+}
+
+.hero-stat-num {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #d9e8ff;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+
+.hero-stat-label {
+  font-size: 0.62rem;
+  color: rgba(201, 220, 255, 0.76);
+  text-transform: uppercase;
+  letter-spacing: 0.11em;
+  line-height: 1.5;
+}
+
+.hero-stat-num-money {
+  font-size: 0.95rem;
+}
+
+.hero-stat-label-detail {
+  font-size: 0.58rem;
+  letter-spacing: 0.05em;
+  text-transform: none;
 }
 
 .eyebrow {
@@ -3031,6 +3113,16 @@ footer {
   .about-grid,
   .contact-grid { grid-template-columns: 1fr; }
 
+  .hero-layout {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .hero-stats-panel {
+    justify-self: start;
+    max-width: 620px;
+  }
+
   .ops-grid,
   .event-flow,
   .wf-route-layout,
@@ -3154,6 +3246,37 @@ footer {
   .hero h1 { font-size: 2.3rem; }
   .hero-content { padding: 5rem 0 3.5rem; }
   .hero-countdown { margin-top: 1.3rem; }
+
+  .hero-stats-panel {
+    padding: 0.8rem;
+    max-width: 100%;
+  }
+
+  .hero-stats-list {
+    gap: 0.45rem;
+  }
+
+  .hero-stat-item {
+    padding: 0.55rem 0.65rem;
+  }
+
+  .hero-stat-num {
+    font-size: 1rem;
+  }
+
+  .hero-stat-num-money {
+    font-size: 0.88rem;
+  }
+
+  .hero-stat-label {
+    font-size: 0.58rem;
+    letter-spacing: 0.09em;
+  }
+
+  .hero-stat-label-detail {
+    font-size: 0.56rem;
+  }
+
   .wf-countdown-card-hero .wf-countdown-unit {
     padding-right: 1rem;
     margin-right: 1rem;
