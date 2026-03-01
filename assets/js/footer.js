@@ -17,10 +17,11 @@
         '</span>' +
       '</div>' +
       '<nav class="footer-nav" aria-label="Footer navigation">' +
-        '<a href="/pages/about/">About</a>' +
-        '<a href="/pages/worldflight/">WorldFlight</a>' +
-        '<a href="/pages/contact/">Contact</a>' +
+        '<a href="/about/">About</a>' +
+        '<a href="/worldflight/">WorldFlight</a>' +
+        '<a href="/contact/">Contact</a>' +
         '<a href="https://twitch.tv/teamcovey" target="_blank" rel="noopener noreferrer">Twitch</a>' +
       '</nav>' +
     '</div>';
 })();
+

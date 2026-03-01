@@ -18,6 +18,13 @@ export default {
     const url = new URL(request.url);
     const pathname = url.pathname;
 
+    if (pathname === '/pages' || pathname === '/pages/' || pathname.indexOf('/pages/') === 0) {
+      const redirectUrl = new URL(request.url);
+      const nextPath = pathname === '/pages' ? '/' : pathname.slice('/pages'.length) || '/';
+      redirectUrl.pathname = nextPath;
+      return Response.redirect(redirectUrl.toString(), 301);
+    }
+
     if (pathname === '/api/streamlabs/total') {
       return handleStreamlabsTotal(request, env, ctx);
     }

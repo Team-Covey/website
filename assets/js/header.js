@@ -29,15 +29,15 @@
   var path = normalizePath(window.location.pathname);
 
   var isHome = path === '/';
-  var isAbout = path.indexOf('/pages/about/') === 0;
-  var isAboutWho = path === '/pages/about/';
-  var isAboutTeam = path === '/pages/about/team/';
-  var isAboutPartners = path === '/pages/about/partners/';
-  var isWorldflight = path.indexOf('/pages/worldflight/') === 0;
-  var isWorldflightOverview = path === '/pages/worldflight/';
-  var isWorldflightRoute = path === '/pages/worldflight/route/';
-  var isWorldflightRfds = path === '/pages/worldflight/rfds/';
-  var isContact = path === '/pages/contact/';
+  var isAbout = path.indexOf('/about/') === 0;
+  var isAboutWho = path === '/about/';
+  var isAboutTeam = path === '/about/team/';
+  var isAboutPartners = path === '/about/partners/';
+  var isWorldflight = path.indexOf('/worldflight/') === 0;
+  var isWorldflightOverview = path === '/worldflight/';
+  var isWorldflightRoute = path === '/worldflight/route/';
+  var isWorldflightRfds = path === '/worldflight/rfds/';
+  var isContact = path === '/contact/';
 
   headerEl.className = 'site-header';
   headerEl.innerHTML =
@@ -56,9 +56,9 @@
               'About' +
             '</button>' +
             '<div class="nav-dropdown-menu" role="menu" aria-label="About">' +
-              '<a href="/pages/about/" role="menuitem"' + activeClass(isAboutWho) + '>Who We Are</a>' +
-              '<a href="/pages/about/team/" role="menuitem"' + activeClass(isAboutTeam) + '>Meet the Team</a>' +
-              '<a href="/pages/about/partners/" role="menuitem"' + activeClass(isAboutPartners) + '>Partners</a>' +
+              '<a href="/about/" role="menuitem"' + activeClass(isAboutWho) + '>Who We Are</a>' +
+              '<a href="/about/team/" role="menuitem"' + activeClass(isAboutTeam) + '>Meet the Team</a>' +
+              '<a href="/about/partners/" role="menuitem"' + activeClass(isAboutPartners) + '>Partners</a>' +
             '</div>' +
           '</div>' +
           '<div class="nav-dropdown">' +
@@ -66,12 +66,12 @@
               'WorldFlight' +
             '</button>' +
             '<div class="nav-dropdown-menu" role="menu" aria-label="WorldFlight">' +
-              '<a href="/pages/worldflight/" role="menuitem"' + activeClass(isWorldflightOverview) + '>Overview</a>' +
-              '<a href="/pages/worldflight/route/" role="menuitem"' + activeClass(isWorldflightRoute) + '>Route</a>' +
-              '<a href="/pages/worldflight/rfds/" role="menuitem"' + activeClass(isWorldflightRfds) + '>Our Charity</a>' +
+              '<a href="/worldflight/" role="menuitem"' + activeClass(isWorldflightOverview) + '>Overview</a>' +
+              '<a href="/worldflight/route/" role="menuitem"' + activeClass(isWorldflightRoute) + '>Route</a>' +
+              '<a href="/worldflight/rfds/" role="menuitem"' + activeClass(isWorldflightRfds) + '>Our Charity</a>' +
             '</div>' +
           '</div>' +
-          '<a href="/pages/contact/"' + activeClass(isContact) + '>Contact</a>' +
+          '<a href="/contact/"' + activeClass(isContact) + '>Contact</a>' +
         '</nav>' +
         '<button class="theme-toggle" id="theme-toggle" aria-label="Toggle light/dark mode">' +
           '<svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>' +
@@ -87,3 +87,4 @@
       '</div>' +
     '</div>';
 })();
+
