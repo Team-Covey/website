@@ -80,7 +80,7 @@
             '<div class="nav-dropdown-menu" role="menu" aria-label="WorldFlight">' +
               '<a href="/pages/worldflight/" role="menuitem"' + activeClass(isWorldflightOverview) + '>Overview</a>' +
               '<a href="/pages/worldflight/route/" role="menuitem"' + activeClass(isWorldflightRoute) + '>Route</a>' +
-              '<a href="/pages/worldflight/rfds/" role="menuitem"' + activeClass(isWorldflightRfds) + '>RFDS Goal</a>' +
+              '<a href="/pages/worldflight/rfds/" role="menuitem"' + activeClass(isWorldflightRfds) + '>Our Charity</a>' +
             '</div>' +
           '</div>' +
           '<a href="/pages/contact/"' + activeClass(isContact) + '>Contact</a>' +
