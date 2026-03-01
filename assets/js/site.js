@@ -186,6 +186,7 @@
     }
 
     var callsign = 'CVY44N';
+    var requiredCid = '1450172';
     var statusUrl = 'https://data.vatsim.net/v3/vatsim-data.json';
     var refreshMs = 60000;
 
@@ -231,7 +232,7 @@
       }
     }
 
-    function findPilotByCallsign(payload) {
+    function findPilotByCallsignAndCid(payload) {
       if (!payload || !Array.isArray(payload.pilots)) {
         return null;
       }
@@ -242,7 +243,9 @@
           continue;
         }
 
-        if (String(pilot.callsign || '').toUpperCase() === callsign) {
+        var pilotCallsign = String(pilot.callsign || '').toUpperCase();
+        var pilotCid = String(pilot.cid || '').trim();
+        if (pilotCallsign === callsign && pilotCid === requiredCid) {
           return pilot;
         }
       }
@@ -276,7 +279,7 @@
           return response.json();
         })
         .then(function (payload) {
-          var pilot = findPilotByCallsign(payload);
+          var pilot = findPilotByCallsignAndCid(payload);
           if (!pilot) {
             setStatus(
               'is-offline',
