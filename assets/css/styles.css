@@ -113,10 +113,10 @@
   border-color: rgba(191, 219, 254, 0.26);
 }
 [data-theme="light"] .hero-stat-num {
-  color: var(--primary);
+  color: #ffffff;
 }
 [data-theme="light"] .hero-stat-label {
-  color: rgba(226, 232, 240, 0.9);
+  color: #ffffff;
 }
 
 [data-theme="light"] .wf-countdown-card {
@@ -634,10 +634,6 @@ body {
   -webkit-backdrop-filter: none;
 }
 
-.hero-stats-panel .section-label {
-  margin-bottom: 0.55rem;
-}
-
 .hero-stats-list {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -672,14 +668,14 @@ body {
 .hero-stat-num {
   font-size: clamp(1.2rem, 2.2vw, 1.5rem);
   font-weight: 800;
-  color: var(--primary);
+  color: #ffffff;
   line-height: 1;
   letter-spacing: -0.025em;
 }
 
 .hero-stat-label {
   font-size: 0.58rem;
-  color: rgba(201, 220, 255, 0.76);
+  color: #ffffff;
   text-transform: uppercase;
   letter-spacing: 0.12em;
   line-height: 1.5;
