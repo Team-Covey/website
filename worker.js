@@ -72,7 +72,11 @@ async function handleStreamlabsTotal(request, env, ctx) {
     }
 
     return jsonResponse(
-      { error: 'Failed to fetch Streamlabs totals' },
+      {
+        error: 'Failed to fetch Streamlabs totals',
+        message: String((error && error.message) || 'Unknown runtime error'),
+        errorType: String((error && error.name) || 'Error')
+      },
       502,
       { 'Cache-Control': 'no-store' }
     );
