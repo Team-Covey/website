@@ -198,9 +198,13 @@
       '<span class="vatsim-status-label"></span>' +
       '<span class="vatsim-status-route"></span>';
 
-    var insertBeforeNode =
-      themeToggle || headerRight.querySelector('.btn-live') || headerRight.querySelector('.nav-toggle');
-    headerRight.insertBefore(statusNode, insertBeforeNode || null);
+    var liveButton = headerRight.querySelector('.btn-live');
+    var navToggleButton = headerRight.querySelector('.nav-toggle');
+    if (liveButton && liveButton.parentNode === headerRight) {
+      headerRight.insertBefore(statusNode, liveButton.nextSibling);
+    } else {
+      headerRight.insertBefore(statusNode, navToggleButton || null);
+    }
 
     var labelNode = statusNode.querySelector('.vatsim-status-label');
     var routeNode = statusNode.querySelector('.vatsim-status-route');
