@@ -290,16 +290,21 @@ body {
 
 .nav-dropdown-toggle::after {
   content: '';
+  display: inline-block;
+  flex-shrink: 0;
   width: 6px;
   height: 6px;
   border-right: 1.5px solid currentColor;
   border-bottom: 1.5px solid currentColor;
-  transform: rotate(45deg) translateY(-1px);
+  position: relative;
+  top: -1px;
+  transform: rotate(45deg);
+  transform-origin: center;
   transition: transform 0.16s;
 }
 
 .nav-dropdown.open .nav-dropdown-toggle::after {
-  transform: rotate(-135deg) translateY(-1px);
+  transform: rotate(-135deg);
 }
 
 .nav-dropdown-toggle:hover,
