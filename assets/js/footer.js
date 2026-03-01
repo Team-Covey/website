@@ -13,7 +13,7 @@
         '<span class="footer-copy">\u00A9 2026 WorldFlight Team Covey</span>' +
         '<span class="footer-au" aria-label="Proudly Australian">' +
           '<span class="footer-flag" aria-hidden="true">' + auFlag + '</span>' +
-          '<span>Proudly Australian</span>' +
+          '<span class="footer-au-label">Proudly Australian</span>' +
         '</span>' +
       '</div>' +
       '<nav class="footer-nav" aria-label="Footer navigation">' +
