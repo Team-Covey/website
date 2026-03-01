@@ -31,7 +31,7 @@ async function handleStreamlabsTotal(request, env, ctx) {
     });
   }
 
-  const token = String(env.STREAMLABS_ACCESS_TOKEN || '').trim();
+  const token = sanitizeAccessToken(env.STREAMLABS_ACCESS_TOKEN);
   if (!token) {
     return jsonResponse(
       {
@@ -71,10 +71,24 @@ async function handleStreamlabsTotal(request, env, ctx) {
       );
     }
 
+    const messageText = String((error && error.message) || 'Unknown runtime error');
+    if (messageText.toLowerCase().includes('invalid header value')) {
+      return jsonResponse(
+        {
+          error: 'Failed to fetch Streamlabs totals',
+          message:
+            'STREAMLABS_ACCESS_TOKEN has invalid formatting. Save only the raw token (no "Bearer ", no quotes, no spaces/newlines).',
+          errorType: String((error && error.name) || 'TypeError')
+        },
+        502,
+        { 'Cache-Control': 'no-store' }
+      );
+    }
+
     return jsonResponse(
       {
         error: 'Failed to fetch Streamlabs totals',
-        message: String((error && error.message) || 'Unknown runtime error'),
+        message: messageText,
         errorType: String((error && error.name) || 'Error')
       },
       502,
@@ -274,4 +288,13 @@ function jsonResponse(payload, status, extraHeaders) {
     status,
     headers
   });
+}
+
+function sanitizeAccessToken(rawValue) {
+  let token = String(rawValue || '').trim();
+  token = token.replace(/^Bearer\s+/i, '');
+  token = token.replace(/^['"]+|['"]+$/g, '');
+  token = token.replace(/[\u0000-\u001F\u007F]/g, '');
+  token = token.replace(/\s+/g, '');
+  return token;
 }
