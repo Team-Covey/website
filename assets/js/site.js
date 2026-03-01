@@ -119,8 +119,61 @@
     });
   }
 
+  initHeroCarousel();
   initVatsimStatus();
   initWorldFlightCountdown();
+
+  function initHeroCarousel() {
+    var heroBg = document.querySelector('.hero-bg');
+    if (!heroBg) {
+      return;
+    }
+
+    var imageUrls = [
+      '/images/carousel/background.JPG',
+      '/images/carousel/1d93b494-fdc2-43cf-ada9-ad2e134f120e.jpg',
+      '/images/carousel/4a9f85ba-851c-4018-9f3d-da28ba6244bd.jpg',
+      '/images/carousel/68eda805-60f2-4537-85e1-7a89dbf30516.jpg',
+      '/images/carousel/70ddfa56-19fe-4975-8ea4-1a047e0b49ff.jpg',
+      '/images/carousel/de28a622-8b52-4cb3-95a9-9ef17df50a8b.jpg'
+    ];
+
+    if (!imageUrls.length) {
+      return;
+    }
+
+    heroBg.innerHTML = '';
+
+    var slides = [];
+    imageUrls.forEach(function (url, index) {
+      var slide = document.createElement('span');
+      slide.className = 'hero-bg-slide';
+      slide.style.backgroundImage = 'url("' + url + '")';
+      if (index === 0) {
+        slide.classList.add('is-active');
+      }
+      heroBg.appendChild(slide);
+      slides.push(slide);
+    });
+
+    if (slides.length < 2) {
+      return;
+    }
+
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      return;
+    }
+
+    var activeIndex = 0;
+    var rotateMs = 7000;
+
+    window.setInterval(function () {
+      activeIndex = (activeIndex + 1) % slides.length;
+      slides.forEach(function (slide, index) {
+        slide.classList.toggle('is-active', index === activeIndex);
+      });
+    }, rotateMs);
+  }
 
   function initVatsimStatus() {
     if (!window.fetch) {

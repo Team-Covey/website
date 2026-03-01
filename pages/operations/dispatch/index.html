@@ -4,13 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Dispatch Board - WorldFlight Team Covey</title>
-  <meta name="description" content="Team Covey dispatch board for active legs, crew handovers, and OBS overlay output." />
+  <meta name="description" content="Live departure board for Team Covey sourced from SimFest planning." />
   <link rel="icon" type="image/png" href="/images/CoveyBlackLogo.png" />
   <link rel="apple-touch-icon" href="/images/CoveyBlackLogo.png" />
   <script>(function(){var t=localStorage.getItem('tcwf-theme');if(t)document.documentElement.setAttribute('data-theme',t);})();</script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/assets/css/styles.css" />
 </head>
 <body>
@@ -61,192 +61,24 @@
       <div class="container">
         <p class="section-label">Operations</p>
         <h1 class="section-title">Dispatch Board</h1>
-        <p class="section-sub">Live flight information display. Press <kbd class="kbd-hint">E</kbd> or click Edit to manage the board <span style="opacity:.6">(PIN required)</span>.</p>
-
-        <div class="dispatch-tools" id="dispatch-tools">
-          <a class="btn btn-outline" href="?overlay=1" target="_blank" rel="noopener noreferrer">Open Overlay Preview</a>
-          <div class="dispatch-overlay-url-wrap">
-            <label for="dispatch-overlay-url">OBS Browser Source URL</label>
-            <div class="dispatch-overlay-url-row">
-              <input id="dispatch-overlay-url" type="text" readonly />
-              <button class="btn btn-outline" id="dispatch-copy-overlay" type="button">Copy</button>
-            </div>
-            <p class="dispatch-copy-status" id="dispatch-copy-status" aria-live="polite"></p>
-          </div>
-        </div>
+        <p class="section-sub">Live departures for Team Covey from SimFest planning.</p>
       </div>
     </div>
 
     <section class="section dispatch-section">
       <div class="container">
-
-        <!-- ══════════════════════════════════════════════════
-             DEPARTURE BOARD
-        ══════════════════════════════════════════════════ -->
-        <div class="dep-board-wrap" id="dispatch-board-shell">
-
-          <!-- The board itself -->
-          <div class="dep-board" role="region" aria-label="Flight dispatch departure board">
-
-            <!-- Board header bar -->
-            <div class="dep-board-hdr">
-              <div class="dep-live">
-                <span class="dep-live-dot" aria-hidden="true"></span>
-                DISPATCH
-              </div>
-              <div class="dep-board-title" id="dispatch-event-name">WORLDFLIGHT TEAM COVEY</div>
-              <div class="dep-clocks" aria-label="Current time">
-                <div class="dep-clock-unit">
-                  <small>UTC</small>
-                  <strong data-dispatch-clock="utc">--:--:--</strong>
-                </div>
-                <div class="dep-clock-unit">
-                  <small>Sydney</small>
-                  <strong data-dispatch-clock="aedt">--:--:--</strong>
-                </div>
-              </div>
-            </div>
-
-            <!-- System status strip -->
-            <div class="dep-system-strip" id="dispatch-system-strip" aria-label="System status"></div>
-
-            <!-- Board rows -->
-            <div class="dep-body">
-
-              <!-- Row 1: Flight / Origin → Dest / Aircraft / Status -->
-              <div class="dep-row dep-row-main">
-                <div class="dep-cell">
-                  <span class="dep-label">Flight</span>
-                  <span class="dep-value" id="d-flight">----</span>
-                </div>
-                <div class="dep-cell">
-                  <span class="dep-label">Origin</span>
-                  <span class="dep-value" id="d-origin">----</span>
-                  <span class="dep-sub" id="d-origin-name"></span>
-                </div>
-                <div class="dep-arrow" aria-hidden="true">→</div>
-                <div class="dep-cell">
-                  <span class="dep-label">Destination</span>
-                  <span class="dep-value" id="d-dest">----</span>
-                  <span class="dep-sub" id="d-dest-name"></span>
-                </div>
-                <div class="dep-cell">
-                  <span class="dep-label">Aircraft</span>
-                  <span class="dep-value" id="d-aircraft">----</span>
-                  <span class="dep-sub" id="d-aircraft-name"></span>
-                </div>
-                <div class="dep-cell">
-                  <span class="dep-label">Status</span>
-                  <span class="dep-value dep-status-badge" id="dispatch-event-status">STANDBY</span>
-                </div>
-              </div>
-
-              <!-- Row 2: ETD / ETA / Altitude / Distance + live timing -->
-              <div class="dep-row dep-row-times">
-                <div class="dep-cell">
-                  <span class="dep-label">ETD — UTC</span>
-                  <span class="dep-value" id="d-etd">--:--</span>
-                  <span class="dep-sub dep-timing" id="dispatch-leg-departure-state"></span>
-                </div>
-                <div class="dep-cell">
-                  <span class="dep-label">ETA — UTC</span>
-                  <span class="dep-value" id="d-eta">--:--</span>
-                  <span class="dep-sub dep-timing" id="dispatch-leg-arrival-state"></span>
-                </div>
-                <div class="dep-cell">
-                  <span class="dep-label">Cruise Alt.</span>
-                  <span class="dep-value" id="d-alt">-----</span>
-                </div>
-                <div class="dep-cell">
-                  <span class="dep-label">Distance</span>
-                  <span class="dep-value" id="d-dist">----</span>
-                </div>
-              </div>
-
-              <!-- Row 3: Crew — PF / PM -->
-              <div class="dep-row dep-row-crew">
-                <div class="dep-cell">
-                  <span class="dep-label">Pilot Flying — PF</span>
-                  <span class="dep-value dep-value-name" id="d-pf">---</span>
-                </div>
-                <div class="dep-cell">
-                  <span class="dep-label">Pilot Monitoring — PM</span>
-                  <span class="dep-value dep-value-name" id="d-pm">---</span>
-                </div>
-              </div>
-
-              <!-- Row 4: ATC Route -->
-              <div class="dep-row dep-row-route">
-                <div class="dep-cell dep-cell-route">
-                  <span class="dep-label">ATC Route</span>
-                  <span class="dep-value dep-value-route" id="d-route">---</span>
-                </div>
-              </div>
-
-            </div><!-- /dep-body -->
-          </div><!-- /dep-board -->
-
-          <!-- Controls bar -->
-          <div class="dep-controls">
-            <div class="dep-controls-left">
-              <button class="dep-ctrl-btn" id="btn-edit" type="button">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-                Edit Details
-              </button>
-              <button class="dep-ctrl-btn dep-ctrl-primary" id="btn-simbrief" type="button">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                Fetch from SimBrief
-              </button>
-              <button class="dep-ctrl-btn" id="btn-reset" type="button" title="Reset board to config defaults">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
-                Reset
-              </button>
-            </div>
-            <div class="dep-controls-right" style="display:flex;align-items:center;gap:0.6rem">
-              <button class="dep-ctrl-btn" id="btn-lock" type="button" title="Lock dispatch controls" hidden>
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-                Lock
-              </button>
-              <select class="dep-status-select" id="status-select" aria-label="Flight status">
-                <option value="Standby">Standby</option>
-                <option value="Crew Ready">Crew Ready</option>
-                <option value="Boarding">Boarding</option>
-                <option value="Departed">Departed</option>
-                <option value="En Route">En Route</option>
-                <option value="Arriving">Arriving</option>
-                <option value="Arrived">Arrived</option>
-                <option value="Delayed">Delayed</option>
-                <option value="Holding">Holding</option>
-              </select>
-            </div>
-          </div><!-- /dep-controls -->
-
-        </div><!-- /dep-board-wrap -->
-
-        <!-- ══════════════════════════════════════════════════
-             SECONDARY INFO CARDS
-        ══════════════════════════════════════════════════ -->
-        <div class="dispatch-grid" style="margin-top:1rem">
-
-          <article class="dispatch-card">
-            <h3>Next Legs</h3>
-            <div class="dispatch-leg-list" id="dispatch-next-legs"></div>
-          </article>
-
-          <article class="dispatch-card">
-            <h3>Crew On Shift</h3>
-            <div class="dispatch-crew-list" id="dispatch-crew-list"></div>
-          </article>
-
-          <article class="dispatch-card dispatch-card-notes">
-            <h3>Ops Notes</h3>
-            <ul class="dispatch-note-list" id="dispatch-notes-list"></ul>
-          </article>
-
+        <div class="simfest-board-shell">
+          <div class="simfest-board-head">
+            <p>Source: planning.simfest.co.uk/flightboard?email=teamcovey</p>
+            <a class="btn btn-outline" href="https://planning.simfest.co.uk/flightboard?email=teamcovey" target="_blank" rel="noopener noreferrer">Open Full Board</a>
+          </div>
+          <iframe
+            class="simfest-board-frame"
+            src="https://planning.simfest.co.uk/flightboard?email=teamcovey"
+            title="SimFest Team Covey departure board"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
-
-        <p class="dispatch-last-updated" id="dispatch-last-updated">Updated --</p>
-
       </div>
     </section>
 
@@ -254,193 +86,7 @@
 
   <footer id="site-footer"></footer>
 
-  <!-- ══════════════════════════════════════════════════
-       PIN AUTH MODAL
-  ══════════════════════════════════════════════════ -->
-  <div class="dep-modal-overlay" id="dep-pin-modal" role="dialog" aria-modal="true" aria-labelledby="dep-pin-title">
-    <div class="dep-modal" style="max-width:380px">
-      <div class="dep-modal-hdr">
-        <h2 id="dep-pin-title">Ops Authentication</h2>
-        <button class="dep-modal-close" id="dep-pin-close" aria-label="Close">✕</button>
-      </div>
-      <div class="dep-modal-body">
-        <div class="dep-modal-section" style="border-bottom:none;padding-bottom:1.5rem">
-          <p style="font-size:0.82rem;color:var(--text-2);margin-bottom:1.1rem">Enter the operations PIN to access dispatch controls.</p>
-          <label class="dep-form-label">
-            <span>PIN</span>
-            <input type="password" class="dep-form-input" id="dep-pin-input" placeholder="••••" maxlength="32" autocomplete="off" />
-          </label>
-          <p class="dep-pin-error" id="dep-pin-error" aria-live="polite"></p>
-        </div>
-      </div>
-      <div class="dep-modal-footer">
-        <button class="btn btn-outline" id="dep-pin-cancel" type="button">Cancel</button>
-        <button class="btn btn-primary" id="dep-pin-confirm" type="button">Unlock</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ══════════════════════════════════════════════════
-       EDIT MODAL
-  ══════════════════════════════════════════════════ -->
-  <div class="dep-modal-overlay" id="dep-edit-modal" role="dialog" aria-modal="true" aria-labelledby="dep-modal-title">
-    <div class="dep-modal">
-
-      <div class="dep-modal-hdr">
-        <h2 id="dep-modal-title">Edit Flight Details</h2>
-        <button class="dep-modal-close" id="dep-modal-close" aria-label="Close">✕</button>
-      </div>
-
-      <div class="dep-modal-body">
-
-        <!-- SimBrief Import -->
-        <div class="dep-modal-section">
-          <h3>SimBrief Import</h3>
-          <div class="dep-sb-row">
-            <input type="text" class="dep-form-input" id="sb-username"
-              placeholder="SimBrief username or pilot ID"
-              autocomplete="off" spellcheck="false" />
-            <button class="btn btn-primary" id="btn-fetch-sb" type="button" style="white-space:nowrap;padding:0.58rem 1.15rem">
-              Fetch OFP
-            </button>
-          </div>
-          <p class="dep-fetch-status" id="dep-fetch-status" aria-live="polite"></p>
-          <p class="dep-form-hint">Imports the latest OFP and pre-fills all fields. Review before saving.</p>
-        </div>
-
-        <!-- Flight Details -->
-        <div class="dep-modal-section">
-          <h3>Flight Details</h3>
-          <div class="dep-form-grid">
-            <label class="dep-form-label">
-              <span>Flight / Callsign</span>
-              <input type="text" class="dep-form-input" id="f-flight" placeholder="TCV2501" spellcheck="false" />
-            </label>
-            <label class="dep-form-label">
-              <span>Aircraft Type (ICAO)</span>
-              <input type="text" class="dep-form-input" id="f-aircraft" placeholder="B738" spellcheck="false" />
-            </label>
-            <label class="dep-form-label">
-              <span>Origin ICAO</span>
-              <input type="text" class="dep-form-input" id="f-origin-icao" placeholder="YSSY" maxlength="4" spellcheck="false" />
-            </label>
-            <label class="dep-form-label">
-              <span>Origin Airport Name</span>
-              <input type="text" class="dep-form-input" id="f-origin-name" placeholder="SYDNEY" spellcheck="false" />
-            </label>
-            <label class="dep-form-label">
-              <span>Destination ICAO</span>
-              <input type="text" class="dep-form-input" id="f-dest-icao" placeholder="NZAA" maxlength="4" spellcheck="false" />
-            </label>
-            <label class="dep-form-label">
-              <span>Destination Airport Name</span>
-              <input type="text" class="dep-form-input" id="f-dest-name" placeholder="AUCKLAND" spellcheck="false" />
-            </label>
-            <label class="dep-form-label">
-              <span>Aircraft Full Name</span>
-              <input type="text" class="dep-form-input" id="f-aircraft-name" placeholder="Boeing 737-800" spellcheck="false" />
-            </label>
-            <label class="dep-form-label">
-              <span>Cruise Altitude</span>
-              <input type="text" class="dep-form-input" id="f-alt" placeholder="FL360" spellcheck="false" />
-            </label>
-            <label class="dep-form-label">
-              <span>ETD — UTC (HH:MM or ISO)</span>
-              <input type="text" class="dep-form-input" id="f-etd" placeholder="21:00" spellcheck="false" />
-            </label>
-            <label class="dep-form-label">
-              <span>ETA — UTC (HH:MM or ISO)</span>
-              <input type="text" class="dep-form-input" id="f-eta" placeholder="00:20 +1" spellcheck="false" />
-            </label>
-            <label class="dep-form-label">
-              <span>Route Distance (NM)</span>
-              <input type="text" class="dep-form-input" id="f-dist" placeholder="1160" spellcheck="false" />
-            </label>
-          </div>
-          <label class="dep-form-label" style="margin-top:0.7rem">
-            <span>ATC Route</span>
-            <textarea class="dep-form-input dep-form-textarea" id="f-route" placeholder="DCT TESAT A576 NZAA" spellcheck="false"></textarea>
-          </label>
-        </div>
-
-        <!-- Crew Assignment -->
-        <div class="dep-modal-section">
-          <h3>Crew Assignment</h3>
-          <div class="dep-form-grid">
-            <label class="dep-form-label">
-              <span>Pilot Flying (PF)</span>
-              <input type="text" class="dep-form-input" id="f-pf" placeholder="Captain Levi" spellcheck="false" />
-            </label>
-            <label class="dep-form-label">
-              <span>Pilot Monitoring (PM)</span>
-              <input type="text" class="dep-form-input" id="f-pm" placeholder="F/O Caleb" spellcheck="false" />
-            </label>
-          </div>
-        </div>
-
-      </div><!-- /dep-modal-body -->
-
-      <div class="dep-modal-footer">
-        <button class="btn btn-outline" id="dep-btn-cancel" type="button">Cancel</button>
-        <button class="btn btn-primary" id="dep-btn-save" type="button">Save &amp; Update Board</button>
-      </div>
-
-    </div><!-- /dep-modal -->
-  </div><!-- /dep-modal-overlay -->
-
-  <!-- ══════════════════════════════════════════════════
-       CONFIG — edit these defaults to set the initial board state
-  ══════════════════════════════════════════════════ -->
-  <script id="dispatch-config" type="application/json">
-    {
-      "eventName": "WorldFlight Team Covey",
-      "pin": "covey",
-      "status": "Crew Ready",
-      "lastUpdatedUtc": "2026-02-27T00:00:00Z",
-      "currentLeg": {
-        "leg":          "2501",
-        "flight":       "TCV2501",
-        "from":         "YSSY",
-        "fromName":     "SYDNEY",
-        "to":           "NZAA",
-        "toName":       "AUCKLAND",
-        "aircraft":     "B738",
-        "aircraftName": "Boeing 737-800",
-        "distanceNm":   1160,
-        "cruiseAlt":    "FL360",
-        "route":        "DCT TESAT A576 NZAA",
-        "pf":           "CAPTAIN LEVI",
-        "pm":           "F/O CALEB",
-        "etdUtc":       "2026-10-31T21:00:00Z",
-        "etaUtc":       "2026-11-01T00:20:00Z"
-      },
-      "nextLegs": [
-        { "leg": "2502", "from": "NZAA", "to": "NZCH", "etdUtc": "2026-11-01T00:45:00Z" },
-        { "leg": "2503", "from": "NZCH", "to": "NSFA", "etdUtc": "2026-11-01T02:30:00Z" },
-        { "leg": "2504", "from": "NSFA", "to": "SCGC", "etdUtc": "2026-11-01T05:00:00Z" }
-      ],
-      "crew": [
-        { "role": "PF — Captain",        "name": "Levi"      },
-        { "role": "PM — First Officer",  "name": "Caleb"     },
-        { "role": "Dispatch",            "name": "Ops Desk"  },
-        { "role": "Stream Producer",     "name": "Broadcast" }
-      ],
-      "systems": [
-        { "label": "Simulator", "state": "Online"    },
-        { "label": "Network",   "state": "Connected" },
-        { "label": "Stream",    "state": "Live"      }
-      ],
-      "notes": [
-        "Weather check complete for current and next two legs.",
-        "Fuel planning includes reserve for hold at destination.",
-        "Crew handover scheduled 30 min before top of descent.",
-        "Comms sync at each leg departure and arrival."
-      ]
-    }
-  </script>
-
   <script src="/assets/js/site.js"></script>
-  <script src="/assets/js/dispatch-board.js"></script>
   <script src="/assets/js/footer.js"></script>
 
 </body>
