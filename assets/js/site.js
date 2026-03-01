@@ -119,7 +119,140 @@
     });
   }
 
+  initVatsimStatus();
   initWorldFlightCountdown();
+
+  function initVatsimStatus() {
+    if (!window.fetch) {
+      return;
+    }
+
+    var headerRight = document.querySelector('.header-right');
+    if (!headerRight) {
+      return;
+    }
+
+    var callsign = 'CVY44N';
+    var statusUrl = 'https://data.vatsim.net/v3/vatsim-data.json';
+    var refreshMs = 60000;
+
+    var statusNode = document.createElement('div');
+    statusNode.className = 'vatsim-status is-loading';
+    statusNode.setAttribute('role', 'status');
+    statusNode.setAttribute('aria-live', 'polite');
+    statusNode.innerHTML =
+      '<span class="vatsim-status-dot" aria-hidden="true"></span>' +
+      '<span class="vatsim-status-label"></span>' +
+      '<span class="vatsim-status-route"></span>';
+
+    var insertBeforeNode =
+      themeToggle || headerRight.querySelector('.btn-live') || headerRight.querySelector('.nav-toggle');
+    headerRight.insertBefore(statusNode, insertBeforeNode || null);
+
+    var labelNode = statusNode.querySelector('.vatsim-status-label');
+    var routeNode = statusNode.querySelector('.vatsim-status-route');
+
+    function setStatus(stateClass, labelText, routeText, titleText) {
+      statusNode.classList.remove('is-loading', 'is-online', 'is-offline', 'is-error');
+      statusNode.classList.add(stateClass);
+
+      if (labelNode) {
+        labelNode.textContent = labelText;
+      }
+
+      if (routeNode) {
+        routeNode.textContent = routeText ? ' ' + routeText : '';
+        routeNode.hidden = !routeText;
+      }
+
+      var summary = labelText + (routeText ? ' ' + routeText : '');
+      statusNode.setAttribute('aria-label', summary);
+      if (titleText) {
+        statusNode.title = titleText;
+      } else {
+        statusNode.title = summary;
+      }
+    }
+
+    function findPilotByCallsign(payload) {
+      if (!payload || !Array.isArray(payload.pilots)) {
+        return null;
+      }
+
+      for (var i = 0; i < payload.pilots.length; i += 1) {
+        var pilot = payload.pilots[i];
+        if (!pilot) {
+          continue;
+        }
+
+        if (String(pilot.callsign || '').toUpperCase() === callsign) {
+          return pilot;
+        }
+      }
+
+      return null;
+    }
+
+    function routeForPilot(pilot) {
+      var flightPlan = pilot && pilot.flight_plan ? pilot.flight_plan : null;
+      if (!flightPlan) {
+        return '';
+      }
+
+      var departure = String(flightPlan.departure || '').trim().toUpperCase();
+      var arrival = String(flightPlan.arrival || '').trim().toUpperCase();
+
+      if (!departure && !arrival) {
+        return '';
+      }
+
+      return (departure || '----') + ' -> ' + (arrival || '----');
+    }
+
+    function updateStatus() {
+      return fetch(statusUrl, { cache: 'no-cache' })
+        .then(function (response) {
+          if (!response.ok) {
+            throw new Error('VATSIM request failed with status ' + response.status);
+          }
+
+          return response.json();
+        })
+        .then(function (payload) {
+          var pilot = findPilotByCallsign(payload);
+          if (!pilot) {
+            setStatus(
+              'is-offline',
+              callsign + ' OFFLINE',
+              '',
+              callsign + ' is currently offline on VATSIM.'
+            );
+            return;
+          }
+
+          var route = routeForPilot(pilot);
+          var routeText = route || 'Route unavailable';
+          setStatus(
+            'is-online',
+            callsign + ' ONLINE',
+            routeText,
+            callsign + ' is online on VATSIM: ' + routeText + '.'
+          );
+        })
+        .catch(function () {
+          setStatus(
+            'is-error',
+            callsign + ' STATUS UNAVAILABLE',
+            '',
+            'Unable to load VATSIM status right now.'
+          );
+        });
+    }
+
+    setStatus('is-loading', callsign + ' CHECKING STATUS', '', 'Checking VATSIM status...');
+    updateStatus();
+    window.setInterval(updateStatus, refreshMs);
+  }
 
   function initWorldFlightCountdown() {
     var countdowns = document.querySelectorAll('[data-worldflight-countdown]');
