@@ -2113,6 +2113,186 @@ html.dispatch-overlay-mode .dispatch-last-updated { display: none !important; }
   line-height: 1.65;
 }
 
+.rfds-overview {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(280px, 0.9fr);
+  gap: 1.2rem;
+}
+
+.rfds-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.4rem;
+}
+
+.rfds-card .section-title {
+  margin-bottom: 0.7rem;
+}
+
+.rfds-card .section-sub {
+  margin-bottom: 1.05rem;
+}
+
+.rfds-brand-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1rem;
+  background: linear-gradient(165deg, rgba(12, 30, 56, 0.95) 0%, rgba(9, 20, 35, 0.96) 100%);
+  border-color: var(--border-2);
+}
+
+.rfds-logo-main {
+  display: block;
+  width: 100%;
+  max-width: 320px;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 8px 20px rgba(2, 6, 23, 0.4));
+}
+
+.rfds-brand-copy {
+  margin: 0;
+  color: var(--text-2);
+  line-height: 1.7;
+}
+
+.rfds-icon-row {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.75rem 0.85rem;
+  border: 1px solid var(--border-2);
+  border-radius: 10px;
+  background: rgba(8, 15, 24, 0.6);
+}
+
+.rfds-icon-row img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.rfds-icon-row span {
+  font-size: 0.84rem;
+  color: var(--text-2);
+  line-height: 1.5;
+}
+
+.rfds-photo-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.rfds-photo-card {
+  margin: 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.rfds-photo-card img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  display: block;
+}
+
+.rfds-photo-card figcaption {
+  padding: 0.9rem 1rem 1rem;
+  font-size: 0.84rem;
+  color: var(--text-2);
+  line-height: 1.55;
+}
+
+.rfds-goal-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+  gap: 1.2rem;
+}
+
+.rfds-goal-panel {
+  background: linear-gradient(135deg, #0c1e38 0%, #0d1f3a 60%, #09152a 100%);
+  border: 1px solid var(--border-2);
+  border-radius: var(--radius);
+  padding: 1.55rem;
+}
+
+.rfds-goal-panel .section-title {
+  margin-bottom: 0.7rem;
+}
+
+.rfds-goal-panel p {
+  color: var(--text-2);
+  line-height: 1.7;
+  margin-bottom: 1rem;
+}
+
+.rfds-goal-list {
+  margin: 0 0 1.35rem;
+  padding-left: 1.15rem;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.rfds-goal-list li {
+  color: var(--text-2);
+  line-height: 1.62;
+}
+
+.rfds-run-list {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.rfds-run-item {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.95rem;
+}
+
+.rfds-run-item h3 {
+  font-size: 0.9rem;
+  margin-bottom: 0.35rem;
+}
+
+.rfds-run-item p {
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--text-2);
+  line-height: 1.6;
+}
+
+.rfds-impact-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.rfds-impact-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.15rem 1rem;
+}
+
+.rfds-impact-card h3 {
+  font-size: 0.9rem;
+  margin-bottom: 0.35rem;
+}
+
+.rfds-impact-card p {
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--text-2);
+  line-height: 1.6;
+}
+
 /* ─── EVENTS ─────────────────────────────────────── */
 .events-list { display: grid; gap: 0.85rem; }
 
@@ -2860,10 +3040,15 @@ footer {
   .event-flow,
   .wf-route-layout,
   .wf-highlights,
+  .rfds-photo-grid,
+  .rfds-impact-grid,
   .powered-grid,
   .partners-grid,
   .team-grid,
   .quick-links { grid-template-columns: repeat(2, 1fr); }
+
+  .rfds-overview,
+  .rfds-goal-grid { grid-template-columns: 1fr; }
 
   .partner-card-major {
     grid-column: span 2;
@@ -2939,6 +3124,8 @@ footer {
   .event-flow,
   .wf-route-layout,
   .wf-highlights,
+  .rfds-photo-grid,
+  .rfds-impact-grid,
   .powered-grid,
   .partners-grid,
   .team-grid,
@@ -2981,6 +3168,11 @@ footer {
   .section { padding: 3rem 0; }
   .page-hero { padding: 2.8rem 0 2.4rem; }
   .stream-cta { padding: 3.5rem 0; }
+
+  .rfds-card,
+  .rfds-goal-panel {
+    padding: 1.15rem;
+  }
 
   .wf-countdown-section { padding: 2.3rem 0; }
   .wf-countdown-card { padding: 1.1rem; }
