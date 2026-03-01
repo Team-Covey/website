@@ -35,7 +35,10 @@
   var isAboutPartners = path === '/pages/about/partners/';
   var isOperations = path.indexOf('/pages/operations/') === 0;
   var isDispatch = path === '/pages/operations/dispatch/';
-  var isWorldflight = path === '/pages/worldflight/';
+  var isWorldflight = path.indexOf('/pages/worldflight/') === 0;
+  var isWorldflightOverview = path === '/pages/worldflight/';
+  var isWorldflightRoute = path === '/pages/worldflight/route/';
+  var isWorldflightRfds = path === '/pages/worldflight/rfds/';
   var isContact = path === '/pages/contact/';
 
   headerEl.className = 'site-header';
@@ -70,7 +73,16 @@
               '<a href="#" role="menuitem" data-placeholder="true">Simulator Status (Soon)</a>' +
             '</div>' +
           '</div>' +
-          '<a href="/pages/worldflight/"' + activeClass(isWorldflight) + '>WorldFlight</a>' +
+          '<div class="nav-dropdown">' +
+            '<button class="nav-dropdown-toggle' + (isWorldflight ? ' active' : '') + '" type="button" aria-expanded="false" aria-haspopup="true">' +
+              'WorldFlight' +
+            '</button>' +
+            '<div class="nav-dropdown-menu" role="menu" aria-label="WorldFlight">' +
+              '<a href="/pages/worldflight/" role="menuitem"' + activeClass(isWorldflightOverview) + '>Overview</a>' +
+              '<a href="/pages/worldflight/route/" role="menuitem"' + activeClass(isWorldflightRoute) + '>Route</a>' +
+              '<a href="/pages/worldflight/rfds/" role="menuitem"' + activeClass(isWorldflightRfds) + '>RFDS Goal</a>' +
+            '</div>' +
+          '</div>' +
           '<a href="/pages/contact/"' + activeClass(isContact) + '>Contact</a>' +
         '</nav>' +
         '<button class="theme-toggle" id="theme-toggle" aria-label="Toggle light/dark mode">' +

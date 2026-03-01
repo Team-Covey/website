@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WorldFlight Route - WorldFlight Team Covey</title>
+  <meta name="description" content="Live route map for Team Covey's WorldFlight operation, including route direction, total distance, and airport summary." />
+  <link rel="icon" type="image/png" href="/images/CoveyBlackLogo.png" />
+  <link rel="apple-touch-icon" href="/images/CoveyBlackLogo.png" />
+  <script>(function(){var t=localStorage.getItem('tcwf-theme');if(t)document.documentElement.setAttribute('data-theme',t);})();</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="/assets/css/styles.css" />
+</head>
+<body>
+
+  <header id="site-header"></header>
+
+  <main>
+
+    <div class="page-hero">
+      <div class="container">
+        <p class="section-label">WorldFlight</p>
+        <h1 class="section-title">Route Map</h1>
+        <p class="section-sub">Track Team Covey's planned global route, direction, and endpoint summary.</p>
+      </div>
+    </div>
+
+    <section class="section wf-map-focus" id="route-map">
+      <div class="container">
+        <div class="section-hdr">
+          <p class="section-label">Navigation</p>
+          <h2 class="section-title">WorldFlight 2025 route layout</h2>
+          <p class="section-sub">Scroll to zoom and click markers for airport details.</p>
+        </div>
+
+        <div class="wf-route-layout wf-route-layout-main">
+          <div class="wf-map-card wf-map-card-main">
+            <div class="wf-map-panel-header">
+              <div class="wf-map-panel-info">
+                <span class="wf-map-status" aria-hidden="true"></span>
+                <span class="wf-map-panel-label">WorldFlight 2025 Route</span>
+              </div>
+              <span class="wf-map-panel-hint">Scroll to zoom &middot; Click markers for airport details</span>
+            </div>
+            <div class="wf-route-map-wrap">
+              <div class="wf-route-direction" aria-live="polite">
+                <span class="wf-route-direction-arrow" id="wf-route-direction-arrow" aria-hidden="true">&uarr;</span>
+                <span class="wf-route-direction-text" id="wf-route-direction">Direction: --</span>
+              </div>
+              <div id="worldflight-route-map" class="wf-route-map" aria-label="WorldFlight route map"></div>
+            </div>
+
+            <div class="wf-map-meta" aria-label="Route summary">
+              <div class="wf-route-metrics wf-route-metrics-inline">
+                <div class="wf-route-metric">
+                  <span id="wf-route-distance">-</span>
+                  <small>Total Distance</small>
+                </div>
+                <div class="wf-route-metric">
+                  <span id="wf-route-legs">-</span>
+                  <small>Legs</small>
+                </div>
+                <div class="wf-route-metric">
+                  <span id="wf-route-airports">-</span>
+                  <small>Airports</small>
+                </div>
+              </div>
+
+              <div class="wf-route-terminals" aria-label="Route endpoints">
+                <div class="wf-route-terminal">
+                  <small>Start</small>
+                  <strong id="wf-route-start">----</strong>
+                </div>
+                <div class="wf-route-terminal">
+                  <small>Finish</small>
+                  <strong id="wf-route-finish">----</strong>
+                </div>
+              </div>
+            </div>
+
+            <p class="wf-route-warning" id="wf-route-warning" hidden></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer id="site-footer"></footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="/assets/js/worldflight-map.js"></script>
+  <script src="/assets/js/header.js"></script>
+  <script src="/assets/js/site.js"></script>
+  <script src="/assets/js/footer.js"></script>
+
+</body>
+</html>

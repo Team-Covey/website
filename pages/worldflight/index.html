@@ -1,17 +1,16 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>WorldFlight - WorldFlight Team Covey</title>
-  <meta name="description" content="Learn how Team Covey runs WorldFlight: a non-stop around-the-world charity stream with simulator crews rotating 24/7." />
+  <title>WorldFlight Overview - WorldFlight Team Covey</title>
+  <meta name="description" content="Overview of WorldFlight with Team Covey: 24/7 simulator operations, community streaming, and fundraising support for the Royal Flying Doctor Service." />
   <link rel="icon" type="image/png" href="/images/CoveyBlackLogo.png" />
   <link rel="apple-touch-icon" href="/images/CoveyBlackLogo.png" />
   <script>(function(){var t=localStorage.getItem('tcwf-theme');if(t)document.documentElement.setAttribute('data-theme',t);})();</script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <link rel="stylesheet" href="/assets/css/styles.css" />
 </head>
 <body>
@@ -20,61 +19,91 @@
 
   <main>
 
-    <section class="section wf-map-focus" id="route-map">
+    <div class="page-hero">
       <div class="container">
-        <div class="section-hdr">
-          <p class="section-label">WorldFlight</p>
-          <h2 class="section-title">Route map</h2>
+        <p class="section-label">WorldFlight</p>
+        <h1 class="section-title">Around the world for a real-world cause</h1>
+        <p class="section-sub">Team Covey runs a continuous simulator operation to engage the community and raise funds
+          for the Royal Flying Doctor Service.</p>
+      </div>
+    </div>
+
+    <section class="section">
+      <div class="container">
+        <div class="wf-banner">
+          <div>
+            <h3>What is WorldFlight?</h3>
+            <p>WorldFlight is a long-haul charity event where crews fly a planned global route non-stop while streaming
+              operations live. Team Covey uses the event to turn simulation into practical fundraising support for the
+              people and communities served by RFDS across Australia.</p>
+            <div class="ctas">
+              <a class="btn btn-primary" href="/pages/worldflight/route/">View Route</a>
+              <a class="btn btn-outline" href="/pages/worldflight/rfds/">RFDS Goal</a>
+            </div>
+          </div>
+          <div class="wf-play" aria-hidden="true">747</div>
         </div>
 
-        <div class="wf-route-layout wf-route-layout-main">
-          <div class="wf-map-card wf-map-card-main">
-            <div class="wf-map-panel-header">
-              <div class="wf-map-panel-info">
-                <span class="wf-map-status" aria-hidden="true"></span>
-                <span class="wf-map-panel-label">WorldFlight 2025 Route</span>
-              </div>
-              <span class="wf-map-panel-hint">Scroll to zoom &middot; Click markers for airport details</span>
-            </div>
-            <div class="wf-route-map-wrap">
-              <div class="wf-route-direction" aria-live="polite">
-                <span class="wf-route-direction-arrow" id="wf-route-direction-arrow" aria-hidden="true">&uarr;</span>
-                <span class="wf-route-direction-text" id="wf-route-direction">Direction: --</span>
-              </div>
-              <div id="worldflight-route-map" class="wf-route-map" aria-label="WorldFlight route map"></div>
-            </div>
-
-            <div class="wf-map-meta" aria-label="Route summary">
-              <div class="wf-route-metrics wf-route-metrics-inline">
-                <div class="wf-route-metric">
-                  <span id="wf-route-distance">-</span>
-                  <small>Total Distance</small>
-                </div>
-                <div class="wf-route-metric">
-                  <span id="wf-route-legs">-</span>
-                  <small>Legs</small>
-                </div>
-                <div class="wf-route-metric">
-                  <span id="wf-route-airports">-</span>
-                  <small>Airports</small>
-                </div>
-              </div>
-
-              <div class="wf-route-terminals" aria-label="Route endpoints">
-                <div class="wf-route-terminal">
-                  <small>Start</small>
-                  <strong id="wf-route-start">----</strong>
-                </div>
-                <div class="wf-route-terminal">
-                  <small>Finish</small>
-                  <strong id="wf-route-finish">----</strong>
-                </div>
-              </div>
-            </div>
-
-            <p class="wf-route-warning" id="wf-route-warning" hidden></p>
+        <div class="wf-highlights">
+          <div class="wf-highlight">
+            <span class="wf-num">24/7</span>
+            <span class="wf-label">Continuous Operations</span>
+          </div>
+          <div class="wf-highlight">
+            <span class="wf-num">40+</span>
+            <span class="wf-label">Global Route Legs</span>
+          </div>
+          <div class="wf-highlight">
+            <span class="wf-num">RFDS</span>
+            <span class="wf-label">Primary Charity Focus</span>
           </div>
         </div>
+      </div>
+    </section>
+
+    <section class="section section-alt">
+      <div class="container">
+        <div class="section-hdr">
+          <p class="section-label">How It Works</p>
+          <h2 class="section-title">From simulator cockpit to community impact</h2>
+          <p class="section-sub">The event combines operations, broadcasting, and community participation into a
+            structured fundraising campaign.</p>
+        </div>
+
+        <div class="event-flow">
+          <article class="event-flow-item">
+            <h3>1. Plan the route</h3>
+            <p>Operations build a realistic multi-leg route, flight timeline, and handover windows for sustained
+              simulator coverage.</p>
+          </article>
+          <article class="event-flow-item">
+            <h3>2. Rotate crews</h3>
+            <p>Pilots and support crew run the simulator in shifts, keeping the flight moving while maintaining safety
+              and consistency.</p>
+          </article>
+          <article class="event-flow-item">
+            <h3>3. Stream every leg</h3>
+            <p>The full journey is broadcast live to grow visibility, connect with supporters, and communicate charity
+              milestones in real time.</p>
+          </article>
+          <article class="event-flow-item">
+            <h3>4. Raise for RFDS</h3>
+            <p>Donations are directed to RFDS, helping fund access to health services for people in regional and remote
+              Australia.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-hdr">
+          <p class="section-label">RFDS Focus</p>
+          <h2 class="section-title">Why this mission matters</h2>
+          <p class="section-sub">WorldFlight is not just a flying challenge. It is a coordinated effort to support
+            healthcare access where distance is a barrier.</p>
+        </div>
+        <a class="btn btn-primary" href="/pages/worldflight/rfds/">Read the RFDS Goal</a>
       </div>
     </section>
 
@@ -82,15 +111,9 @@
 
   <footer id="site-footer"></footer>
 
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="/assets/js/worldflight-map.js"></script>
   <script src="/assets/js/header.js"></script>
   <script src="/assets/js/site.js"></script>
   <script src="/assets/js/footer.js"></script>
 
 </body>
 </html>
-
-
-
-
