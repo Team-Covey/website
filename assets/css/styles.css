@@ -2394,6 +2394,34 @@ html.dispatch-overlay-mode .dispatch-last-updated { display: none !important; }
   line-height: 1.65;
 }
 
+.partner-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-top: 0.95rem;
+  color: var(--primary);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.partner-link:hover {
+  color: #9bc4ff;
+}
+
+.partner-link::after {
+  content: '>';
+  font-size: 0.85rem;
+  line-height: 1;
+}
+
+[data-theme="light"] .partner-link:hover {
+  color: var(--primary-dark);
+}
+
 /* Distinct style for simulator stack cards */
 .powered-grid {
   display: grid;
