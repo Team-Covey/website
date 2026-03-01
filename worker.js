@@ -1,7 +1,8 @@
-const STREAMLABS_DONATIONS_URL = 'https://streamlabs.com/api/v1.0/donations';
+const STREAMLABS_DONATIONS_URL = 'https://streamlabs.com/api/v2.0/donations';
 const MAX_PAGES = 60;
 const PAGE_LIMIT = 100;
 const CACHE_TTL_SECONDS = 120;
+const STREAMLABS_TIMEOUT_MS = 15000;
 
 export default {
   async fetch(request, env, ctx) {
@@ -57,7 +58,19 @@ async function handleStreamlabsTotal(request, env, ctx) {
     });
     ctx.waitUntil(cache.put(cacheKey, response.clone()));
     return response;
-  } catch (_error) {
+  } catch (error) {
+    if (error instanceof StreamlabsApiError) {
+      return jsonResponse(
+        {
+          error: 'Streamlabs API error',
+          upstreamStatus: error.status,
+          message: error.message
+        },
+        502,
+        { 'Cache-Control': 'no-store' }
+      );
+    }
+
     return jsonResponse(
       { error: 'Failed to fetch Streamlabs totals' },
       502,
@@ -79,7 +92,7 @@ async function fetchStreamlabsDonationSummary(token) {
       apiUrl.searchParams.set('before', before);
     }
 
-    const response = await fetch(apiUrl.toString(), {
+    const response = await fetchWithTimeout(apiUrl.toString(), {
       method: 'GET',
       headers: {
         Authorization: 'Bearer ' + token,
@@ -89,7 +102,7 @@ async function fetchStreamlabsDonationSummary(token) {
     });
 
     if (!response.ok) {
-      throw new Error('Streamlabs API request failed with status ' + response.status);
+      throw await parseStreamlabsError(response);
     }
 
     const payload = await response.json();
@@ -136,6 +149,62 @@ async function fetchStreamlabsDonationSummary(token) {
     formattedTotal: formatTotal(roundedTotal, primaryCurrency),
     fetchedAt: new Date().toISOString()
   };
+}
+
+async function fetchWithTimeout(url, init) {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(function () {
+    controller.abort('Streamlabs request timed out');
+  }, STREAMLABS_TIMEOUT_MS);
+
+  try {
+    return await fetch(url, Object.assign({}, init, { signal: controller.signal }));
+  } catch (error) {
+    if (error && error.name === 'AbortError') {
+      throw new StreamlabsApiError(504, 'Streamlabs API request timed out');
+    }
+    throw error;
+  } finally {
+    clearTimeout(timeoutId);
+  }
+}
+
+async function parseStreamlabsError(response) {
+  let detailMessage = '';
+  try {
+    const bodyText = await response.text();
+    if (bodyText) {
+      try {
+        const json = JSON.parse(bodyText);
+        const fromJson =
+          json.error_description || json.message || json.error || '';
+        detailMessage = String(fromJson || '').trim();
+      } catch (_error) {
+        detailMessage = bodyText.slice(0, 180).trim();
+      }
+    }
+  } catch (_error) {
+    // Ignore parse failures; fall back to status text.
+  }
+
+  const defaultMessage =
+    response.status === 401 || response.status === 403
+      ? 'Token invalid/expired or missing required Streamlabs scopes (donations.read).'
+      : 'Upstream request failed.';
+
+  const baseMessage = detailMessage || defaultMessage;
+  return new StreamlabsApiError(
+    response.status,
+    'Streamlabs returned ' + response.status + ': ' + baseMessage
+  );
+}
+
+class StreamlabsApiError extends Error {
+  constructor(status, message) {
+    super(message);
+    this.name = 'StreamlabsApiError';
+    this.status = status;
+  }
 }
 
 function normalizeAmount(value) {
