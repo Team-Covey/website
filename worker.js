@@ -590,19 +590,27 @@ async function loadStoredToken(env, kv) {
   }
 
   const fallbackAccessToken = sanitizeAccessToken(env.STREAMLABS_ACCESS_TOKEN);
+  const fallbackRefreshToken = sanitizeAccessToken(env.STREAMLABS_REFRESH_TOKEN);
   if (fallbackAccessToken) {
-    return {
+    const nowIso = new Date().toISOString();
+    const fallbackRecord = {
       accessToken: fallbackAccessToken,
-      refreshToken: null,
+      refreshToken: fallbackRefreshToken || null,
       expiresAt: null,
       scope: null,
       tokenType: null,
-      accountUsername: null,
-      accountVerified: false,
-      connectedAt: null,
-      updatedAt: null,
-      source: 'secret'
+      accountUsername: getExpectedUsername(env) || null,
+      accountVerified: Boolean(getExpectedUsername(env)),
+      connectedAt: nowIso,
+      updatedAt: nowIso
     };
+
+    if (kv) {
+      await kv.put(STREAMLABS_TOKEN_KEY, JSON.stringify(fallbackRecord));
+      return Object.assign({ source: 'kv_bootstrap' }, fallbackRecord);
+    }
+
+    return Object.assign({ source: 'secret' }, fallbackRecord);
   }
 
   return null;
