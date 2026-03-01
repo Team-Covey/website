@@ -810,16 +810,30 @@ body {
 
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  max-width: 1100px;
+  margin: 0 auto;
 }
 
 .stat-item {
-  padding: 1.8rem 1rem;
+  padding: 1.55rem 1rem;
   text-align: center;
+  min-height: 148px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
 }
 
-.stat-item:last-child { border-right: none; }
+.stat-item:nth-child(3n) {
+  border-right: none;
+}
+
+.stat-item:nth-last-child(-n + 3) {
+  border-bottom: none;
+}
 
 .stat-num {
   display: block;
@@ -845,9 +859,11 @@ body {
 }
 
 .stat-label.stat-label-detail {
-  font-size: 0.65rem;
-  letter-spacing: 0.08em;
-  line-height: 1.35;
+  font-size: 0.67rem;
+  letter-spacing: 0.04em;
+  line-height: 1.45;
+  text-transform: none;
+  max-width: 24ch;
 }
 
 /* ─── SECTIONS ────────────────────────────────────── */
