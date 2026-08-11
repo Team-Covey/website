@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "wrangler dev --port 4321",
+    "dev": "wrangler dev --port 4321 --persist-to node_modules/.cache/wrangler",
     "deploy": "wrangler deploy"
   },
   "devDependencies": {

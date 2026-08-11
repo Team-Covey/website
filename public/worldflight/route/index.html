@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Route Map - WorldFlight Team Covey</title>
+  <meta name="description" content="Interactive WorldFlight route map for Team Covey: every sector drawn as a great-circle leg, colour-coded by live status, with distances, timings and filed routes." />
+  <link rel="icon" type="image/png" href="/images/CoveyBlackLogo.png" />
+  <link rel="apple-touch-icon" href="/images/CoveyBlackLogo.png" />
+  <script>(function(){var t=localStorage.getItem('tcwf-theme');if(t)document.documentElement.setAttribute('data-theme',t);})();</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://a.basemaps.cartocdn.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="anonymous" />
+  <link rel="stylesheet" href="/assets/css/styles.css" />
+</head>
+<body>
+
+  <header id="site-header"></header>
+
+  <main>
+
+    <section class="wf-map-section">
+      <div class="container">
+
+        <div id="wf-map-root" class="wf-map-root is-loading">
+
+          <h1 class="wf-visually-hidden">WorldFlight route map</h1>
+
+          <div class="wf-map-shell">
+
+            <div class="wf-map-bar">
+              <div class="wf-map-bar-lead">
+                <h2 class="wf-map-title" id="wf-map-event">WorldFlight route</h2>
+                <p class="wf-map-status-pill wf-tone-idle" id="wf-map-status" role="status">Loading schedule&hellip;</p>
+              </div>
+              <div class="wf-map-bar-actions">
+                <p class="wf-map-updated" id="wf-map-updated"></p>
+                <div class="wf-map-buttons">
+                  <button type="button" class="wf-map-btn" id="wf-map-fit">Fit route</button>
+                  <button type="button" class="wf-map-btn" id="wf-map-live">Jump to live</button>
+                  <button type="button" class="wf-map-btn" id="wf-map-labels" aria-pressed="true">Place names</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="wf-map-body">
+
+              <div class="wf-map-stage">
+                <div id="wf-map-canvas" class="wf-map-canvas" aria-label="WorldFlight route map"></div>
+
+                <div class="wf-map-loader" aria-hidden="true">
+                  <span class="wf-map-loader-dot"></span>
+                  <span class="wf-map-loader-dot"></span>
+                  <span class="wf-map-loader-dot"></span>
+                </div>
+
+                <dl class="wf-map-stats" aria-label="Route summary">
+                  <div><dt>Distance</dt><dd id="wf-stat-distance">&mdash;</dd></div>
+                  <div><dt>Legs</dt><dd id="wf-stat-legs">&mdash;</dd></div>
+                  <div><dt>Airports</dt><dd id="wf-stat-airports">&mdash;</dd></div>
+                  <div><dt>Countries</dt><dd id="wf-stat-countries">&mdash;</dd></div>
+                  <div><dt>Block time</dt><dd id="wf-stat-airtime">&mdash;</dd></div>
+                </dl>
+
+                <ul class="wf-map-legend" aria-label="Map legend">
+                  <li><span class="wf-legend-swatch wf-tone-done"></span>Flown</li>
+                  <li><span class="wf-legend-swatch wf-tone-active"></span>Airborne</li>
+                  <li><span class="wf-legend-swatch wf-tone-soon"></span>Next up</li>
+                  <li><span class="wf-legend-swatch wf-tone-idle"></span>Scheduled</li>
+                </ul>
+              </div>
+
+              <aside class="wf-map-side" aria-label="Route legs">
+                <div class="wf-map-side-head">
+                  <label class="wf-visually-hidden" for="wf-map-search">Filter legs</label>
+                  <input type="search" id="wf-map-search" class="wf-map-search"
+                    placeholder="Filter by sector, ICAO or city" autocomplete="off" />
+                  <p class="wf-map-leg-count" id="wf-map-leg-count">&mdash;</p>
+                </div>
+
+                <div class="wf-map-detail" id="wf-map-detail" hidden></div>
+
+                <div class="wf-leg-list" id="wf-map-leg-list" role="list"></div>
+              </aside>
+
+            </div>
+
+            <div class="wf-map-foot">
+              <div class="wf-map-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"
+                aria-label="Event progress">
+                <span class="wf-map-progress-bar" id="wf-map-progress-bar"></span>
+              </div>
+              <p class="wf-map-progress-text" id="wf-map-progress-text">Waiting for schedule&hellip;</p>
+            </div>
+
+            <p class="wf-map-error" id="wf-map-error" role="alert" hidden></p>
+          </div>
+
+          <div class="wf-map-fallback" id="wf-map-fallback" hidden>
+            <h2>Route map unavailable</h2>
+            <p data-fallback-message>The schedule feed could not be reached.</p>
+            <p>The full sector list is published on the
+              <a href="/worldflight/schedule/">schedule board</a>, and the source feed is
+              <a href="https://planning.worldflight.center/" target="_blank" rel="noopener noreferrer">planning.worldflight.center</a>.</p>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <footer id="site-footer"></footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="anonymous"></script>
+  <script src="/assets/js/worldflight-data.js"></script>
+  <script src="/assets/js/worldflight-map.js"></script>
+  <script src="/assets/js/header.js"></script>
+  <script src="/assets/js/site.js"></script>
+  <script src="/assets/js/footer.js"></script>
+
+</body>
+</html>

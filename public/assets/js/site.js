@@ -68,7 +68,7 @@
     });
 
     window.addEventListener('resize', function () {
-      if (window.innerWidth > 920 && nav.classList.contains('open')) {
+      if (window.innerWidth > 1119 && nav.classList.contains('open')) {
         closeNav();
       }
     });
@@ -341,7 +341,8 @@
         var minutes = Math.floor((diffMs % 3600000) / 60000);
         var seconds = Math.floor((diffMs % 60000) / 1000);
 
-        setPart(countdown, 'days', String(days).padStart(3, '0'));
+        // Days read naturally (81, 9, 0); the clock units stay zero-padded.
+        setPart(countdown, 'days', String(days));
         setPart(countdown, 'hours', String(hours).padStart(2, '0'));
         setPart(countdown, 'minutes', String(minutes).padStart(2, '0'));
         setPart(countdown, 'seconds', String(seconds).padStart(2, '0'));

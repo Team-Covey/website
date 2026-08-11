@@ -36,6 +36,7 @@
   var isWorldflight = path.indexOf('/worldflight/') === 0;
   var isWorldflightOverview = path === '/worldflight/';
   var isWorldflightRoute = path === '/worldflight/route/';
+  var isWorldflightSchedule = path === '/worldflight/schedule/';
   var isWorldflightRfds = path === '/worldflight/rfds/';
   var isContact = path === '/contact/';
 
@@ -67,7 +68,8 @@
             '</button>' +
             '<div class="nav-dropdown-menu" role="menu" aria-label="WorldFlight">' +
               '<a href="/worldflight/" role="menuitem"' + activeClass(isWorldflightOverview) + '>Overview</a>' +
-              '<a href="/worldflight/route/" role="menuitem"' + activeClass(isWorldflightRoute) + '>Route</a>' +
+              '<a href="/worldflight/route/" role="menuitem"' + activeClass(isWorldflightRoute) + '>Route Map</a>' +
+              '<a href="/worldflight/schedule/" role="menuitem"' + activeClass(isWorldflightSchedule) + '>Schedule</a>' +
               '<a href="/worldflight/rfds/" role="menuitem"' + activeClass(isWorldflightRfds) + '>Our Charity</a>' +
             '</div>' +
           '</div>' +

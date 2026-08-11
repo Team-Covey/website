@@ -13,6 +13,12 @@ const CACHE_TTL_SECONDS = 120;
 const OAUTH_STATE_TTL_SECONDS = 600;
 const STREAMLABS_TIMEOUT_MS = 15000;
 
+// The upstream WorldFlight planning API sends no CORS headers, so browsers
+// cannot call it directly. The Worker proxies it and caches at the edge.
+const WORLDFLIGHT_SCHEDULE_URL = 'https://planning.worldflight.center/api/schedule.json';
+const WORLDFLIGHT_CACHE_TTL_SECONDS = 300;
+const WORLDFLIGHT_TIMEOUT_MS = 10000;
+
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
@@ -31,6 +37,10 @@ export default {
 
     if (pathname === '/api/streamlabs/status') {
       return handleStreamlabsStatus(request, env);
+    }
+
+    if (pathname === '/api/worldflight/schedule') {
+      return handleWorldflightSchedule(request, ctx);
     }
 
     if (pathname === '/streamlabs/connect') {
@@ -55,6 +65,112 @@ async function serveAsset(request, env) {
   }
 
   return new Response('ASSETS binding is unavailable.', { status: 500 });
+}
+
+async function handleWorldflightSchedule(request, ctx) {
+  if (request.method !== 'GET' && request.method !== 'HEAD') {
+    return methodNotAllowed('GET, HEAD');
+  }
+
+  const origin = new URL(request.url).origin;
+  const cache = caches.default;
+  const freshKey = new Request(origin + '/api/worldflight/schedule', { method: 'GET' });
+  const staleKey = new Request(origin + '/api/worldflight/schedule?__stale=1', { method: 'GET' });
+
+  const cached = await cache.match(freshKey);
+  if (cached) {
+    return cached;
+  }
+
+  let payload = null;
+  let upstreamError = '';
+
+  try {
+    const upstream = await fetchWithTimeout(
+      WORLDFLIGHT_SCHEDULE_URL,
+      { method: 'GET', headers: { Accept: 'application/json' } },
+      WORLDFLIGHT_TIMEOUT_MS
+    );
+
+    if (!upstream.ok) {
+      throw new Error('Upstream returned ' + upstream.status);
+    }
+
+    const parsed = await upstream.json();
+    if (!parsed || !Array.isArray(parsed.sectors)) {
+      throw new Error('Upstream payload did not contain a sectors array');
+    }
+
+    payload = parsed;
+  } catch (error) {
+    upstreamError = String((error && error.message) || 'Unknown upstream error');
+  }
+
+  if (payload) {
+    const body = JSON.stringify({
+      event: typeof payload.event === 'string' ? payload.event : null,
+      generatedAt: typeof payload.generatedAt === 'string' ? payload.generatedAt : null,
+      sectors: payload.sectors,
+      fetchedAt: new Date().toISOString(),
+      stale: false
+    });
+
+    const response = new Response(body, {
+      status: 200,
+      headers: worldflightHeaders('public, max-age=' + WORLDFLIGHT_CACHE_TTL_SECONDS)
+    });
+
+    // Keep a long-lived copy so an upstream outage can still be answered.
+    const staleCopy = new Response(body.replace('"stale":false', '"stale":true'), {
+      status: 200,
+      headers: worldflightHeaders('public, max-age=86400')
+    });
+
+    ctx.waitUntil(
+      Promise.all([cache.put(freshKey, response.clone()), cache.put(staleKey, staleCopy)])
+    );
+
+    return response;
+  }
+
+  const stale = await cache.match(staleKey);
+  if (stale) {
+    const staleBody = await stale.text();
+    return new Response(staleBody, {
+      status: 200,
+      headers: worldflightHeaders('no-store', { 'X-Upstream-Error': sanitizeHeaderValue(upstreamError) })
+    });
+  }
+
+  return new Response(
+    JSON.stringify({
+      error: 'Schedule unavailable',
+      message: upstreamError || 'The WorldFlight planning API could not be reached.'
+    }),
+    { status: 502, headers: worldflightHeaders('no-store') }
+  );
+}
+
+function worldflightHeaders(cacheControl, extraHeaders) {
+  const headers = new Headers({
+    'Content-Type': 'application/json; charset=utf-8',
+    'Cache-Control': cacheControl,
+    'Access-Control-Allow-Origin': '*'
+  });
+
+  if (extraHeaders) {
+    Object.keys(extraHeaders).forEach(function (key) {
+      headers.set(key, String(extraHeaders[key]));
+    });
+  }
+
+  return headers;
+}
+
+function sanitizeHeaderValue(value) {
+  return String(value || '')
+    .replace(/[\r\n]+/g, ' ')
+    .slice(0, 180);
 }
 
 async function handleStreamlabsConnect(request, env) {
@@ -878,17 +994,18 @@ async function fetchStreamlabs(url, accessToken) {
   });
 }
 
-async function fetchWithTimeout(url, init) {
+async function fetchWithTimeout(url, init, timeoutMs) {
+  const limitMs = Number.isFinite(timeoutMs) ? timeoutMs : STREAMLABS_TIMEOUT_MS;
   const controller = new AbortController();
   const timeoutId = setTimeout(function () {
-    controller.abort('Streamlabs request timed out');
-  }, STREAMLABS_TIMEOUT_MS);
+    controller.abort('Upstream request timed out');
+  }, limitMs);
 
   try {
     return await fetch(url, Object.assign({}, init, { signal: controller.signal }));
   } catch (error) {
     if (error && error.name === 'AbortError') {
-      throw new StreamlabsApiError(504, 'Streamlabs API request timed out');
+      throw new StreamlabsApiError(504, 'Upstream request timed out after ' + limitMs + 'ms');
     }
     throw error;
   } finally {
