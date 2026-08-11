@@ -18,6 +18,14 @@ const STREAMLABS_TIMEOUT_MS = 15000;
 const WORLDFLIGHT_SCHEDULE_URL = 'https://planning.worldflight.center/api/schedule.json';
 const WORLDFLIGHT_CACHE_TTL_SECONDS = 300;
 const WORLDFLIGHT_TIMEOUT_MS = 10000;
+const SECURITY_HEADERS = {
+  'X-Content-Type-Options': 'nosniff',
+  'X-Frame-Options': 'DENY',
+  'Referrer-Policy': 'strict-origin-when-cross-origin'
+};
+
+const CSP_HEADER =
+  "default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://*.basemaps.cartocdn.com https://unpkg.com; connect-src 'self' https://data.vatsim.net https://www.simbrief.com; frame-src https://planning.simfest.co.uk https://www.youtube.com; base-uri 'self'; form-action 'self'; object-src 'none'; frame-ancestors 'none'";
 
 export default {
   async fetch(request, env, ctx) {
@@ -36,6 +44,8 @@ export default {
     }
 
     if (pathname === '/api/streamlabs/status') {
+      const authError = requireAdminAuth(request, env);
+      if (authError) return authError;
       return handleStreamlabsStatus(request, env);
     }
 
@@ -44,6 +54,8 @@ export default {
     }
 
     if (pathname === '/streamlabs/connect') {
+      const authError = requireAdminAuth(request, env);
+      if (authError) return authError;
       return handleStreamlabsConnect(request, env);
     }
 
@@ -52,6 +64,8 @@ export default {
     }
 
     if (pathname === '/streamlabs/disconnect') {
+      const authError = requireAdminAuth(request, env);
+      if (authError) return authError;
       return handleStreamlabsDisconnect(request, env);
     }
 
@@ -60,11 +74,29 @@ export default {
 };
 
 async function serveAsset(request, env) {
-  if (env.ASSETS && typeof env.ASSETS.fetch === 'function') {
-    return env.ASSETS.fetch(request);
+  if (!env.ASSETS || typeof env.ASSETS.fetch !== 'function') {
+    return new Response('ASSETS binding is unavailable.', { status: 500 });
   }
 
-  return new Response('ASSETS binding is unavailable.', { status: 500 });
+  const assetResponse = await env.ASSETS.fetch(request);
+
+  // Security headers belong on the real pages, not just on Worker-rendered
+  // ones. Clone so the immutable asset response headers can be extended.
+  const headers = new Headers(assetResponse.headers);
+  Object.keys(SECURITY_HEADERS).forEach(function (key) {
+    headers.set(key, SECURITY_HEADERS[key]);
+  });
+
+  const contentType = String(headers.get('Content-Type') || '');
+  if (contentType.indexOf('text/html') === 0) {
+    headers.set('Content-Security-Policy', CSP_HEADER);
+  }
+
+  return new Response(assetResponse.body, {
+    status: assetResponse.status,
+    statusText: assetResponse.statusText,
+    headers: headers
+  });
 }
 
 async function handleWorldflightSchedule(request, ctx) {
@@ -171,6 +203,29 @@ function sanitizeHeaderValue(value) {
   return String(value || '')
     .replace(/[\r\n]+/g, ' ')
     .slice(0, 180);
+}
+
+function requireAdminAuth(request, env) {
+  const adminKey = String(env.ADMIN_API_KEY || '').trim();
+  if (!adminKey) {
+    return jsonResponse(
+      { error: 'Admin authentication not configured', message: 'Set ADMIN_API_KEY in Worker secrets.' },
+      503
+    );
+  }
+
+  const authHeader = String(request.headers.get('Authorization') || '').trim();
+  const providedKey = authHeader.replace(/^Bearer\s+/i, '').trim();
+
+  if (!providedKey || providedKey !== adminKey) {
+    return jsonResponse(
+      { error: 'Unauthorized', message: 'Valid Authorization header required.' },
+      401,
+      { 'WWW-Authenticate': 'Bearer' }
+    );
+  }
+
+  return null;
 }
 
 async function handleStreamlabsConnect(request, env) {
@@ -382,27 +437,17 @@ async function handleStreamlabsCallback(request, env) {
   }
 
   return htmlResponse(
-    'Streamlabs token ready',
-    '<p>OAuth succeeded but KV is not configured, so the token was not persisted automatically.</p>' +
-      '<p>Account: <strong>' +
-      escapeHtml(tokenRecord.accountUsername || expectedUsername || 'unknown') +
-      '</strong></p>' +
-      verificationNote +
-      '<p>Set this as <code>STREAMLABS_ACCESS_TOKEN</code> in Worker secrets:</p>' +
-      '<p><code style="word-break:break-all;display:block;padding:.6rem;">' +
-      escapeHtml(accessToken) +
-      '</code></p>' +
-      '<p>Optional refresh token:</p>' +
-      '<p><code style="word-break:break-all;display:block;padding:.6rem;">' +
-      escapeHtml(refreshToken || '(none returned)') +
-      '</code></p>' +
-      '<p><a href="/api/streamlabs/total">Test donations endpoint</a></p>'
+    'Streamlabs OAuth incomplete',
+    '<p>OAuth succeeded but KV is not configured, so the token could not be persisted.</p>' +
+      '<p>Please configure the <code>STREAMLABS_KV</code> binding in your Worker settings, then reconnect.</p>' +
+      '<p><a href="/">Back to home page</a></p>',
+    503
   );
 }
 
 async function handleStreamlabsDisconnect(request, env) {
-  if (request.method !== 'GET' && request.method !== 'POST') {
-    return methodNotAllowed('GET, POST');
+  if (request.method !== 'POST') {
+    return methodNotAllowed('POST');
   }
 
   const kv = getKvBinding(env);
@@ -1060,7 +1105,8 @@ function methodNotAllowed(allowValue) {
 
 function jsonResponse(payload, status, extraHeaders) {
   const headers = new Headers({
-    'Content-Type': 'application/json; charset=utf-8'
+    'Content-Type': 'application/json; charset=utf-8',
+    ...SECURITY_HEADERS
   });
 
   if (extraHeaders) {
@@ -1092,7 +1138,10 @@ function htmlResponse(title, bodyHtml, status) {
   return new Response(html, {
     status: status || 200,
     headers: {
-      'Content-Type': 'text/html; charset=utf-8'
+      'Content-Type': 'text/html; charset=utf-8',
+      'Cache-Control': 'no-store',
+      'Content-Security-Policy': CSP_HEADER,
+      ...SECURITY_HEADERS
     }
   });
 }
