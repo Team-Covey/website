@@ -2,6 +2,8 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "website",
   "main": "worker.js",
+  // Pinned so deploys work non-interactively; the login has more than one account.
+  "account_id": "baf002432f05611f72b33b7b2e5028f1",
   "compatibility_date": "2025-09-27",
   "vars": {
     "STREAMLABS_EXPECTED_USERNAME": "teamcovey",
