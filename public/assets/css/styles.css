@@ -3469,6 +3469,19 @@ html.dispatch-overlay-mode .dispatch-last-updated { display: none !important; }
   color: #c084ff;
 }
 
+.social-link.youtube-link svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  fill: currentColor;
+}
+
+.social-link.youtube-link:hover {
+  border-color: #ff0033;
+  background: rgba(255, 0, 51, 0.1);
+  color: #ff4d6d;
+}
+
 .social-link[aria-disabled="true"] {
   opacity: 0.65;
 }
@@ -3476,11 +3489,14 @@ html.dispatch-overlay-mode .dispatch-last-updated { display: none !important; }
 /* ─── TEAM ───────────────────────────────────────── */
 .team-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1.2rem;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.85rem;
 }
 
 .team-card {
+  display: grid;
+  grid-template-columns: 148px minmax(0, 1fr);
+  align-items: stretch;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
@@ -3490,17 +3506,18 @@ html.dispatch-overlay-mode .dispatch-last-updated { display: none !important; }
 
 .team-card:hover {
   border-color: var(--primary);
-  transform: translateY(-4px);
-  box-shadow: 0 16px 40px rgba(43, 125, 233, 0.1);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-1);
 }
 
 /* Photo area — shows a silhouette until a real image is dropped in */
 .team-photo-wrap {
-  aspect-ratio: 1 / 1;
+  width: 148px;
+  min-height: 148px;
   overflow: hidden;
   position: relative;
   background: var(--surface-2);
-  border-bottom: 1px solid var(--border);
+  border-right: 1px solid var(--border);
 }
 
 /* CSS person silhouette placeholder */
@@ -3528,7 +3545,8 @@ html.dispatch-overlay-mode .dispatch-last-updated { display: none !important; }
 }
 
 .team-info {
-  padding: 1.25rem 1.2rem 1.4rem;
+  align-self: center;
+  padding: 1.25rem 1.5rem;
 }
 
 .team-name {
@@ -3550,6 +3568,31 @@ html.dispatch-overlay-mode .dispatch-last-updated { display: none !important; }
   font-size: 0.86rem;
   color: var(--text-2);
   line-height: 1.65;
+  max-width: 78ch;
+  white-space: pre-line;
+}
+
+@media (max-width: 560px) {
+  .team-card {
+    grid-template-columns: 96px minmax(0, 1fr);
+  }
+
+  .team-photo-wrap {
+    width: 96px;
+    min-height: 112px;
+  }
+
+  .team-info {
+    padding: 1rem;
+  }
+
+  .team-role {
+    margin-bottom: 0.45rem;
+  }
+
+  .team-bio {
+    font-size: 0.82rem;
+  }
 }
 
 /* ─── PARTNERS ───────────────────────────────────────── */
@@ -4052,7 +4095,6 @@ footer {
   .rfds-impact-grid,
   .powered-grid,
   .partners-grid,
-  .team-grid,
   .quick-links { grid-template-columns: repeat(2, 1fr); }
 
   .rfds-overview { grid-template-columns: 1fr; }
@@ -4135,7 +4177,6 @@ footer {
   .rfds-impact-grid,
   .powered-grid,
   .partners-grid,
-  .team-grid,
   .quick-links { grid-template-columns: 1fr; }
 
   .partner-card-major {

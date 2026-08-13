@@ -73,6 +73,7 @@
               '<a href="/worldflight/rfds/" role="menuitem"' + activeClass(isWorldflightRfds) + '>Our Charity</a>' +
             '</div>' +
           '</div>' +
+          '<a href="https://www.youtube.com/@TheJumboProject" target="_blank" rel="noopener noreferrer">The Jumbo Project</a>' +
           '<a href="/contact/"' + activeClass(isContact) + '>Contact</a>' +
         '</nav>' +
         '<button class="theme-toggle" id="theme-toggle" aria-label="Toggle light/dark mode">' +
