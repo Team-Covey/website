@@ -119,9 +119,68 @@
     });
   }
 
+  initJumboTransition();
   initHeroCarousel();
   initVatsimStatus();
   initWorldFlightCountdown();
+
+  function initJumboTransition() {
+    if (window.location.pathname.indexOf('/jumbo-project') === 0) {
+      return;
+    }
+
+    document.addEventListener('click', function (event) {
+        var link = event.target.closest('a[data-jumbo-transition]');
+        if (!link) {
+          return;
+        }
+
+        if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
+          return;
+        }
+
+        if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          return;
+        }
+
+        event.preventDefault();
+        var destination = link.href;
+        var overlay = document.createElement('div');
+        overlay.className = 'jumbo-transition';
+        overlay.setAttribute('role', 'dialog');
+        overlay.setAttribute('aria-modal', 'true');
+        overlay.setAttribute('aria-label', 'Opening The Jumbo Project');
+        overlay.innerHTML =
+          '<video class="jumbo-transition-video" src="/images/jumbo_intro_fixed.mp4" muted playsinline preload="auto"></video>' +
+          '<button class="jumbo-transition-skip" type="button">Skip intro</button>';
+        document.body.appendChild(overlay);
+        document.body.classList.add('jumbo-transition-open');
+
+        var video = overlay.querySelector('video');
+        var skip = overlay.querySelector('button');
+        skip.focus();
+        var hasNavigated = false;
+        var fallbackTimer = window.setTimeout(goToProject, 12000);
+
+        function goToProject() {
+          if (hasNavigated) {
+            return;
+          }
+          hasNavigated = true;
+          window.clearTimeout(fallbackTimer);
+          window.location.assign(destination);
+        }
+
+        skip.addEventListener('click', goToProject);
+        video.addEventListener('ended', goToProject);
+        video.addEventListener('error', goToProject);
+
+        var playPromise = video.play();
+        if (playPromise && typeof playPromise.catch === 'function') {
+          playPromise.catch(goToProject);
+        }
+    });
+  }
 
   function initHeroCarousel() {
     var heroBg = document.querySelector('.hero-bg');

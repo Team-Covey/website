@@ -19,6 +19,7 @@
       '<nav class="footer-nav" aria-label="Footer navigation">' +
         '<a href="/about/">About</a>' +
         '<a href="/worldflight/">WorldFlight</a>' +
+        '<a href="/jumbo-project/" data-jumbo-transition>The Jumbo Project</a>' +
         '<a href="/contact/">Contact</a>' +
         '<a href="https://twitch.tv/teamcovey" target="_blank" rel="noopener noreferrer">Twitch</a>' +
       '</nav>' +
