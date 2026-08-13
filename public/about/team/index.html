@@ -33,13 +33,13 @@
 
   <header id="site-header"></header>
 
-  <main>
+  <main id="main-content">
 
     <div class="page-hero">
       <div class="container">
         <p class="section-label">About Us</p>
         <h1 class="section-title">Meet the Team</h1>
-        <p class="section-sub">The people who make every WorldFlight event happen.</p>
+        <p class="section-sub">Pilots, coordinators, technical crew, and the people behind every Team Covey flight.</p>
       </div>
     </div>
 
@@ -47,7 +47,21 @@
     <section class="section">
       <div class="container">
 
-        <div class="team-grid">
+        <div class="team-directory-toolbar">
+          <div class="team-directory-summary">
+            <span class="team-directory-count" data-team-count aria-live="polite">27 team members</span>
+            <span>Meet the crew behind the simulator, streams, and charity flights.</span>
+          </div>
+          <label class="team-search" for="team-search">
+            <span class="sr-only">Search team members</span>
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+            <input id="team-search" type="search" placeholder="Search the team" autocomplete="off" data-team-search />
+          </label>
+        </div>
+
+        <p class="team-empty" data-team-empty hidden>No team members match that search.</p>
+
+        <div class="team-grid" role="list" aria-label="Team Covey members">
           <!--
             HOW TO ADD A TEAM MEMBER:
             1. Drop their photo into /images/team/ (e.g. john-smith.jpg)
@@ -56,7 +70,7 @@
           -->
           <div class="team-card">
             <div class="team-photo-wrap">
-              <img src="/images/team/6c77463c-6f3c-44e7-82fc-ec582af6a875.jpeg" alt="Caleb D. Brown" />
+              <img src="/images/team/optimized/6c77463c-6f3c-44e7-82fc-ec582af6a875.webp" alt="" decoding="async" />
             </div>
             <div class="team-info">
               <p class="team-name">Caleb D. Brown</p>
@@ -69,7 +83,7 @@
 
           <div class="team-card">
             <div class="team-photo-wrap">
-              <img src="/images/team/freddie.jpeg" alt="Freddie Howard" />
+              <img src="/images/team/optimized/freddie.webp" alt="" loading="lazy" decoding="async" />
             </div>
             <div class="team-info">
               <p class="team-name">Freddie Howard</p>
@@ -80,7 +94,7 @@
 
           <div class="team-card">
             <div class="team-photo-wrap">
-              <img src="/images/team/levi.jpg" alt="Levi Shaw" />
+              <img src="/images/team/optimized/levi.webp" alt="" loading="lazy" decoding="async" />
             </div>
             <div class="team-info">
               <p class="team-name">Levi Shaw</p>
@@ -91,7 +105,7 @@
 
           <div class="team-card">
             <div class="team-photo-wrap">
-              <img src="/images/team/peter.jpeg" alt="Peter Harris" />
+              <img src="/images/team/optimized/peter.webp" alt="" loading="lazy" decoding="async" />
             </div>
             <div class="team-info">
               <p class="team-name">Peter Harris</p>
@@ -102,7 +116,7 @@
 
           <div class="team-card">
             <div class="team-photo-wrap">
-              <img src="/images/team/anthony.jpg" alt="Anthony Charlton" />
+              <img src="/images/team/optimized/anthony.webp" alt="" loading="lazy" decoding="async" />
             </div>
             <div class="team-info">
               <p class="team-name">Anthony Charlton</p>
@@ -113,7 +127,7 @@
 
           <div class="team-card">
             <div class="team-photo-wrap">
-              <img src="/images/team/george.jpg" alt="George Goodman" />
+              <img src="/images/team/optimized/george.webp" alt="" loading="lazy" decoding="async" />
             </div>
             <div class="team-info">
               <p class="team-name">George Goodman</p>
@@ -124,7 +138,7 @@
 
           <div class="team-card">
             <div class="team-photo-wrap">
-              <img src="/images/team/placeholder.svg" alt="Andrew @theflightdoc" />
+              <img src="/images/team/flightdoc.jpg" alt="" loading="lazy" decoding="async" />
             </div>
             <div class="team-info">
               <p class="team-name">Andrew @theflightdoc</p>
@@ -135,7 +149,7 @@
 
           <div class="team-card">
             <div class="team-photo-wrap">
-              <img src="/images/team/henry.jpeg" alt="Henry Howard" />
+              <img src="/images/team/optimized/henry.webp" alt="" loading="lazy" decoding="async" />
             </div>
             <div class="team-info">
               <p class="team-name">Henry Howard</p>
@@ -146,7 +160,7 @@
 
           <div class="team-card">
             <div class="team-photo-wrap">
-              <img src="/images/team/archie.jpeg" alt="Archie Howard" />
+              <img src="/images/team/optimized/archie.webp" alt="" loading="lazy" decoding="async" />
             </div>
             <div class="team-info">
               <p class="team-name">Archie Howard</p>
@@ -157,7 +171,7 @@
 
           <div class="team-card">
             <div class="team-photo-wrap">
-              <img src="/images/team/max.jpg" alt="Max David" />
+              <img src="/images/team/optimized/max.webp" alt="" loading="lazy" decoding="async" />
             </div>
             <div class="team-info">
               <p class="team-name">Max David</p>
@@ -168,7 +182,7 @@
 
           <div class="team-card">
             <div class="team-photo-wrap">
-              <img src="/images/team/IMG_2530.jpeg" alt="Jack Coffey" />
+              <img src="/images/team/optimized/IMG_2530.webp" alt="" loading="lazy" decoding="async" />
             </div>
             <div class="team-info">
               <p class="team-name">Jack Coffey</p>
@@ -179,7 +193,7 @@
 
           <div class="team-card">
             <div class="team-photo-wrap">
-              <img src="/images/team/ethan.jpg" alt="Ethan Grocke" />
+              <img src="/images/team/optimized/ethan.webp" alt="" loading="lazy" decoding="async" />
             </div>
             <div class="team-info">
               <p class="team-name">Ethan Grocke</p>
@@ -190,7 +204,7 @@
 
           <div class="team-card">
             <div class="team-photo-wrap">
-              <img src="/images/team/aiden.jpeg" alt="Aiden Buchanan" />
+              <img src="/images/team/optimized/aiden.webp" alt="" loading="lazy" decoding="async" />
             </div>
             <div class="team-info">
               <p class="team-name">Aiden Buchanan</p>
@@ -201,10 +215,10 @@
 
           <div class="team-card">
             <div class="team-photo-wrap">
-              <img src="/images/team/james.jpeg" alt="James Skordas" />
+              <img src="/images/team/optimized/james.webp" alt="" loading="lazy" decoding="async" />
             </div>
             <div class="team-info">
-              <p class="team-name">James</p>
+              <p class="team-name">James Skordas</p>
               <p class="team-role">B747 Pilot</p>
               <p class="team-bio"></p>
             </div>
@@ -212,7 +226,7 @@
 
           <div class="team-card">
             <div class="team-photo-wrap">
-              <img src="/images/team/placeholder.svg" alt="Luke Ash" />
+              <img src="/images/team/placeholder.svg" alt="Photo coming soon" loading="lazy" decoding="async" />
             </div>
             <div class="team-info">
               <p class="team-name">Luke Ash</p>
@@ -223,7 +237,7 @@
 
           <div class="team-card">
             <div class="team-photo-wrap">
-              <img src="/images/team/macca.jpeg" alt="Macca Davis" />
+              <img src="/images/team/optimized/macca.webp" alt="" loading="lazy" decoding="async" />
             </div>
             <div class="team-info">
               <p class="team-name">Macca Davis</p>
@@ -236,7 +250,7 @@
 
           <div class="team-card">
             <div class="team-photo-wrap">
-              <img src="/images/team/placeholder.svg" alt="Bailey" />
+              <img src="/images/team/placeholder.svg" alt="Photo coming soon" loading="lazy" decoding="async" />
             </div>
             <div class="team-info">
               <p class="team-name">Bailey</p>
@@ -247,7 +261,7 @@
 
           <div class="team-card">
             <div class="team-photo-wrap">
-              <img src="/images/team/zadok.jpeg" alt="Zadok Styles" />
+              <img src="/images/team/optimized/zadok.webp" alt="" loading="lazy" decoding="async" />
             </div>
             <div class="team-info">
               <p class="team-name">Zadok Styles</p>
@@ -258,7 +272,7 @@
 
           <div class="team-card">
             <div class="team-photo-wrap">
-              <img src="/images/team/gavin.jpg" alt="Gavin Hughes" />
+              <img src="/images/team/optimized/gavin.webp" alt="" loading="lazy" decoding="async" />
             </div>
             <div class="team-info">
               <p class="team-name">Gavin Hughes</p>
@@ -269,7 +283,7 @@
 
           <div class="team-card">
             <div class="team-photo-wrap">
-              <img src="/images/team/alan.jpeg" alt="Alan Tunnel" />
+              <img src="/images/team/optimized/alan.webp" alt="" loading="lazy" decoding="async" />
             </div>
             <div class="team-info">
               <p class="team-name">Alan Tunnel</p>
@@ -280,7 +294,7 @@
 
           <div class="team-card">
             <div class="team-photo-wrap">
-              <img src="/images/team/placeholder.svg" alt="Boaz Manu" />
+              <img src="/images/team/placeholder.svg" alt="Photo coming soon" loading="lazy" decoding="async" />
             </div>
             <div class="team-info">
               <p class="team-name">Boaz Manu</p>
@@ -291,7 +305,7 @@
 
           <div class="team-card">
             <div class="team-photo-wrap">
-              <img src="/images/team/sam.jpeg" alt="Sam McLaughlan" />
+              <img src="/images/team/optimized/sam.webp" alt="" loading="lazy" decoding="async" />
             </div>
             <div class="team-info">
               <p class="team-name">Sam McLaughlan</p>
@@ -302,35 +316,26 @@
 
           <div class="team-card">
             <div class="team-photo-wrap">
-              <img src="/images/team/JoshB.jpeg" alt="Joshua Boicos" />
+              <img src="/images/team/optimized/JoshB.webp" alt="" loading="lazy" decoding="async" />
             </div>
             <div class="team-info">
               <p class="team-name">Joshua Boicos</p>
               <p class="team-role">Pilot</p>
-              <p class="team-bio">Hi guys, I’m Josh<br /><br />
-
-                I have spent the past five years working within the aviation industry, gaining hands on experience in
-                ground operations and supporting both domestic and international flights. During this time, I developed
-                strong skills in teamwork, safety, and performing in high-pressure operational environments.<br /><br />
-
-                In 2024, my career was unexpectedly interrupted following a diagnosis of leukemia. The illness and its
-                complications significantly impacted my health, including severe damage to my hip bones, ultimately
-                leading me to step away from the aviation industry to focus on treatment and recovery.<br /><br />
-
-                Alongside my aviation career, I proudly served with the Country Fire Authority (CFA) for seven years,
-                with two years from 2023 to 2025, as a Communications Officer. In this role, I contributed to emergency
-                response coordination, supported operational communications, and assisted in maintaining equipment and
-                readiness. My time with the CFA reflects my strong commitment to community service, teamwork, and
-                emergency response.<br /><br />
-
-                Despite the challenges I have faced, I remain motivated, resilient, and committed to contributing
-                positively in any environment I am part of.</p>
+              <div class="team-bio team-bio-expanded">
+                <p>I have spent the past five years working within the aviation industry, gaining hands-on experience in ground operations and supporting both domestic and international flights.</p>
+                <details>
+                  <summary>Read Joshua’s story</summary>
+                  <p>In 2024, my career was unexpectedly interrupted following a diagnosis of leukemia. The illness and its complications significantly impacted my health, including severe damage to my hip bones, ultimately leading me to step away from the aviation industry to focus on treatment and recovery.</p>
+                  <p>Alongside my aviation career, I proudly served with the Country Fire Authority (CFA) for seven years, with two years from 2023 to 2025 as a Communications Officer. In this role, I contributed to emergency response coordination, supported operational communications, and assisted in maintaining equipment and readiness.</p>
+                  <p>Despite the challenges I have faced, I remain motivated, resilient, and committed to contributing positively in any environment I am part of.</p>
+                </details>
+              </div>
             </div>
           </div>
 
           <div class="team-card">
             <div class="team-photo-wrap">
-              <img src="/images/team/Maruan.jpeg" alt="Maruan" />
+              <img src="/images/team/optimized/Maruan.webp" alt="" loading="lazy" decoding="async" />
             </div>
             <div class="team-info">
               <p class="team-name">Maruan Bachiri</p>
@@ -342,7 +347,7 @@
 
           <div class="team-card">
             <div class="team-photo-wrap">
-              <img src="/images/team/placeholder.svg" alt="Zac Eisenhut" />
+              <img src="/images/team/placeholder.svg" alt="Photo coming soon" loading="lazy" decoding="async" />
             </div>
             <div class="team-info">
               <p class="team-name">Zac Eisenhut</p>
@@ -353,7 +358,7 @@
 
           <div class="team-card">
             <div class="team-photo-wrap">
-              <img src="/images/team/placeholder.svg" alt="Tejay Lenarcic" />
+              <img src="/images/team/placeholder.svg" alt="Photo coming soon" loading="lazy" decoding="async" />
             </div>
             <div class="team-info">
               <p class="team-name">Tejay Lenarcic</p>
@@ -364,7 +369,7 @@
 
           <div class="team-card">
             <div class="team-photo-wrap">
-              <img src="/images/team/placeholder.svg" alt="Josh Katz" />
+              <img src="/images/team/placeholder.svg" alt="Photo coming soon" loading="lazy" decoding="async" />
             </div>
             <div class="team-info">
               <p class="team-name">Josh Katz</p>

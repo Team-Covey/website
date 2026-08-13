@@ -43,6 +43,7 @@
 
   headerEl.className = 'site-header';
   headerEl.innerHTML =
+    '<a class="skip-link" href="#main-content">Skip to main content</a>' +
     '<div class="container header-inner">' +
       '<a class="brand" href="/index.html">' +
         '<img src="/images/CoveyWhiteLogo.png" alt="WorldFlight Team Covey logo" />' +
@@ -54,32 +55,30 @@
         '<nav class="main-nav" id="main-nav" aria-label="Main navigation">' +
           '<a href="/index.html"' + activeClass(isHome) + '>Home</a>' +
           '<div class="nav-dropdown">' +
-            '<button class="nav-dropdown-toggle' + (isAbout ? ' active' : '') + '" type="button" aria-expanded="false" aria-haspopup="true">' +
+            '<button class="nav-dropdown-toggle' + (isAbout ? ' active' : '') + '" type="button" aria-expanded="false">' +
               'About' +
             '</button>' +
-            '<div class="nav-dropdown-menu" role="menu" aria-label="About">' +
-              '<a href="/about/" role="menuitem"' + activeClass(isAboutWho) + '>Who We Are</a>' +
-              '<a href="/about/team/" role="menuitem"' + activeClass(isAboutTeam) + '>Meet the Team</a>' +
-              '<a href="/about/partners/" role="menuitem"' + activeClass(isAboutPartners) + '>Partners</a>' +
+            '<div class="nav-dropdown-menu" aria-label="About">' +
+              '<a href="/about/"' + activeClass(isAboutWho) + '>Who We Are</a>' +
+              '<a href="/about/team/"' + activeClass(isAboutTeam) + '>Meet the Team</a>' +
+              '<a href="/about/partners/"' + activeClass(isAboutPartners) + '>Partners</a>' +
             '</div>' +
           '</div>' +
           '<div class="nav-dropdown">' +
-            '<button class="nav-dropdown-toggle' + (isWorldflight ? ' active' : '') + '" type="button" aria-expanded="false" aria-haspopup="true">' +
+            '<button class="nav-dropdown-toggle' + (isWorldflight ? ' active' : '') + '" type="button" aria-expanded="false">' +
               'WorldFlight' +
             '</button>' +
-            '<div class="nav-dropdown-menu" role="menu" aria-label="WorldFlight">' +
-              '<a href="/worldflight/" role="menuitem"' + activeClass(isWorldflightOverview) + '>Overview</a>' +
-              '<a href="/worldflight/route/" role="menuitem"' + activeClass(isWorldflightRoute) + '>Route Map</a>' +
-              '<a href="/worldflight/schedule/" role="menuitem"' + activeClass(isWorldflightSchedule) + '>Schedule</a>' +
-              '<a href="/worldflight/rfds/" role="menuitem"' + activeClass(isWorldflightRfds) + '>Our Charity</a>' +
+            '<div class="nav-dropdown-menu" aria-label="WorldFlight">' +
+              '<a href="/worldflight/"' + activeClass(isWorldflightOverview) + '>Overview</a>' +
+              '<a href="/worldflight/route/"' + activeClass(isWorldflightRoute) + '>Route Map</a>' +
+              '<a href="/worldflight/schedule/"' + activeClass(isWorldflightSchedule) + '>Schedule</a>' +
+              '<a href="/worldflight/rfds/"' + activeClass(isWorldflightRfds) + '>Our Charity</a>' +
             '</div>' +
           '</div>' +
-          '<a href="/jumbo-project/" data-jumbo-transition' + activeClass(isJumboProject) + '>The Jumbo Project</a>' +
+          '<a href="/jumbo-project/"' + activeClass(isJumboProject) + '>The Jumbo Project</a>' +
           '<a href="/contact/"' + activeClass(isContact) + '>Contact</a>' +
           '<div class="mobile-watch-actions" aria-label="Watch Team Covey">' +
-            '<a class="mobile-watch-btn mobile-watch-twitch" href="https://twitch.tv/teamcovey" target="_blank" rel="noopener noreferrer">Watch on Twitch</a>' +
-            '<a class="mobile-watch-btn mobile-watch-youtube" href="https://www.youtube.com/@teamcovey" target="_blank" rel="noopener noreferrer">Team Covey on YouTube</a>' +
-            '<a class="mobile-watch-btn mobile-watch-youtube" href="https://www.youtube.com/@TheJumboProject" target="_blank" rel="noopener noreferrer">Jumbo Project on YouTube</a>' +
+            '<a class="mobile-watch-btn mobile-watch-twitch" href="https://twitch.tv/teamcovey" target="_blank" rel="noopener noreferrer">Watch Live on Twitch</a>' +
           '</div>' +
         '</nav>' +
         '<button class="theme-toggle" id="theme-toggle" aria-label="Toggle light/dark mode">' +
@@ -89,15 +88,7 @@
         '<div class="header-watch-actions" aria-label="Watch Team Covey">' +
           '<a class="header-watch-btn header-watch-twitch" href="https://twitch.tv/teamcovey" target="_blank" rel="noopener noreferrer" aria-label="Watch Team Covey on Twitch">' +
             '<svg aria-hidden="true" viewBox="0 0 24 24"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714z"/></svg>' +
-            '<span>Twitch</span>' +
-          '</a>' +
-          '<a class="header-watch-btn header-watch-youtube" href="https://www.youtube.com/@teamcovey" target="_blank" rel="noopener noreferrer" aria-label="Watch Team Covey on YouTube">' +
-            '<svg aria-hidden="true" viewBox="0 0 24 24"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8ZM9.6 15.6V8.4l6.3 3.6-6.3 3.6Z"/></svg>' +
-            '<span>Team Covey YouTube</span>' +
-          '</a>' +
-          '<a class="header-watch-btn header-watch-youtube" href="https://www.youtube.com/@TheJumboProject" target="_blank" rel="noopener noreferrer" aria-label="Watch The Jumbo Project on YouTube">' +
-            '<svg aria-hidden="true" viewBox="0 0 24 24"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8ZM9.6 15.6V8.4l6.3 3.6-6.3 3.6Z"/></svg>' +
-            '<span>Jumbo YouTube</span>' +
+            '<span>Watch Live</span>' +
           '</a>' +
         '</div>' +
         '<button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">' +

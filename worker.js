@@ -18,14 +18,20 @@ const STREAMLABS_TIMEOUT_MS = 15000;
 const WORLDFLIGHT_SCHEDULE_URL = 'https://planning.worldflight.center/api/schedule.json';
 const WORLDFLIGHT_CACHE_TTL_SECONDS = 300;
 const WORLDFLIGHT_TIMEOUT_MS = 10000;
+const VATSIM_DATA_URL = 'https://data.vatsim.net/v3/vatsim-data.json';
+const VATSIM_STATUS_CACHE_TTL_SECONDS = 60;
+const VATSIM_STATUS_TIMEOUT_MS = 10000;
+const TEAM_COVEY_CALLSIGN = 'CVY44N';
+const TEAM_COVEY_CID = '1450172';
 const SECURITY_HEADERS = {
   'X-Content-Type-Options': 'nosniff',
   'X-Frame-Options': 'DENY',
-  'Referrer-Policy': 'strict-origin-when-cross-origin'
+  'Referrer-Policy': 'strict-origin-when-cross-origin',
+  'Permissions-Policy': 'geolocation=(), microphone=(), camera=()'
 };
 
 const CSP_HEADER =
-  "default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://*.basemaps.cartocdn.com https://unpkg.com; connect-src 'self' https://data.vatsim.net https://www.simbrief.com; frame-src https://planning.simfest.co.uk https://www.youtube.com; base-uri 'self'; form-action 'self'; object-src 'none'; frame-ancestors 'none'";
+  "default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://*.basemaps.cartocdn.com https://unpkg.com; connect-src 'self' https://www.simbrief.com; frame-src https://www.youtube.com https://www.instagram.com; base-uri 'self'; form-action 'self'; object-src 'none'; frame-ancestors 'none'";
 
 export default {
   async fetch(request, env, ctx) {
@@ -51,6 +57,10 @@ export default {
 
     if (pathname === '/api/worldflight/schedule') {
       return handleWorldflightSchedule(request, ctx);
+    }
+
+    if (pathname === '/api/vatsim/status') {
+      return handleVatsimStatus(request, ctx);
     }
 
     if (pathname === '/streamlabs/connect') {
@@ -181,6 +191,68 @@ async function handleWorldflightSchedule(request, ctx) {
     }),
     { status: 502, headers: worldflightHeaders('no-store') }
   );
+}
+
+async function handleVatsimStatus(request, ctx) {
+  if (request.method !== 'GET' && request.method !== 'HEAD') {
+    return methodNotAllowed('GET, HEAD');
+  }
+
+  const cache = caches.default;
+  const cacheKey = new Request(new URL('/api/vatsim/status', request.url), { method: 'GET' });
+  const cached = await cache.match(cacheKey);
+  if (cached) {
+    return cached;
+  }
+
+  try {
+    const upstream = await fetchWithTimeout(
+      VATSIM_DATA_URL,
+      { method: 'GET', headers: { Accept: 'application/json' } },
+      VATSIM_STATUS_TIMEOUT_MS
+    );
+
+    if (!upstream.ok) {
+      throw new Error('Upstream returned ' + upstream.status);
+    }
+
+    const payload = await upstream.json();
+    const pilots = payload && Array.isArray(payload.pilots) ? payload.pilots : [];
+    const pilot = pilots.find(function (candidate) {
+      return candidate &&
+        String(candidate.callsign || '').toUpperCase() === TEAM_COVEY_CALLSIGN &&
+        String(candidate.cid || '').trim() === TEAM_COVEY_CID;
+    });
+
+    const flightPlan = pilot && pilot.flight_plan ? pilot.flight_plan : null;
+    const body = JSON.stringify({
+      callsign: TEAM_COVEY_CALLSIGN,
+      online: Boolean(pilot),
+      departure: flightPlan ? String(flightPlan.departure || '').trim().toUpperCase() : '',
+      arrival: flightPlan ? String(flightPlan.arrival || '').trim().toUpperCase() : '',
+      checkedAt: new Date().toISOString()
+    });
+    const response = new Response(body, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8',
+        'Cache-Control': 'public, max-age=' + VATSIM_STATUS_CACHE_TTL_SECONDS,
+        ...SECURITY_HEADERS
+      }
+    });
+
+    ctx.waitUntil(cache.put(cacheKey, response.clone()));
+    return response;
+  } catch (error) {
+    return jsonResponse(
+      {
+        error: 'VATSIM status unavailable',
+        message: String((error && error.message) || 'Unable to load VATSIM status.')
+      },
+      502,
+      { 'Cache-Control': 'no-store' }
+    );
+  }
 }
 
 function worldflightHeaders(cacheControl, extraHeaders) {

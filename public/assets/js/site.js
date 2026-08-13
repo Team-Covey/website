@@ -110,76 +110,204 @@
     });
   });
 
+  function syncThemeToggleLabel() {
+    if (!themeToggle) {
+      return;
+    }
+
+    var isLight = document.documentElement.getAttribute('data-theme') === 'light';
+    var label = isLight ? 'Switch to dark mode' : 'Switch to light mode';
+    themeToggle.setAttribute('aria-label', label);
+    themeToggle.title = label;
+  }
+
   if (themeToggle) {
+    syncThemeToggleLabel();
     themeToggle.addEventListener('click', function () {
       var current = document.documentElement.getAttribute('data-theme');
       var next = current === 'light' ? 'dark' : 'light';
       document.documentElement.setAttribute('data-theme', next);
       localStorage.setItem('tcwf-theme', next);
+      syncThemeToggleLabel();
     });
   }
 
-  initJumboTransition();
+  initJumboIntro();
+  initInstagramEmbed();
+  initTeamDirectory();
   initHeroCarousel();
   initVatsimStatus();
   initWorldFlightCountdown();
 
-  function initJumboTransition() {
-    if (window.location.pathname.indexOf('/jumbo-project') === 0) {
+  function initJumboIntro() {
+    var overlay = document.querySelector('[data-jumbo-intro]');
+    if (!overlay) {
       return;
     }
 
-    document.addEventListener('click', function (event) {
-        var link = event.target.closest('a[data-jumbo-transition]');
-        if (!link) {
-          return;
-        }
+    var video = overlay.querySelector('video');
+    var skip = overlay.querySelector('button');
+    var main = document.querySelector('main');
+    var hasFinished = false;
+    var removeTimer;
+    var fallbackTimer;
+    var prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-        if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
-          return;
-        }
+    function focusPage() {
+      if (!main || typeof main.focus !== 'function') {
+        return;
+      }
 
-        if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-          return;
-        }
+      main.setAttribute('tabindex', '-1');
+      main.focus({ preventScroll: true });
+      main.addEventListener('blur', function () {
+        main.removeAttribute('tabindex');
+      }, { once: true });
+    }
 
+    function removeIntro() {
+      window.clearTimeout(removeTimer);
+      window.clearTimeout(fallbackTimer);
+      document.removeEventListener('keydown', handleIntroKeydown);
+      document.body.classList.remove('jumbo-transition-open');
+      overlay.remove();
+    }
+
+    function finishIntro(immediate, moveFocus) {
+      if (hasFinished) {
+        return;
+      }
+
+      hasFinished = true;
+      window.clearTimeout(fallbackTimer);
+      document.removeEventListener('keydown', handleIntroKeydown);
+      video.pause();
+      if (moveFocus !== false) {
+        focusPage();
+      }
+
+      if (immediate) {
+        removeIntro();
+        return;
+      }
+
+      overlay.setAttribute('aria-hidden', 'true');
+      overlay.classList.add('is-leaving');
+      removeTimer = window.setTimeout(removeIntro, 750);
+    }
+
+    function handleIntroKeydown(event) {
+      if (event.key === 'Escape') {
         event.preventDefault();
-        var destination = link.href;
-        var overlay = document.createElement('div');
-        overlay.className = 'jumbo-transition';
-        overlay.setAttribute('role', 'dialog');
-        overlay.setAttribute('aria-modal', 'true');
-        overlay.setAttribute('aria-label', 'Opening The Jumbo Project');
-        overlay.innerHTML =
-          '<video class="jumbo-transition-video" src="/images/jumbo_intro_fixed.mp4" muted playsinline preload="auto"></video>' +
-          '<button class="jumbo-transition-skip" type="button">Skip intro</button>';
-        document.body.appendChild(overlay);
-        document.body.classList.add('jumbo-transition-open');
+        finishIntro(false);
+        return;
+      }
 
-        var video = overlay.querySelector('video');
-        var skip = overlay.querySelector('button');
+      if (event.key === 'Tab') {
+        event.preventDefault();
         skip.focus();
-        var hasNavigated = false;
-        var fallbackTimer = window.setTimeout(goToProject, 12000);
+      }
+    }
 
-        function goToProject() {
-          if (hasNavigated) {
-            return;
-          }
-          hasNavigated = true;
-          window.clearTimeout(fallbackTimer);
-          window.location.assign(destination);
-        }
+    document.body.classList.add('jumbo-transition-open');
 
-        skip.addEventListener('click', goToProject);
-        video.addEventListener('ended', goToProject);
-        video.addEventListener('error', goToProject);
+    if (prefersReducedMotion) {
+      finishIntro(true, false);
+      return;
+    }
 
-        var playPromise = video.play();
-        if (playPromise && typeof playPromise.catch === 'function') {
-          playPromise.catch(goToProject);
-        }
+    document.addEventListener('keydown', handleIntroKeydown);
+    skip.addEventListener('click', function () { finishIntro(false); });
+    video.addEventListener('ended', function () { finishIntro(false); });
+    video.addEventListener('error', function () { finishIntro(false); });
+    fallbackTimer = window.setTimeout(function () { finishIntro(false); }, 12000);
+    window.requestAnimationFrame(function () { skip.focus({ preventScroll: true }); });
+
+    video.muted = true;
+    var playPromise = video.play();
+    if (playPromise && typeof playPromise.catch === 'function') {
+      playPromise.catch(function () { finishIntro(false); });
+    }
+  }
+
+  function initInstagramEmbed() {
+    var viewport = document.querySelector('[data-instagram-embed-viewport]');
+    if (!viewport) {
+      return;
+    }
+
+    var mobileQuery = window.matchMedia('(max-width: 560px)');
+
+    function sizeEmbed() {
+      if (!mobileQuery.matches) {
+        viewport.style.removeProperty('--instagram-embed-scale');
+        return;
+      }
+
+      viewport.style.setProperty('--instagram-embed-scale', String(viewport.clientWidth / 500));
+    }
+
+    if ('ResizeObserver' in window) {
+      new ResizeObserver(sizeEmbed).observe(viewport);
+    } else {
+      window.addEventListener('resize', sizeEmbed);
+    }
+
+    if (typeof mobileQuery.addEventListener === 'function') {
+      mobileQuery.addEventListener('change', sizeEmbed);
+    }
+
+    sizeEmbed();
+  }
+
+  function initTeamDirectory() {
+    var grid = document.querySelector('.team-grid');
+    var search = document.querySelector('[data-team-search]');
+    var count = document.querySelector('[data-team-count]');
+    var empty = document.querySelector('[data-team-empty]');
+
+    if (!grid) {
+      return;
+    }
+
+    var cards = Array.prototype.slice.call(grid.querySelectorAll('.team-card'));
+    cards.forEach(function (card) {
+      card.setAttribute('role', 'listitem');
+      var name = card.querySelector('.team-name');
+      if (name) {
+        name.setAttribute('role', 'heading');
+        name.setAttribute('aria-level', '2');
+      }
     });
+
+    function updateDirectory() {
+      var query = search ? search.value.trim().toLocaleLowerCase() : '';
+      var visible = 0;
+
+      cards.forEach(function (card) {
+        var matches = !query || card.textContent.toLocaleLowerCase().indexOf(query) !== -1;
+        card.hidden = !matches;
+        if (matches) {
+          visible += 1;
+        }
+      });
+
+      if (count) {
+        count.textContent = query
+          ? visible + ' of ' + cards.length + ' team members'
+          : cards.length + ' team members';
+      }
+
+      if (empty) {
+        empty.hidden = visible !== 0;
+      }
+    }
+
+    if (search) {
+      search.addEventListener('input', updateDirectory);
+    }
+
+    updateDirectory();
   }
 
   function initHeroCarousel() {
@@ -244,9 +372,12 @@
       return;
     }
 
+    if (window.matchMedia && window.matchMedia('(max-width: 1119px)').matches) {
+      return;
+    }
+
     var callsign = 'CVY44N';
-    var requiredCid = '1450172';
-    var statusUrl = 'https://data.vatsim.net/v3/vatsim-data.json';
+    var statusUrl = '/api/vatsim/status';
     var refreshMs = 60000;
 
     var statusNode = document.createElement('div');
@@ -291,41 +422,15 @@
       }
     }
 
-    function findPilotByCallsignAndCid(payload) {
-      if (!payload || !Array.isArray(payload.pilots)) {
-        return null;
-      }
-
-      for (var i = 0; i < payload.pilots.length; i += 1) {
-        var pilot = payload.pilots[i];
-        if (!pilot) {
-          continue;
-        }
-
-        var pilotCallsign = String(pilot.callsign || '').toUpperCase();
-        var pilotCid = String(pilot.cid || '').trim();
-        if (pilotCallsign === callsign && pilotCid === requiredCid) {
-          return pilot;
-        }
-      }
-
-      return null;
-    }
-
-    function routeForPilot(pilot) {
-      var flightPlan = pilot && pilot.flight_plan ? pilot.flight_plan : null;
-      if (!flightPlan) {
-        return '';
-      }
-
-      var departure = String(flightPlan.departure || '').trim().toUpperCase();
-      var arrival = String(flightPlan.arrival || '').trim().toUpperCase();
+    function routeForStatus(payload) {
+      var departure = String(payload && payload.departure || '').trim().toUpperCase();
+      var arrival = String(payload && payload.arrival || '').trim().toUpperCase();
 
       if (!departure && !arrival) {
         return '';
       }
 
-      return (departure || '----') + ' -> ' + (arrival || '----');
+      return (departure || '----') + ' → ' + (arrival || '----');
     }
 
     function updateStatus() {
@@ -338,8 +443,7 @@
           return response.json();
         })
         .then(function (payload) {
-          var pilot = findPilotByCallsignAndCid(payload);
-          if (!pilot) {
+          if (!payload || !payload.online) {
             setStatus(
               'is-offline',
               callsign + ' OFFLINE',
@@ -349,7 +453,7 @@
             return;
           }
 
-          var route = routeForPilot(pilot);
+          var route = routeForStatus(payload);
           var routeText = route || 'Route unavailable';
           setStatus(
             'is-online',
@@ -369,8 +473,33 @@
     }
 
     setStatus('is-loading', callsign + ' CHECKING STATUS', '', 'Checking VATSIM status...');
-    updateStatus();
-    window.setInterval(updateStatus, refreshMs);
+    var refreshTimer = null;
+
+    function scheduleRefresh() {
+      window.clearTimeout(refreshTimer);
+      if (!document.hidden) {
+        refreshTimer = window.setTimeout(updateStatus, refreshMs);
+      }
+    }
+
+    function refreshStatus() {
+      if (document.hidden) {
+        scheduleRefresh();
+        return;
+      }
+
+      updateStatus().then(scheduleRefresh);
+    }
+
+    document.addEventListener('visibilitychange', function () {
+      if (document.hidden) {
+        window.clearTimeout(refreshTimer);
+      } else {
+        refreshStatus();
+      }
+    });
+
+    refreshStatus();
   }
 
   function initWorldFlightCountdown() {

@@ -4,48 +4,78 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>The Jumbo Project - Team Covey</title>
-  <meta name="description" content="Discover The Jumbo Project from Team Covey and follow the project on YouTube." />
+  <meta name="description" content="Follow The Jumbo Project from Team Covey through project updates, video releases, and behind-the-scenes posts." />
   <link rel="canonical" href="https://teamcovey.org/jumbo-project/" />
   <meta property="og:title" content="The Jumbo Project - Team Covey" />
-  <meta property="og:description" content="A new Team Covey aviation project is taking shape." />
+  <meta property="og:description" content="Follow the next Team Covey aviation project as it takes shape." />
   <meta property="og:url" content="https://teamcovey.org/jumbo-project/" />
   <meta property="og:type" content="website" />
   <meta property="og:image" content="https://teamcovey.org/images/jumboproject.jpeg" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="The Jumbo Project - Team Covey" />
-  <meta name="twitter:description" content="A new Team Covey aviation project is taking shape." />
+  <meta name="twitter:description" content="Follow the next Team Covey aviation project as it takes shape." />
   <meta name="twitter:image" content="https://teamcovey.org/images/jumboproject.jpeg" />
   <link rel="icon" type="image/png" href="/images/CoveyBlackLogo.png" />
   <link rel="apple-touch-icon" href="/images/CoveyBlackLogo.png" />
-  <script>(function(){var t=localStorage.getItem('tcwf-theme');if(t)document.documentElement.setAttribute('data-theme',t);})();</script>
+  <script>(function(){document.documentElement.classList.add('js');var t=localStorage.getItem('tcwf-theme');if(t)document.documentElement.setAttribute('data-theme',t);})();</script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/assets/css/styles.css" />
 </head>
 <body>
+  <div class="jumbo-transition" data-jumbo-intro role="dialog" aria-modal="true" aria-label="The Jumbo Project intro">
+    <video class="jumbo-transition-video" autoplay muted playsinline preload="auto" disablepictureinpicture aria-hidden="true">
+      <source src="/images/jumbo_intro_fixed.mp4" type="video/mp4" />
+    </video>
+    <button class="jumbo-transition-skip" type="button">Skip intro</button>
+  </div>
+
   <header id="site-header"></header>
 
-  <main>
-    <section class="jumbo-hero">
-      <img src="/images/jumboproject.jpeg" alt="Team Covey and The Jumbo Project" />
-      <div class="jumbo-hero-shade" aria-hidden="true"></div>
-      <div class="container jumbo-hero-content">
-        <p class="section-label">Team Covey presents</p>
-        <h1>The Jumbo Project</h1>
-        <p>A new chapter is taking shape. Follow the project as Team Covey shares each update.</p>
-        <div class="ctas">
-          <a class="btn btn-primary" href="https://www.youtube.com/@TheJumboProject" target="_blank" rel="noopener noreferrer">Watch on YouTube</a>
-          <a class="btn btn-outline" href="https://www.youtube.com/@teamcovey" target="_blank" rel="noopener noreferrer">Team Covey on YouTube</a>
+  <main id="main-content">
+    <section class="jumbo-page-hero">
+      <div class="container jumbo-page-grid">
+        <div class="jumbo-page-copy">
+          <p class="section-label">Team Covey presents</p>
+          <h1>The Jumbo Project</h1>
+          <p class="jumbo-page-lead">A new Team Covey aviation project is taking shape. Watch each stage unfold through video releases and behind-the-scenes posts.</p>
+          <div class="ctas jumbo-page-actions">
+            <a class="btn btn-primary" href="https://www.youtube.com/@TheJumboProject" target="_blank" rel="noopener noreferrer">Watch on YouTube</a>
+            <a class="btn btn-outline" href="https://www.instagram.com/jumboproject/" target="_blank" rel="noopener noreferrer">Follow on Instagram</a>
+          </div>
         </div>
+
+        <figure class="jumbo-brand-card">
+          <img src="/images/jumboproject.jpeg" alt="Team Covey and The Jumbo Project logos over clouds" width="1600" height="900" />
+        </figure>
       </div>
     </section>
 
-    <section class="section">
-      <div class="container jumbo-intro">
-        <p class="section-label">Coming together</p>
-        <h2 class="section-title">Follow the journey</h2>
-        <p class="section-sub">The Jumbo Project page will be the home for project news, milestones, and new video releases. Subscribe on YouTube to follow along as more is revealed.</p>
+    <section class="section jumbo-instagram-section" id="instagram">
+      <div class="container">
+        <div class="jumbo-social-heading">
+          <div>
+            <p class="section-label">Latest from Instagram</p>
+            <h2 class="section-title">@jumboproject</h2>
+            <p class="section-sub">The latest public posts from The Jumbo Project.</p>
+          </div>
+          <a class="btn btn-outline" href="https://www.instagram.com/jumboproject/" target="_blank" rel="noopener noreferrer">Open Instagram</a>
+        </div>
+
+        <div class="instagram-embed-shell">
+          <div class="instagram-embed-viewport" data-instagram-embed-viewport>
+            <iframe
+              class="instagram-profile-embed"
+              src="https://www.instagram.com/jumboproject/embed/"
+              title="The Jumbo Project Instagram profile and latest posts"
+              loading="lazy"
+              scrolling="no"
+              allowtransparency="true"
+            ></iframe>
+          </div>
+          <p class="instagram-embed-fallback">If Instagram does not load because of privacy settings, <a href="https://www.instagram.com/jumboproject/" target="_blank" rel="noopener noreferrer">view @jumboproject directly on Instagram</a>.</p>
+        </div>
       </div>
     </section>
   </main>

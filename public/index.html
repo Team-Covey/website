@@ -28,7 +28,7 @@
   <!-- HEADER -->
   <header id="site-header"></header>
 
-  <main>
+  <main id="main-content">
 
     <!-- HERO -->
     <section class="hero" id="home">
@@ -45,6 +45,17 @@
                 Watch on Twitch
               </a>
               <a class="btn btn-outline" href="/about/team/">Meet the Team</a>
+            </div>
+
+            <div class="hero-youtube-actions" aria-label="Watch Team Covey on YouTube">
+              <a class="hero-youtube-btn" href="https://www.youtube.com/@teamcovey" target="_blank" rel="noopener noreferrer">
+                <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8ZM9.6 15.6V8.4l6.3 3.6-6.3 3.6Z"/></svg>
+                Team Covey on YouTube
+              </a>
+              <a class="hero-youtube-btn" href="https://www.youtube.com/@TheJumboProject" target="_blank" rel="noopener noreferrer">
+                <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8ZM9.6 15.6V8.4l6.3 3.6-6.3 3.6Z"/></svg>
+                The Jumbo Project on YouTube
+              </a>
             </div>
 
             <div class="hero-countdown">
@@ -77,8 +88,8 @@
           <aside class="hero-stats-panel" aria-label="Team Covey stats">
             <div class="hero-stats-list">
               <div class="hero-stat-item">
-                <span class="hero-stat-num" id="active-pilot-count">19</span>
-                <span class="hero-stat-label">Active Pilots</span>
+                <span class="hero-stat-num">27</span>
+                <span class="hero-stat-label">Team Members</span>
               </div>
               <div class="hero-stat-item">
                 <span class="hero-stat-num" id="donation-total">$0</span>
@@ -115,27 +126,6 @@
   <script src="/assets/js/site.js"></script>
   <script src="/assets/js/footer.js"></script>
   <script>
-    async function updatePilotCountFromTeamPage() {
-      const countEl = document.getElementById('active-pilot-count');
-      if (!countEl) return;
-
-      try {
-        const response = await fetch('/about/team/', { cache: 'no-store' });
-        if (!response.ok) return;
-
-        const html = await response.text();
-        const doc = new DOMParser().parseFromString(html, 'text/html');
-        const teamCards = Array.from(doc.querySelectorAll('.team-grid .team-card'));
-
-        const listedCardCount = teamCards.length;
-        if (listedCardCount > 0) {
-          countEl.textContent = String(listedCardCount);
-        }
-      } catch (_error) {
-        // Keep fallback value already rendered in HTML.
-      }
-    }
-
     async function updateDonationTotalFromStreamlabs() {
       const donationEl = document.getElementById('donation-total');
       if (!donationEl) return;
@@ -164,7 +154,6 @@
       }
     }
 
-    updatePilotCountFromTeamPage();
     updateDonationTotalFromStreamlabs();
   </script>
 
