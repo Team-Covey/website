@@ -20,7 +20,10 @@
     "enabled": true
   },
   "assets": {
-    "directory": "./public"
+    "directory": "./public",
+    // The team page is filled in from the EFB's roster by the Worker (worker.js).
+    "binding": "ASSETS",
+    "run_worker_first": ["/about/team", "/about/team/*"]
   },
   "compatibility_flags": [
     "nodejs_compat"

@@ -21,6 +21,13 @@ const WORLDFLIGHT_TIMEOUT_MS = 10000;
 const VATSIM_DATA_URL = 'https://data.vatsim.net/v3/vatsim-data.json';
 const VATSIM_STATUS_CACHE_TTL_SECONDS = 60;
 const VATSIM_STATUS_TIMEOUT_MS = 10000;
+// The team page's crew come from the EFB's roster (efb.teamcovey.org), where
+// the crew keep their own photo and bio and new people appear once they join.
+// The page's own list stays as it was if the EFB cannot be reached.
+const EFB_URL = 'https://efb.teamcovey.org';
+const CREW_CACHE_TTL_SECONDS = 60;
+const CREW_TIMEOUT_MS = 5000;
+const TEAM_PAGES = ['/about/team', '/about/team/', '/about/team/index.html'];
 const TEAM_COVEY_CALLSIGN = 'CVY44N';
 const TEAM_COVEY_CID = '1450172';
 const SECURITY_HEADERS = {
@@ -57,6 +64,14 @@ export default {
 
     if (pathname === '/api/worldflight/schedule') {
       return handleWorldflightSchedule(request, ctx);
+    }
+
+    if (TEAM_PAGES.indexOf(pathname) !== -1 && (request.method === 'GET' || request.method === 'HEAD')) {
+      return serveTeamPage(request, env, ctx);
+    }
+
+    if (pathname.indexOf('/team-photos/') === 0) {
+      return serveTeamPhoto(request, env, ctx);
     }
 
     if (pathname === '/api/vatsim/status') {
@@ -107,6 +122,79 @@ async function serveAsset(request, env) {
     statusText: assetResponse.statusText,
     headers: headers
   });
+}
+
+// ---- the team page, from the EFB ----------------------------------------------
+
+// The active crew from the EFB, kept at the edge for a minute. Null when it
+// cannot be had (the page then keeps its own list).
+async function fetchCrew(efb, ctx) {
+  const cache = caches.default;
+  const key = new Request(efb + '/api/public/crew', { method: 'GET' });
+  const cached = await cache.match(key);
+  if (cached) return cached.json().then(function (b) { return b.crew; }).catch(function () { return null; });
+  try {
+    const res = await fetch(efb + '/api/public/crew', { signal: AbortSignal.timeout(CREW_TIMEOUT_MS), headers: { Accept: 'application/json' } });
+    if (!res.ok) return null;
+    const body = await res.json();
+    if (!body || !body.ok || !Array.isArray(body.crew) || !body.crew.length) return null;
+    const keep = new Response(JSON.stringify(body), { headers: { 'Content-Type': 'application/json', 'Cache-Control': 'public, max-age=' + CREW_CACHE_TTL_SECONDS } });
+    ctx.waitUntil(cache.put(key, keep));
+    return body.crew;
+  } catch (err) {
+    return null;
+  }
+}
+
+function crewCard(person, index) {
+  // Photos come through this site (/team-photos/), so the page's CSP holds.
+  const photo = person.photo ? '/team-photos/' + encodeURIComponent(person.id) + '?v=' + (person.photo.split('?v=')[1] || '').replace(/[^A-Za-z0-9%._-]/g, '') : '/images/team/placeholder.svg';
+  const nickname = person.nickname ? ' <span class="team-nickname" style="opacity:.6;font-weight:500">“' + escapeHtml(person.nickname) + '”</span>' : '';
+  return (
+    '<div class="team-card">' +
+    '<div class="team-photo-wrap"><img src="' + escapeHtml(photo) + '" alt="' + (person.photo ? '' : 'Photo coming soon') + '"' + (index > 0 ? ' loading="lazy"' : '') + ' decoding="async" /></div>' +
+    '<div class="team-info">' +
+    '<p class="team-name">' + escapeHtml(person.name) + nickname + '</p>' +
+    '<p class="team-role">' + escapeHtml(person.title || 'Pilot') + '</p>' +
+    '<p class="team-bio">' + escapeHtml(person.bio || '') + '</p>' +
+    '</div></div>'
+  );
+}
+
+async function serveTeamPage(request, env, ctx) {
+  const page = await serveAsset(request, env);
+  if (!page.ok || String(page.headers.get('Content-Type') || '').indexOf('text/html') !== 0) return page;
+  const crew = await fetchCrew(env.EFB_URL || EFB_URL, ctx);
+  if (!crew) return page;
+  const cards = crew.map(crewCard).join('\n');
+  return new HTMLRewriter()
+    .on('.team-grid', { element: function (el) { el.setInnerContent(cards, { html: true }); } })
+    .on('[data-team-count]', { element: function (el) { el.setInnerContent(crew.length + ' team members'); } })
+    .transform(page);
+}
+
+// A crew photo from the EFB, kept at the edge (its address changes with each new photo).
+async function serveTeamPhoto(request, env, ctx) {
+  const url = new URL(request.url);
+  const id = url.pathname.slice('/team-photos/'.length);
+  if (!/^[0-9a-f]{6,32}$/.test(id)) return new Response('Not found.', { status: 404 });
+  const cache = caches.default;
+  const key = new Request(url.origin + url.pathname + url.search, { method: 'GET' });
+  const cached = await cache.match(key);
+  if (cached) return cached;
+  let res;
+  try {
+    res = await fetch((env.EFB_URL || EFB_URL) + '/api/public/crew/' + id + '/photo' + url.search, { signal: AbortSignal.timeout(CREW_TIMEOUT_MS) });
+  } catch (err) {
+    return new Response('The photo could not be fetched.', { status: 502 });
+  }
+  const type = String(res.headers.get('Content-Type') || '');
+  if (!res.ok || !/^image\/(jpeg|png|webp)$/.test(type)) return new Response('Not found.', { status: 404 });
+  const photo = new Response(res.body, {
+    headers: { 'Content-Type': type, 'Cache-Control': 'public, max-age=604800', 'X-Content-Type-Options': 'nosniff' }
+  });
+  ctx.waitUntil(cache.put(key, photo.clone()));
+  return photo;
 }
 
 async function handleWorldflightSchedule(request, ctx) {
