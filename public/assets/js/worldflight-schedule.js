@@ -31,11 +31,17 @@
     eventName: root.querySelector('#wf-board-event'),
     timebase: root.querySelectorAll('[data-timebase]'),
     resultCount: root.querySelector('#wf-board-count'),
-    error: root.querySelector('#wf-board-error')
+    error: root.querySelector('#wf-board-error'),
+    deck: root.querySelector('#wf-deck'),
+    deckLabel: root.querySelector('#wf-deck-label'),
+    deckLeg: root.querySelector('#wf-deck-leg'),
+    deckWhen: root.querySelector('#wf-deck-when'),
+    deckCrew: root.querySelector('#wf-deck-crew')
   };
 
   var state = {
     model: null,
+    crew: null,       // { WF2601: [person] } from the EFB; null until (or unless) it answers
     day: 'ALL',
     filter: '',
     timebase: 'utc',
@@ -63,6 +69,7 @@
         renderDayFilter(state.model);
       }
       renderBoard();
+      renderDeck();
       updateZoneLabels();
     });
   });
@@ -167,9 +174,125 @@
       if (!filter) {
         return true;
       }
+      var names = crewFor(leg).map(function (person) { return person.name + ' ' + person.nickname; });
       return [leg.sector, leg.from.icao, leg.to.icao, leg.from.city, leg.to.city, leg.from.country, leg.to.country]
+        .concat(names)
         .join(' ').toUpperCase().indexOf(filter) !== -1;
     });
+  }
+
+  /* ── Crew (from the EFB's roster) ────────────────────────────────── */
+
+  function crewFor(leg) {
+    return (state.crew && state.crew[String(leg.sector).toUpperCase()]) || [];
+  }
+
+  function initials(person) {
+    return String(person.name || '?').split(' ').map(function (part) { return part.charAt(0); }).join('').slice(0, 2).toUpperCase();
+  }
+
+  function avatar(person, className) {
+    if (person.photo) {
+      return '<img class="' + className + '" src="' + escapeHtml(person.photo) + '" alt="" loading="lazy" decoding="async" />';
+    }
+    return '<span class="' + className + ' wf-crew-initials" aria-hidden="true">' + escapeHtml(initials(person)) + '</span>';
+  }
+
+  /** The board's crew cell: the pilots' faces and the names they go by (the rest are in the detail). */
+  function crewCell(leg) {
+    var crew = crewFor(leg);
+    if (!crew.length) {
+      return '<span class="wf-board-cell wf-cell-crew is-empty">Crew TBA</span>';
+    }
+
+    var pilots = crew.filter(function (person) { return person.role === 'Captain' || person.role === 'First Officer'; });
+    var shown = pilots.length ? pilots : crew.slice(0, 2);
+    var label = crew.map(function (person) { return person.role + ': ' + person.name; }).join(', ');
+
+    return '<span class="wf-board-cell wf-cell-crew">' +
+      '<span class="wf-visually-hidden">Crew: ' + escapeHtml(label) + '.</span>' +
+      '<span class="wf-crew-stack" aria-hidden="true">' +
+        shown.map(function (person) { return avatar(person, 'wf-crew-face'); }).join('') +
+      '</span>' +
+      '<span class="wf-crew-names" aria-hidden="true">' + escapeHtml(shown.map(TCWF.crewShortName).join(' & ')) + '</span>' +
+    '</span>';
+  }
+
+  function crewList(crew, className) {
+    return crew.map(function (person) {
+      return '<li class="' + className + '">' +
+        avatar(person, 'wf-crew-photo') +
+        '<span class="wf-crew-who">' +
+          '<span class="wf-crew-name">' + escapeHtml(person.name) +
+            (person.nickname ? ' <span class="wf-crew-nickname">&ldquo;' + escapeHtml(person.nickname) + '&rdquo;</span>' : '') +
+          '</span>' +
+          '<span class="wf-crew-role">' + escapeHtml(person.role) + '</span>' +
+        '</span>' +
+      '</li>';
+    }).join('');
+  }
+
+  var deckSignature = '';
+
+  /*
+   * The spotlight above the board: the leg in the air (or the next one to go)
+   * and the people flying it. Rebuilt only when the leg, its status or its crew
+   * change; the countdown line is refreshed every tick.
+   */
+  function renderDeck() {
+    var model = state.model;
+    if (!elements.deck || !model) { return; }
+
+    var leg = model.activeLeg || model.nextLeg;
+    if (!leg) {
+      elements.deck.hidden = true;
+      deckSignature = '';
+      return;
+    }
+
+    var crew = crewFor(leg);
+    var signature = [leg.sector, leg.status && leg.status.key, state.timebase, Boolean(state.crew), JSON.stringify(crew)].join('|');
+
+    if (signature !== deckSignature) {
+      deckSignature = signature;
+      elements.deck.hidden = false;
+      elements.deck.classList.toggle('is-airborne', leg === model.activeLeg);
+
+      setText(elements.deckLabel, leg === model.activeLeg
+        ? 'On the flight deck now'
+        : (model.hasStarted ? 'Up next' : 'First departure'));
+
+      elements.deckLeg.innerHTML =
+        '<span class="wf-deck-sector">' + escapeHtml(leg.sector) + '</span> ' +
+        escapeHtml(leg.from.city || leg.from.icao) + ' <span class="wf-deck-icao">' + escapeHtml(leg.from.icao) + '</span>' +
+        ' <span class="wf-deck-arrow" aria-label="to">&rarr;</span> ' +
+        escapeHtml(leg.to.city || leg.to.icao) + ' <span class="wf-deck-icao">' + escapeHtml(leg.to.icao) + '</span>';
+
+      // Without the EFB there is nothing to say about the crew; the leg still shows.
+      elements.deckCrew.hidden = !state.crew;
+      elements.deckCrew.innerHTML = crew.length
+        ? crewList(crew, 'wf-deck-person')
+        : '<li class="wf-deck-tba">Crew to be announced</li>';
+    }
+
+    setText(elements.deckWhen, deckWhen(leg));
+  }
+
+  function deckWhen(leg) {
+    var zone = state.timebase === 'local' ? '' : 'z';
+    var key = leg.status ? leg.status.key : 'scheduled';
+
+    if (key === 'enroute' || key === 'arriving') {
+      return leg.status.label + ' · due ' + timeCell(leg.arrivalOpen, leg.arrivalWindow.open) + zone;
+    }
+    if (key === 'departing') {
+      return 'Departure window open until ' + timeCell(leg.departureClose, leg.departureWindow.close) + zone;
+    }
+    if (leg.departureOpen === null) {
+      return dateCell(leg);
+    }
+    return 'Departs ' + dateCell(leg) + ', ' + timeCell(leg.departureOpen, leg.departureWindow.open) + zone +
+      ' · in ' + TCWF.formatDuration(leg.departureOpen - Date.now());
   }
 
   function timeCell(timestamp, published) {
@@ -243,6 +366,7 @@
           ' &middot; ' + escapeHtml(dateCell(leg)) +
         '</small>' +
       '</span>' +
+      crewCell(leg) +
       '<span class="wf-board-cell wf-cell-flight">' + escapeHtml(leg.sector) + '</span>' +
       '<span class="wf-board-cell wf-cell-remark">' + escapeHtml(remarkFor(leg)) + flags + '</span>' +
       '<span class="wf-board-cell wf-cell-block">' + escapeHtml(leg.blockTime || '--:--') + '</span>' +
@@ -300,7 +424,16 @@
       ['Arrival airport', leg.to.name + (leg.to.country ? ' (' + leg.to.country + ')' : '')]
     ];
 
+    var crew = crewFor(leg);
+
     detail.innerHTML =
+      (state.crew
+        ? '<div class="wf-board-crew"><p class="wf-board-atc-label">Crew</p>' +
+          (crew.length
+            ? '<ul class="wf-board-crew-list">' + crewList(crew, 'wf-board-crew-person') + '</ul>'
+            : '<p class="wf-board-atc-none">The crew for this sector have not been announced yet.</p>') +
+          '</div>'
+        : '') +
       '<dl class="wf-board-facts">' +
         facts.map(function (pair) {
           return '<div><dt>' + escapeHtml(pair[0]) + '</dt><dd>' + escapeHtml(pair[1]) + '</dd></div>';
@@ -367,6 +500,8 @@
       renderSummary(state.model);
       renderBoard();
     }
+
+    renderDeck();
   }
 
   function load(isInitial) {
@@ -374,9 +509,13 @@
       root.classList.add('is-loading');
     }
 
-    return TCWF.loadSchedule({ forceFresh: !isInitial })
-      .then(function (model) {
+    // Crew are a bonus: the board loads without them if the EFB is away.
+    return Promise.all([TCWF.loadSchedule({ forceFresh: !isInitial }), TCWF.loadCrew()])
+      .then(function (results) {
+        var model = results[0];
         state.model = model;
+        state.crew = results[1] || state.crew;
+        root.classList.toggle('has-crew', Boolean(state.crew));
         lastStatusSignature = '';
         root.classList.remove('is-loading');
 
@@ -387,6 +526,7 @@
         renderDayFilter(model);
         renderSummary(model);
         renderBoard();
+        renderDeck();
         lastStatusSignature = model.legs.map(function (leg) {
           return leg.status ? leg.status.key : '?';
         }).join('|');

@@ -38,7 +38,7 @@ const SECURITY_HEADERS = {
 };
 
 const CSP_HEADER =
-  "default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://*.basemaps.cartocdn.com https://unpkg.com; connect-src 'self' https://www.simbrief.com; frame-src https://www.youtube.com https://www.instagram.com; base-uri 'self'; form-action 'self'; object-src 'none'; frame-ancestors 'none'";
+  "default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com https://static.cloudflareinsights.com; worker-src 'self' blob:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://tiles.openfreemap.org https://unpkg.com; connect-src 'self' https://www.simbrief.com https://tiles.openfreemap.org https://cloudflareinsights.com; frame-src https://www.youtube.com https://www.instagram.com; base-uri 'self'; form-action 'self'; object-src 'none'; frame-ancestors 'none'";
 
 export default {
   async fetch(request, env, ctx) {
@@ -64,6 +64,10 @@ export default {
 
     if (pathname === '/api/worldflight/schedule') {
       return handleWorldflightSchedule(request, ctx);
+    }
+
+    if (pathname === '/api/worldflight/crew') {
+      return handleWorldflightCrew(request, env, ctx);
     }
 
     if (TEAM_PAGES.indexOf(pathname) !== -1 && (request.method === 'GET' || request.method === 'HEAD')) {
@@ -146,9 +150,57 @@ async function fetchCrew(efb, ctx) {
   }
 }
 
+// An EFB photo address as this site serves it (/team-photos/), so the page's CSP holds.
+function teamPhotoPath(person) {
+  return person.photo ? '/team-photos/' + encodeURIComponent(person.id) + '?v=' + (person.photo.split('?v=')[1] || '').replace(/[^A-Za-z0-9%._-]/g, '') : null;
+}
+
+// Who is flying each WorldFlight leg, from the EFB's roster: { ok, legs: { WF2601: [crew] } }.
+// Kept at the edge for a minute; the schedule shows no crew when the EFB cannot be reached.
+async function handleWorldflightCrew(request, env, ctx) {
+  if (request.method !== 'GET' && request.method !== 'HEAD') {
+    return methodNotAllowed('GET, HEAD');
+  }
+
+  const efb = env.EFB_URL || EFB_URL;
+  const cache = caches.default;
+  const key = new Request(new URL(request.url).origin + '/api/worldflight/crew', { method: 'GET' });
+  const cached = await cache.match(key);
+  if (cached) return cached;
+
+  let legs;
+  try {
+    const res = await fetch(efb + '/api/public/worldflight', { signal: AbortSignal.timeout(CREW_TIMEOUT_MS), headers: { Accept: 'application/json' } });
+    if (!res.ok) throw new Error('EFB returned ' + res.status);
+    const body = await res.json();
+    if (!body || !body.ok || !Array.isArray(body.legs)) throw new Error('EFB sent no legs');
+    legs = body.legs;
+  } catch (err) {
+    return jsonResponse({ ok: false, legs: {} }, 502, { 'Cache-Control': 'no-store' });
+  }
+
+  const byLeg = {};
+  legs.forEach(function (leg) {
+    if (!leg || typeof leg.wf !== 'string' || !Array.isArray(leg.crew)) return;
+    byLeg[leg.wf.toUpperCase()] = leg.crew.map(function (person) {
+      return {
+        name: String(person.name || ''),
+        firstName: String(person.firstName || ''),
+        nickname: String(person.nickname || ''),
+        title: String(person.title || ''),
+        role: String(person.role || ''),
+        photo: teamPhotoPath(person)
+      };
+    });
+  });
+
+  const response = jsonResponse({ ok: true, legs: byLeg }, 200, { 'Cache-Control': 'public, max-age=' + CREW_CACHE_TTL_SECONDS });
+  ctx.waitUntil(cache.put(key, response.clone()));
+  return response;
+}
+
 function crewCard(person, index) {
-  // Photos come through this site (/team-photos/), so the page's CSP holds.
-  const photo = person.photo ? '/team-photos/' + encodeURIComponent(person.id) + '?v=' + (person.photo.split('?v=')[1] || '').replace(/[^A-Za-z0-9%._-]/g, '') : '/images/team/placeholder.svg';
+  const photo = teamPhotoPath(person) || '/images/team/placeholder.svg';
   const nickname = person.nickname ? ' <span class="team-nickname" style="opacity:.6;font-weight:500">“' + escapeHtml(person.nickname) + '”</span>' : '';
   return (
     '<div class="team-card">' +

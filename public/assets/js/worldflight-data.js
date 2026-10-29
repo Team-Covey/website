@@ -13,6 +13,7 @@
   'use strict';
 
   var SCHEDULE_ENDPOINT = '/api/worldflight/schedule';
+  var CREW_ENDPOINT = '/api/worldflight/crew';
   var REQUEST_TIMEOUT_MS = 12000;
 
   /* ── Airport reference data ──────────────────────────────────────────
@@ -63,7 +64,12 @@
     VYYY: { name: 'Yangon International Airport', city: 'Yangon', country: 'Myanmar', lat: 16.907301, lng: 96.133202 },
     WIII: { name: 'Soekarno-Hatta International Airport', city: 'Jakarta', country: 'Indonesia', lat: -6.12557, lng: 106.655998 },
     YPKA: { name: 'Karratha Airport', city: 'Karratha', country: 'Australia', lat: -20.71222, lng: 116.773003 },
-    YBAS: { name: 'Alice Springs Airport', city: 'Alice Springs', country: 'Australia', lat: -23.806588, lng: 133.903427 }
+    YBAS: { name: 'Alice Springs Airport', city: 'Alice Springs', country: 'Australia', lat: -23.806588, lng: 133.903427 },
+    RCTP: { name: 'Taiwan Taoyuan International Airport', city: 'Taipei', country: 'Taiwan', lat: 25.0777, lng: 121.233002 },
+    VOBL: { name: 'Kempegowda International Airport', city: 'Bengaluru', country: 'India', lat: 13.1979, lng: 77.706299 },
+    EGKB: { name: 'London Biggin Hill Airport', city: 'London', country: 'United Kingdom', lat: 51.330799, lng: 0.0325 },
+    GVSV: { name: 'Cesária Évora Airport', city: 'São Vicente', country: 'Cape Verde', lat: 16.8332, lng: -25.0553 },
+    TTPP: { name: 'Piarco International Airport', city: 'Port of Spain', country: 'Trinidad and Tobago', lat: 10.5954, lng: -61.3372 }
   };
 
   var MONTHS = {
@@ -587,11 +593,33 @@
       });
   }
 
+  /**
+   * Who is flying each leg, from the EFB's roster: { WF2601: [{ name, firstName,
+   * nickname, title, role, photo }] }. Resolves to null when the EFB cannot be
+   * reached, so pages can carry on without crew.
+   */
+  function loadCrew() {
+    if (!global.fetch) {
+      return Promise.resolve(null);
+    }
+    return global.fetch(CREW_ENDPOINT, { headers: { Accept: 'application/json' } })
+      .then(function (response) { return response.ok ? response.json() : null; })
+      .then(function (body) { return body && body.ok && body.legs ? body.legs : null; })
+      .catch(function () { return null; });
+  }
+
+  /** What the crew go by in public: their nickname, else their first name (as the EFB does). */
+  function crewShortName(person) {
+    return person.nickname || person.firstName || String(person.name || '').split(' ')[0];
+  }
+
   global.TCWF = {
     AIRPORTS: AIRPORTS,
     STATUS: STATUS,
     KM_PER_NM: KM_PER_NM,
     loadSchedule: loadSchedule,
+    loadCrew: loadCrew,
+    crewShortName: crewShortName,
     buildModel: buildModel,
     applyStatus: applyStatus,
     resolveAirport: resolveAirport,

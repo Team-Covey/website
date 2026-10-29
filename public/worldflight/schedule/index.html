@@ -63,12 +63,21 @@
               <p class="wf-board-updated" id="wf-board-updated"></p>
             </div>
 
+            <section class="wf-deck" id="wf-deck" aria-labelledby="wf-deck-label" hidden>
+              <div class="wf-deck-lead">
+                <p class="wf-deck-label" id="wf-deck-label">On the flight deck</p>
+                <p class="wf-deck-leg" id="wf-deck-leg"></p>
+                <p class="wf-deck-when" id="wf-deck-when"></p>
+              </div>
+              <ul class="wf-deck-crew" id="wf-deck-crew"></ul>
+            </section>
+
             <div class="wf-board-toolbar">
               <div class="wf-board-days" id="wf-board-days" role="group" aria-label="Filter by day"></div>
               <div class="wf-board-tools">
                 <label class="wf-visually-hidden" for="wf-board-search">Search sectors</label>
                 <input type="search" id="wf-board-search" class="wf-board-search"
-                  placeholder="Search sector, ICAO or city" autocomplete="off" />
+                  placeholder="Search sector, airport or crew" autocomplete="off" />
                 <div class="wf-board-timebase" role="group" aria-label="Time base">
                   <button type="button" data-timebase="utc" class="is-active" aria-pressed="true">UTC</button>
                   <button type="button" data-timebase="local" aria-pressed="false">Local</button>
@@ -79,6 +88,7 @@
             <div class="wf-board-columns" aria-hidden="true">
               <span class="wf-col-time">Time</span>
               <span class="wf-col-dest">Destination</span>
+              <span class="wf-col-crew">Crew</span>
               <span class="wf-col-flight">Flight</span>
               <span class="wf-col-remark">Remarks</span>
               <span class="wf-col-block wf-col-right">Block</span>
@@ -95,6 +105,7 @@
               <p class="wf-board-count" id="wf-board-count">&mdash;</p>
               <p class="wf-board-source">Source:
                 <a href="https://planning.worldflight.center/" target="_blank" rel="noopener noreferrer">planning.worldflight.center</a>
+                &middot; crew from the <a href="/about/team/">Team Covey roster</a>
                 &middot; refreshes automatically
               </p>
             </div>

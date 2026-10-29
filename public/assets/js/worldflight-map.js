@@ -21,20 +21,20 @@
 
   var L = window.L;
 
-  var TILES = {
-    dark: {
-      url: 'https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png',
-      labels: 'https://{s}.basemaps.cartocdn.com/dark_only_labels/{z}/{x}/{y}{r}.png'
-    },
-    light: {
-      url: 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}{r}.png',
-      labels: 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager_only_labels/{z}/{x}/{y}{r}.png'
-    }
+  /*
+   * Basemap is OpenFreeMap vector tiles, rendered by MapLibre inside Leaflet.
+   * It needs no API key or account (CARTO's raster CDN started demanding one
+   * and served "API KEY REQUIRED" tiles instead).
+   */
+  var STYLES = {
+    dark: 'https://tiles.openfreemap.org/styles/dark',
+    light: 'https://tiles.openfreemap.org/styles/positron'
   };
 
   var ATTRIBUTION =
-    '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> ' +
-    '&copy; <a href="https://carto.com/attributions">CARTO</a>';
+    '<a href="https://openfreemap.org" target="_blank" rel="noopener">OpenFreeMap</a> ' +
+    '&copy; <a href="https://www.openmaptiles.org/" target="_blank" rel="noopener">OpenMapTiles</a> ' +
+    '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>';
 
   /*
    * The map wraps infinitely, so the route is drawn in the neighbouring world
@@ -131,24 +131,49 @@
   });
 
   var baseLayer = null;
-  var labelLayer = null;
 
   function currentThemeKey() {
     return document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
   }
 
+  function baseMap() {
+    return baseLayer ? baseLayer.getMaplibreMap() : null;
+  }
+
   function applyTiles() {
-    var theme = TILES[currentThemeKey()];
+    var style = STYLES[currentThemeKey()];
 
-    if (baseLayer) { map.removeLayer(baseLayer); }
-    if (labelLayer) { map.removeLayer(labelLayer); }
-
-    baseLayer = L.tileLayer(theme.url, { attribution: ATTRIBUTION, maxZoom: 10 }).addTo(map);
-    labelLayer = L.tileLayer(theme.labels, { maxZoom: 10, pane: 'shadowPane' });
-
-    if (state.labelsVisible) {
-      labelLayer.addTo(map);
+    if (baseMap()) {
+      baseMap().setStyle(style);
+      return;
     }
+
+    // Without MapLibre or WebGL the route still draws, just over a plain background.
+    if (typeof L.maplibreGL !== 'function') {
+      return;
+    }
+
+    try {
+      baseLayer = L.maplibreGL({ style: style, attribution: ATTRIBUTION, interactive: false }).addTo(map);
+      baseMap().on('styledata', applyLabelVisibility);
+    } catch (error) {
+      baseLayer = null;
+    }
+  }
+
+  // Place names are the style's symbol layers; re-applied on every style load.
+  function applyLabelVisibility() {
+    var glMap = baseMap();
+    if (!glMap || !glMap.isStyleLoaded()) {
+      return;
+    }
+
+    var visibility = state.labelsVisible ? 'visible' : 'none';
+    glMap.getStyle().layers.forEach(function (layer) {
+      if (layer.type === 'symbol' && (glMap.getLayoutProperty(layer.id, 'visibility') || 'visible') !== visibility) {
+        glMap.setLayoutProperty(layer.id, 'visibility', visibility);
+      }
+    });
   }
 
   applyTiles();
@@ -158,6 +183,7 @@
     for (var i = 0; i < mutations.length; i += 1) {
       if (mutations[i].attributeName === 'data-theme') {
         applyTiles();
+        paintLegStyles();
         return;
       }
     }
@@ -629,11 +655,7 @@
     elements.buttons.labels.addEventListener('click', function () {
       state.labelsVisible = !state.labelsVisible;
       elements.buttons.labels.setAttribute('aria-pressed', state.labelsVisible ? 'true' : 'false');
-      if (state.labelsVisible) {
-        labelLayer.addTo(map);
-      } else {
-        map.removeLayer(labelLayer);
-      }
+      applyLabelVisibility();
     });
   }
 
